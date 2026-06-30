@@ -1,4 +1,4 @@
-name: Build NivelFV APK v10 Objetivo XY
+name: Build NivelFV PRO APK v11
 
 on:
   workflow_dispatch:
@@ -37,7 +37,6 @@ jobs:
           rm -rf app build.gradle settings.gradle
           mkdir -p app/src/main/java/com/dakone/nivelfv
           mkdir -p app/src/main/res/values
-          mkdir -p app/src/main/res/mipmap-hdpi
           mkdir -p app/src/main/res/drawable
 
           cat > settings.gradle <<'GRADLE'
@@ -55,7 +54,7 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = 'NivelFV'
+          rootProject.name = 'NivelFVPro'
           include ':app'
           GRADLE
 
@@ -69,17 +68,17 @@ jobs:
           plugins {
               id 'com.android.application'
           }
-
+          
           android {
               namespace 'com.dakone.nivelfv'
               compileSdk 35
-
+          
               defaultConfig {
                   applicationId 'com.dakone.nivelfv'
                   minSdk 23
                   targetSdk 35
-                  versionCode 10
-                  versionName '0.7-objetivo-xy'
+                  versionCode 11
+                  versionName '1.0-pro-test'
               }
           }
           GRADLE
@@ -89,22 +88,38 @@ jobs:
               <style name="AppTheme" parent="android:style/Theme.Material.NoActionBar">
                   <item name="android:fontFamily">sans</item>
                   <item name="android:windowLightStatusBar">false</item>
-                  <item name="android:navigationBarColor">#080C18</item>
-                  <item name="android:statusBarColor">#080C18</item>
+                  <item name="android:navigationBarColor">#050914</item>
+                  <item name="android:statusBarColor">#050914</item>
                   <item name="android:windowActionModeOverlay">true</item>
               </style>
           </resources>
           XML
 
+          cat > app/src/main/res/drawable/ic_launcher.xml <<'XML'
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp"
+              android:height="108dp"
+              android:viewportWidth="108"
+              android:viewportHeight="108">
+              <path android:fillColor="#050914" android:pathData="M0,0h108v108h-108z" />
+              <path android:fillColor="#101A33" android:strokeColor="#39DCFF" android:strokeWidth="4" android:pathData="M18,18h72v72h-72z" />
+              <path android:fillColor="@android:color/transparent" android:strokeColor="#33FF98" android:strokeWidth="4" android:strokeLineCap="round" android:pathData="M30,54h48M54,30v48" />
+              <path android:fillColor="#33FF98" android:pathData="M46,46h16v16h-16z" />
+              <path android:fillColor="#EAF3FF" android:pathData="M31,84h46v6h-46z" />
+          </vector>
+          XML
+
           cat > app/src/main/AndroidManifest.xml <<'XML'
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.VIBRATE" />
-
+              <uses-permission android:name="android.permission.CAMERA" />
+              <uses-feature android:name="android.hardware.camera" android:required="false" />
+          
               <application
                   android:theme="@style/AppTheme"
-                  android:label="Nivel FV"
-                  android:icon="@mipmap/ic_launcher"
-                  android:roundIcon="@mipmap/ic_launcher"
+                  android:label="Nivel FV Pro"
+                  android:icon="@drawable/ic_launcher"
+                  android:roundIcon="@drawable/ic_launcher"
                   android:allowBackup="false"
                   android:supportsRtl="true">
                   <activity
@@ -120,1453 +135,103 @@ jobs:
           </manifest>
           XML
 
-
-
-          mkdir -p app/src/main/res/mipmap-xxxhdpi
-          base64 -d > app/src/main/res/mipmap-xxxhdpi/ic_launcher.png <<'B64'
-          iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAEAAElEQVR42uz9d7SlV3reB/7evb9w
-          0s23Ego5NlI3OqLZbDbZgaJIkVSgRAUr2Etjj7Wk8UjWjGRPsqzltWyPxxoNZ2kkW+MlL9kjaRRH
-          kaTYzY7s3OhGIzcyUACqUOGmk76w954/9v7SOaeAKqCAbsoqrELdunXuOd/5zn7T8z7v8wrguJJf
-          IuCu7KG/HX/Jm9yIt/P25Ypv8tt/tit9rZWPe0sXem3f3b8xB+Ydvktvel7fzjn4Eb2H/8Zfxw/7
-          un/Y90GCp3XXOtD8L8xHXc3bVW/6gbydD/NNfrl34DmvJJF5u9fxo/LLXcX9Ebn2n8e1PhcOrqnx
-          yw/xAxZ+eK/pWn+Xa+gsfqQjx1tNh97KtcuPqOP4X2gy/rbv1Q/tvv0QP7DqpdU7EYl+1CPl2712
-          dwU/J+/Sh/hW3ovww4lQP2yDv9y9ctfg+d7SZ/8jYDjqf0kHQN5FQ303Plv3Lv3cldwjEbmmz/dO
-          lBdXci7kLd5DeYuOYvG2yTX+XN7s+tU7feOvyc/I2zvQ8i4Y6g87oq6yvzeK9O5KDm940it57KoW
-          ibzD9/ydyObcNXByV/p8bsVtc+/w+31HMgD3FgzBXc3j3ZXdfHkbKfvb9b7uh+lE3maH1l3Wpt2V
-          P/aNPmN59++LvAOfR3U/qsgt71LGd6XvReSN7/WqbOddhyF+WLjHtQYC38n3W/3Mu/2zP8zyzL0L
-          z3O14O1b4ob8NkNi1dXc3B92bbyqVpO38bqVt3RXmDa/m2npG9atC55+VXbk3sLn9sMCB91lruNy
-          0exqSwu5gkzwrbSHnXvn65t3+vN42/7qR4bM89uEqHgt7pescFruR+j63u7zvJtn6s3OzW+HgP5W
-          stu33AZ8O7WvvM3XumpvzFtr14i8Mx/StQoQ7+SBdNfos3HvwDW8ExnKmwUN9w6d7XfqM3sz+1xF
-          Fvrtxx0REPejdeHXKgP5t2Sed9/Rvhkp6N+Uz0Qu4zDcu/Em/01i3P3bX2/vDPx2MahrNXDzw772
-          dxUAv5zR/nBq9Kt9e763o37bp0j/9tdl030Bce7aYCjhB9+szv5RPfHvWBuwbew/TANamc61Cnzn
-          /q1p/9tfy12Uqz0X70am+lazpx9pkPPt9Lmv9NF1q+8yTDUdRegoIoljtNY4IE1SoijCOrcS3HHt
-          LwSEqi/n6lDj6H5i7jIxQtonaOWxqp7CtT5It/pna1zE1c/uqsdKcw+co5Pj1ASXliHUX9eEl67j
-          bJ7C1SdtVTOyDgTS3CNBEFHNPVl4nuXo0bxe8zlK92c6N0Ba1+1fuywK8jJHicKakrIsKEtDWRZY
-          61YaTvUMb8UhuCs8tD/sbsnbzX5+5LxKTV9d+NCiSDMcjhitrTPoD+gPR974VYx1YK3FOYu1FqUU
-          DsFa27Uvqf+3YKThtC0YRvsSnAOHbc6pgKBg4aA51zW+Om9tvae24VQH1YlDnATjdMEp+Z/xz9f8
-          WyeUBHtz1iKivP2F+yiy8B7rt+aa0V3XvH0Rqf+9cYSucZDBWfrnljD7DzgbrquxWlmIxtXrWWvr
-          z7lh5knrXlUupnkSkdpdorVGK+8aEcAarCko8oxsPmE6GTMdH5Hl+Rueq7d7xqUbQ952BvFmz3G5
-          TOCq34e8yYvg3r25crfwAbWNXkRYW19na2ubzc0tBoMhhbHM5zlZllHkBXlZYMoSZy3WuaUIKa0w
-          4toRu/X3JtK5ThByK1KGTuxyTeRqH/LFQNb++2KEte4N/nHFlbrF9kllJa79U95kXfsdLr6nEO0r
-          Z7L0vlajQEvfd67jzryRLWQ5/moW76dbKsCde6MD6cI1S32rRBSiINIRcRwTJwn9XkovTYi0gC2Y
-          TY843LvI4eE+ZWkWnIF709SaFVjSu4GFXQ0m8SOHcV3VBVUHsXVHt7a22Nk9ztr6FohiPs+Yz2dk
-          8xlZntcRUYkgSqFqUrd0DFU6+W/3qqoE3LkVhxqHcyF61pFydRnRJPIO55aHSDqtzhWJh3Nc3uMu
-          PV46qf9CErD0g66yrdbJrb50FZDmmveMezNm/AJitpS2r6hn6vvglpSCLudoms+m7b1k0Tu1ygrv
-          vK1zIQsSdBSRpj2GwwHDXo9YC/PZIUcHF9nfu1g7g8tlm7+dbGgpqf2RAwpWedaFGz8YDDh13Wk2
-          t3axTpjOZhwdjcnzDOccWoEOaf0ihdg51zxfdXyWrEJWdAVcywF0a29/4KQpCVg19VUZWUjN245m
-          wSCqf/dnWLphWTreZMGBuZYhyBJW4N4EfnDWtXABf/fsiqykm7nYlS0gWXg1twrYWvoLy+BcF2q5
-          fHP7MsmRW/SusnCuwgOsdVhrcAhRHDHsD9hcX6PXi5iN97lw7lWOjg4vm4H+KOFm7+jzvZtYwKJm
-          3NbWFtedvpHR2gaT6ZS9vQOyLEMElFIopcLPWVSdMrcBK9etwVwH9aoNuE5NpQuaucWsdCEUOQkG
-          2zqJTdorHazArYgorpW0upbjqJxGx7CXygi3eOOWLO+yTqD7lMvG28ljXSe76GAA9ePksuzKJQNd
-          Mlq39OAm43Arn8lx+WSkfd+aUsytuBjpBAlrDNY54jhmY3OTzfV1xM45f/YlLl4438EiOqXoFdjA
-          VTuPa2hYnad60yTuh8i3lwXDv/HGW0kHQ/b2Djg4OMCUJTrSKKUWBmV8CqkqYxTXQbWbA9EFumTl
-          YazAqFBRh1rQuhXZQrvXvJje21bF4aoq9427Bd3kYEUC71xtmG7xRTutzw5M1mGBSQfsXI7UtEuW
-          FX2R9v2qMyu3/Da678cF3oV00P7uCV3+IGqHI5X9rsgwXNtZOS7jm1b319o3o4PJWowxIIq1tXV2
-          t7eIpOD82Ze5cP5cC8tw8Cb29CNdLvzoDPk0hj8ajbj11tvpD9Y5d+Eih4cHCBBpjSgFzgXEt0rr
-          m1o8UovGS6ckcM51DubqCL8YCbvW0sIBV3QAlkEs1/kZV2cXsohDLERlt5zoL1nHUkQRWShAlkOy
-          tJ+7bbzhPEsnK1loJ8pSid1NrWTF/Ga7yyErspiFJ110PcIqIdHVJ7fTtWg7PVkAGt2K89d6lnZz
-          1hqDsZbhaMSJ48eJyHntzLPs7+29q2XBj1wJcK2URqtUVyvFrbfdwe6xk1y8tM/FS5cARxxHnXaY
-          dKJM0/4SIFL+ioxrSglpdcrbOFYnIofo0USoblrrz5SsQLeXDd+2D5hjOVNAsJVrcG3b6Tqd1aCi
-          64Rvd5kUexErWB2iXNdhuK75Lc5heD+40PZcsv82F0FaKH8Xg21Yet3Xu3zx4Oqb2QFW68/TdfC/
-          RRyhPViy1IRYcgCVo/TP4UIpaY3BGMv6+gYnT+xSzA95+fkfhHL0R9sJXBEIeM1ql7fwvLs7u9x6
-          +3uYZjnnzp4DLHEUNa8bPj+R5jBIq8ar/j3WoJRQGBeQf388VTDMbiSm9gaund4uEXtkqdx2l3MC
-          oQRxSxyBEK1FdVuGrZpaWgg8rluDd5D9TjejaX+tpjU3IObqllUrKl8mK2pbZ7tsavLyq5uRW+QC
-          XB5gaZejjmWbbjKpTnYX3HAbGJWFl3QLd2J1v34RffSPM6bEOdjdPc6J3Q3Ov/YCr77y0rueDVxN
-          qf6OZvqyKjV8kwuubpRSijvvupv1jV1ePXuW6WRMksSBSFI3e+qPKQT7Ono2RBb/BhPtiLSQl82/
-          SeD9l64Fii1T+OrI3Tnki6m+SM2Qaz9HO0OoSpA2Z6DjdDpkG1q9eFlKQF07Swix1DlpefMaWWw6
-          CKsAjsvE1DYYKguv5VZOmrjLdEukWwI49wbNx4XrfoOrq57XrSgNlkgU0AInl814Fc6ziu61yvA7
-          6K74s1UUBXGccNONN6LsjGefeoQ8z99xJ3ClhKK3JIn+bmAC1Q1aW1vjnnvfx3SW8+prZ1HK1/nV
-          LdfKLb1ppbrU2Zr9Fb6dRI5Uw7wQ/9gADCJCaSskvlUHhD+sY4H2KjjrGmKMa6X3LPeqXf39pvXn
-          QrheJNK0GpEd57JI6ekAl64b5dxSLiKdkc8lCi9LNlWnTbJiurzualS1s/MsxOUWJisr59WsqNVI
-          /oomxzKi/wY4Xss7d2nHrecULoNB1OQhOiVg837pnpUFEppzljwvOHHiJKeObfDCs4+zd+niO+IE
-          3u29GO+o8Z8+fT233XE3L778CkeHByRJ3KF8+6gtiPIfXlXPq5pn7t+VChGnqp+TyNGPYF76xxrr
-          UAqUQGEqGq5bAqmMXSCdhMy6rueDITgnXYfgWsfGNc7A1X9vauKKFeiWkONVaHKDwy85JhZr7HYd
-          W/fQOtHSuUUBlMsrAbulH+piIstkG7ksxNCBMmUhTZduZ251f8rVpcYKf7gifLsGF3BdlmGXJ+EW
-          yrAmQ+10SVbePNe5AAHyoqDX63PrLTdxeOFlXnrx+XfE6N5yGf9OlwDuKoz/9tvv5NjJ0zz73AtY
-          UxJFuoNHVVFdCSgJiH/L0KWq/6UpCyogMNGWtVSYl96ASuNQStACmaE1ENJi8uEwTuqhIIFAGe6O
-          21gbcITawJpUvzI2a2uEolsetHgBi+y21XyYdsK7TDbqlA3SjWaryDsudE5amXcN2rlOQ2BFW29l
-          27KbIi+YWvOaq4H+N0xll6KnW6zZL4MV0gUAO36qBgG6nGK3OqXoXqGs7vO6FkdCxHcLHMItt9yC
-          yw945qnHfmTQ/KteEnvtPYZ/xvvvfx/94TrPPPc8kdIo7U9GY8gh0ocf0Qoi8RHc1mc8PF752l4p
-          qQG0WMNW32cAAFnpnyNWMC1CxHauZQj+2Bq7HEhsPbTjv2esw7qFtp7z/f4w5lJzBWoCkHQzg8Vz
-          tNjacgvhbTEy1pnEQqNssd/tFl3AQjbbbj52EuylVl43pbbOtYuNOiNwbqGrsMKg3MqZ+lXfkQXG
-          JStKngWvIl1Ck1v4ppPuO24TmTpvebEcuwxQ2WAz3QyMkA1cf/o0oxSeevx72MC0/GF2CX64JUA4
-          ne9//4eQKOW5558jrYC+ulVHHcmlVQZoJcTKocV/aKX1/+7T+soJSADXhUjB8ZGjNA7rFNMc4sh/
-          f5y7EKEdznqQUUQobZMZtAdAjA2liHgHYTrGLt6Z2Cbdtx3kv2r1NcfROun8e1MWdO2snuxzKxxA
-          qzxxCwZX8SJs3cJzS86jerwswGJ+ynABHJXLBdmQPa3IqDvSU4thf9Gxtab33FJvUVYj/5cBClYD
-          fK7jiBsf55pyxMll2BKXQ9/c0ujyclsb8iLn5MlT7Kz3efLRb1OW5ppMFl6zkeLLThJdY09VPd8H
-          PvBhDBEvvvQivTTxHQAcCqkzM6l69hUGIN7QY+WIg8GX1kdXrRrHocLPKuXLhlPr/iQXBsa5Io18
-          ZrA/81G8Qvx1eJ28bIw4sIo9R9yBDkVqYZt031ooXKtlWGEBjoXswGFrklJVYjgsqjb+br+6XcMv
-          xrwFgIvu5N7lALI3/ijbvIMFznC7hdZuk7JcCne7ki0egLCK4ds4tqUhL1mBVHadoCx1RioX26pt
-          6FLAl1xFGyNYcsCLGc7lLaZ9HR18I2BTWZ5z/PhJjm8Nefz73/TMwrds3T5gubeoN/CG//5OpQeV
-          8b//Ax/CSczzLzxPP+3VHle1ST3hax/VJXQBqhQfehFEwTgLq2onUWUDgoRSAK7fdCQa5oXjMFP0
-          Y18CXJhAaRqUPtbecPMyfOzinYILxuqcI9ZQGO9MqruVly44om56b12XH+BaEbzjFJws8AhcE41C
-          5K9q83pKjvbf6xBfKQ8sdKqbUV95QycgC7lvi27cwdUXRFCWCP+yoofedhBuBQjJMq9gZbfgMnTj
-          xVdzXWahXIZs3WUhujcGKDrtmeU2RftTqYa3JNwff5YVWZ5x4sQpjm0NePR736h1Dq5VYn2lY/nR
-          Gxn7O2H8SrwR3X3vexHd48UXnqPf69XAkGq17wR8NiCeJ1NHf2miuwgkkTd2V/h3r9uZgzSvGSlY
-          7wc+gBH6sf+eVl2EPYl89I90VT741LA0IE5INCjlQururyUrQ4xW0q0BHfUcQs0pFFkA4ipP3v3k
-          XJ2G02q9tc+eWu4VVvfOLR7GbrRcwrE6IOSC5V1mZHApBrfGhhfK8NUdALfqqaXT63ijwyhBUKT6
-          c5W8xqL/6Ax3tZ2YtGnYbexkgWLdbaw2IKksf+5dbEfq+2SdI0lSzp17DR1dz133vp8nHvnONcuy
-          V9/X1fdZXQZCecdafdY5br31DkajLV544XnSJEEBWqRj1LJg6DoAfyq0/LQIkfJHW2shiYReLGjl
-          f0dKEWsh1ooofE8UbPRho+/oJ0I/gV4MsfZGnWghjYU08q8XKf/9QSLE2pcXSQSj1F9vpBWDVKEU
-          lDZcLw4dnE6FE3iH5JpMpmWIFa5RdTYUDd5R3TPVfmzbSbZ6o6rdJ+2SITqL7NrGuqR2tLQ4rjV6
-          jM9C2gtDpUZrpC1S1g3EIp2rl9afIrJAQ5UOsu4uexhbz1l3gVqshxpLWfW44LiEBRmz7ufSvj+d
-          29K+1hUKRm+IrHeM1JKmKa++coZZqbj9zntb6k1v/5e7wkeot/bDbz3tP3H8BCevu4Hnnn+GJI6C
-          1/VRXqvK4H2NrZRH8r1R+3TdR+zKyMVrvDkh0cIoEVLtgb1I+efQyhJFjiRWKCWspYa1vmOQwjAV
-          +okQR5DEiiQSBrE3cq2FOBh/P/FlQayFjT70In84h4n/Oi+DYwpYQ/1+JBCUakfmuna5BBJJxwE2
-          oLsEuS6p25rNc67Q7As/3JbCagyhfSLVcsRfuLCqJl/oLSw9VJSvyzp0rBWYRLtFufh16wU7hrh0
-          OFuGLU66fIKO5bacJG1QVJoRgpZDJgyIuUpCrXVv27JmXecorSGzxTy8zUVZ9rDWOpIk4cUXX0T3
-          tzl9/c1X5ASuZYCO3k2Sz3Aw5M677uXp555Ha003lrj6QPuVRSGChl69EhWcRHP4KzDQIijl6EX+
-          5uVWNS3B4FhEfLq/1oPIOC7NYC319XkSSZ1GpjrgAJE/aMPEn8BIKeLUcWxoOZx77CGNHBcm/tBE
-          2gOEoqQF/FXIu2Mxm6wMJAwx1obWbr4rB1Ya3LpjHC1q7SJRZamcd9ISxmnIM92cYEHItD0i7KSD
-          n6vFYyit+YGOFKnqEJOaexA6C2+yt8k5xwptluVW46Jp1P1+1xrwokW2ckjl/FwXxuxqksoKUdfL
-          bKiUpqdYMQxd5/pcd/q0gWuIo5hnnnuWe95zF0dH+xwe7L9hOXAtA7RiwVm+nVbEmwET997/AK+c
-          fZ08L9BBgFK1op0SiLRPwat2nlbS+TPSPtpr5VN7H+kF5xSDONT4kRCHdL0X+cen2kfo0UDYGcEo
-          daz1YdQX+omiF0MSwzB1RBqSSDFMhbXUZxpaw4k1yyj1jmQ3tBRnBfW1qerP4JgqHKL696WsPESf
-          qqxpInqTCag6ae5GElnoMS9qFy7e+wpAbZBj6XIMWEjFlxLgJnl3UgXhVrRspdCO1ocqTdrvW2tC
-          1edZcmat1L7GRVadLFnsg7RKC2lFEUerQGkjsdLNSxZ7/bLIenxz+1iFq0g7u0CWavQak1AKcZbn
-          nn+Rm2+7nyh6V+JyNwN4K9hDB8ji8jr8Fctvnlv29vZI0wTnbA0K1qlzMI5IecMtrP/4qvpfBzQ/
-          1s0dr0oCAygtbPaF0kFpfFSuAEHC/EC/Jwx7jnNHHgsoDfSSQM3FMkwgN75FuNaDRCsKBxux47pN
-          y/5U2Bp6JuHezL++dbY+9CIOZQVTf8oBYFIemrdLJ64ZlqlBKFkV8ISOYFFHFbsd4VtTgItZQYsV
-          tBD3mmjl2mW/LOkadHr0HbqQLIGR7nIp/EodfrWC9ONWcw/eYJLFOXf5iCYLxKdVa5gXnIAsSLut
-          bMMtPokslATtpsQKOTNnHVrHzCZjzu8dcevtd/ODJx95V0hC6u1E+yWQ9DLGv7G5ybET1/HKq694
-          ok+rzqmSsUhLbeAVc2+jTw3IKXFo5UI6Lz5iRxBpX7srEUonbA4cx9esH/6JhDgWkhj6iaCUIk3h
-          +DZsjYStNRj2II19Or/Rrx4Hw9S/fqSFOBJuO2bZHEAaC5t9x7kjaRyQVJhE067USmoMQwK4p8L0
-          oRLXUJlbMbtdb7axAGpwtJl6dCt0nGTF/a+idNNRkE56K6taSK3Hdev2EPrbiKGo0KtpVSiyMGIr
-          b5BYrP5m/Z47tX7rtV3nN/WfnYxjwUhrctlS67B1mBc7Le5NFmsIK3os3SsQx+rd5K4dAyxJknDu
-          3Guo3ibHjp28KlBQriIjl7frAK6EUNJOg+686x5ePft6mL5r7kh1oC2CtR50S6NQ54dMYGvoSGMv
-          6ql1k06DdwJag9aONPI8gEjDDTuOtZ4QRf75eokwjIWehjSB4zuGnXXLRt+RJr6e7yXCxtCRBMey
-          PXAM4qBJMLLcftIQRXBqy3Iw14wzTRr78iCOwrXVmUpVvnjcojooSlVZiU+CJdiPqC4IV8FznQMr
-          7US3G4kXx4hrBmUng3BLVi4L5UTHDQWwTRbQ8OXX7tbYbQNYWqBSOyRaf1J3GFyHgyBLTqzrJluZ
-          kMjlih86ywE61yWXtQpR7cLBdWzXdX6+rTuwAMWKLCxVkctaZfU5W/zeghdfepnj1996VaXAlbbw
-          F5Mm9U6lFlX0v/Gmmymt4vDwCK2j0EaRABF10e7C+NbbIPGR1znvBE6s+0itQmsv0j4TiBT0Y+ej
-          b+SfdZorjm/A9TtCGsMghUEM/dQbeZwodncV2+uOUR96sSONHMPUsT20iPjUf2sUDFbB/Tca1gaw
-          OfK37JV9RRpajlEk4VpcXcroFkCp604GoZUoDbCpOs3pIFfeLp+lfZY6w02NDp6rqb/SyhRcmzDU
-          WOBlDn7lZJqOQ3cCq+EjuFYXQkR123udFGARZFQtkHC5MyELYH07k2DBcbTfi9BNPVxFmlrA6Npt
-          SUG6ZYvr9kHdInlooRuwyvktKzAtG32HGdl+z/WTOJTSZNmMi/tTrrvhlmvaGlzlGK6JA5DLEDSS
-          JOHkqRt49dXXgoqPbd740sH2PzsvfUYwSn2EF3yv/rZd2Oz7506jkPYr3/vvRx6YS2OY5IJBuP2k
-          Y2sgjHrCWl9YG8CoJ0SxYm1Ls7XpsYAkgUEqbAxgc+CzjxPrjvWer0tvPu6470ZDL4XNgfDEqxpR
-          frw4jjwo2bQmPXmoalNW/IZe5J1Q23EpJUtjzs39cGFJaQAPW6l/nU1U369bVN3oKW3DbaHjsoi9
-          S9uYpEOIEuV3J0iFaHbSE+/lqvZkjSO4hvhStdKoS5DVLUnXBgkXvEDbSKXT1mvGqhfT6zrIOOle
-          d3vcWBY4ArJQStXDTQstPFkFRFSsTTpSbx1Gg1vdR+gKyHgMI44izp9/ncHGSQbD4fKY+jX8pYG/
-          dMX0wquJ/jhuu+0u5oXl6OiQSOsWsadqzfnHRi1qrxIPsAFsDIRR6rOCUQrXbVpKKxRW+Wiu/e9e
-          7Ii0I4393/uJ5T03GMpSKIxi0BOGPQ/2nT4h3HxXyuTQoUzJJFMcTYWdNcta3zKdK7bXvAGWRviJ
-          +3I21w2Jhq//QPPCBUUSdX2nQ+q1WtUHbANDrJ94+nHbII2jBjgF1Zl2lAXUvStIKSs7UPXPrTrI
-          4fuqs4JMOsAfC2QYaafz0k7h28i2rMgiVi03keW9BHWZUcmyNTeuIjktUKWWX9PJAiux7f8WInSl
-          BL1yQGcZ4ncLzUxZKLPauylkgYHp2pnMiqGtRXLV6hAtOGsw1nH82A6XLrx+RVmAvAU3ccUZwNWA
-          kc45Bv0+G1vb7F26RBJHoc8vnd1wdcrbjoJh3j8r4eLUI/tbQ2+Qaez4yM2GG3e8ZFg/UaSJkCaK
-          UeoBurWeMMsj4sTxvtsNGwPHWt+y3ofNUZh972+wttljtAa9VLE2UJzacaSxYmsEG0OHs467by65
-          4zbH2obi1T3N869HrA+8k4kUJNqTk3xZ0or84tuM20OfvfjMoNEhMDYwH1WL0rzU2nsDVV9pjqRq
-          SZ8tJqe2xhCWDXVZO31FT0sWe1zSRPcWKNcGJL2jU93WXPhPhf93oql0H9MYtqr/Liuzh5YBBoS1
-          Y8wdQK9pQVZ4w2JgbxN7OqNHC6nq0iZhZAkZePMIKiu0D9vZjSOKYw4O9tHJiPX1jZWlgFwGU3xH
-          MoCrif4Ad9z5HmZZyXQ6IdIKLbTq1Ir6KwucfW8oKrD8tFLMCiGJhes2HL1E2BzBfdcZSqcZzxXr
-          PY/g9xIhjRVpoki1MBo47n+PYjrTAKwPHMOeY31kuf6u41gDusyYzBTWCNefgFnmU/uKkfjxBxU7
-          x2IODoRf+6qmcD5aWxcESVSrX6/8h6oEtoeOzX4z7VcYrzmQl82MuYh0+foiywMwq3rJIp3I3kTy
-          5gC1VW6kw7Zb6M2vWP7ZTMm20me3WPsut+zq/ypcQFh6jUaHuVVmLBi2rCgBlmp2ZLFl0bAk3WVh
-          wI4a9BLg2MENlp3k0rO2+QariEqu66hXOnG3/Fbajs1Zi7HCyRPHuHD+7GUdwNspDtS1phw65+j3
-          +4zWd7h0aQ8dVH3atX+b868Dj70CzapDXwFlILy6Dy9dUmwNfO++13P83ANz3n9TiVbC+kBY6ys2
-          BjBMLWsDy8GRYDW89z3C9ppjewN2t2FtCC4aka6N6A1g2BdO7Vq2thWDnmN7MwB/90ScvH0dSXo8
-          9KiQGcUgrUoMPzMQR34GoYrumwO445jj+Jp3JJGCrBSPS9iQ8SiFElUTeyrRkg5G102JOjsOOug3
-          bZBwAXV2bVBNWs6jDeLJci28UHdXL+BkgfXWwc+kBghdm3UniwBHcw2q0yyTFQTjdn3edhCBEh0K
-          B+k4icoRdMuzmusgbQSkyWgkMBO7TOSOW1twsq3avlPZtxe80NlWzCr4cEFTlM4cA2gdcXCwj9N9
-          RqO1Rr1pAYV4O0yBa5oBVB7q5ptvo7TCeHxEFOnujIpIHWErzr7vizeMOl19XaHnsZCVwuFccf0W
-          nN419AeW997mS4G9sWZ94BH/Yc8bdRo5+gO4/Z4h88OSKBI21zXDIazddCcqipDxGaYTxXCoGYwi
-          itwQxTAawN0PniLa3uTp7+7x3ccMcawC5de3LJ3zaX9p/Hu7aQdu2rGksaMwjr2pcH6svAKRLERw
-          kZY8WJOWdrUmpRnrFFluMy0BeN1RW7ekx7dqFmBhYGbB8FzbMFuv5aQ70LPEGJSuwbhWY7ORKltm
-          71Xdi46pyKpI3XYmLM8uuG6kdm2ZOBo9/85K87aUfGcZWusa3UrazzI+ttTOWNhK6d44fLtWx8da
-          g0WxvbnG/qUL17QjcE0cwGKnJYo0N996J+fOve6jW4juXbS7mmDzhu/RdBWygMbwK3Q9ClN6xgiv
-          7Pma/c4bHMMNxb13+Dp8/xDWh4pBXxj1FRtrQiyWE7efZG09xYz3GA3m9NOC3skPokY3ofI9ylnO
-          IB4jbgxaE0Ux17/nFKO77mV65jzf/a0LlBJ5zrb2wKCxXpm4KGFzYLj3hoLrtizGwv5EcWZPuDgG
-          46QbhRf576IWtvw0lFqRFkMvqAxVBB23gqK7sgYUWdrI41bVnCLdcxkibDtjkBUqQE66GYKwgvFT
-          tRQrodYOeNaK2jSgaM3Ak0XHtUCOWmopNdTqeu6BRee5cG8XNo03WYF0YVdZIRXuFl5DlumK7ddc
-          5m7J0vtbpBVrpZjPc46fOMXR3jnKslxREl0DKvA1CP/gHLu7xymNI89zr+i7cE+q7Ky6mcaBsp7M
-          E2lv9KJaN64a5cW32EQJ33g6Qinhd33Cka7HfOKTCceOlTzzg5J0GNFLfd+/34+Z7Ods3bQDZkS8
-          +2PEm7eh1m6GaIjc9tPsXL+Pm79CfvFR1GtfQ3GBjTsfwBVw9qlXSXoR69YRKcfR1Kf8hYZEOe67
-          oeD63YIid7xwPuXF84pX9n22EkUOSkdhq8UlnidgjTccVd0B5QVDK9BulTIxCyKdzWmShbn7WgOn
-          HrppNgtJrczTVeTskm8XCUK2le5Ka25ALczLt+nJ7SiPW6T20ugYqBXdtE5vfxGtX2A+SqMMTGtX
-          YJPyB2UUcTVbURbfSQvwtM61HBPNHIBrANUOlbqiSlcS6ityckcDRl5OuUdajA5ZrA1EMGXOZF5y
-          7MRpzrz03IoBpXc4A5CrSP9vuuUODg8nFEXh690VZWAzNBNGfcP3KvWeREMvFtKE1hCQn9rrJbDW
-          Fw6nERcvwY2nYHj9FsduP8Z6WjI/GNMbKEZrEaPelF6S0rv1T5Hc9IeJdu5C9QY45mCniOSoWKGG
-          uyTHP0h66lOku7ejUsPsqa9w6ewEUQqFxRhFaQWTW07tWD79YMH9t+RMZvDoCwmPnUm4OGlaa9a1
-          l4I00bedDVVqQcZWqkHLaHebqy+sIMG00nLXmc+XTsnRzRa64OHimHGnVbfIGpSF1H1Vzb7ACvSd
-          nq6qQaenL2qpTegWSCKywG+owcQOK1E1jmeBltvcL7XA0OsSfrrVUuseLTVXpQt2to1eZBmGlFXQ
-          5GJmIkvCLtW/50XB8WO7XDj3yjUtAa4oA7gSP+OcI01TkqTP+PVLaK07YpMdhBrptLAksOiqKFda
-          nxX0EmGYeoqwo9028xH+wqHiN36z4CeZcvqDN3Lqx25muPssF184S6xnrB+7l9F9fw6bjKB8pcP3
-          FizO+d9iZ1DuIzqC9Xtw5Q0U868y6p9HlKYsHYPckSrD++6Juf9eICv55ndTvvyo5qUL3jmkMVD4
-          Nl91drWA0qCcN4HSOszCqKtqS3C3WkseF5CVCjUiLcnKCj9YWsfVRBJZMTbb2fFX7+6T1czyhbHa
-          5ZVabZxjsSW2gguwMPfvVCXEuSBM2lkXUGU4Low0SysaL3YvAvlmRW1fb2RenKpqdrhdJuq5LiOj
-          DbzIG/fipHOPHKv0jDsipNK8kijNbDahdLsMRyMm4/FKcbO3ov93TUDAypsfO3acpDfk6PAQHekW
-          l50Fmqu0xD78QI+IH7mNwvfqtphAP1FsD2F74Id8VJABW+sLSaI4Oj+jbw8ZnbqO3o0fYjTUJPFJ
-          hu/7T1DpFFdeAtHhplqgBFeGaf3qt/N/lkeI1sSnfgo5eAKbnUVEsXss4v6Pn+LG+3tMzmd88avw
-          jccTDudeaKS0la5gQHCVxzZ0iMzWeUygdN0JPEeXJNSggF1Evd0C9N9XnchYQVyuQ5+lNXYbgDhp
-          swS7z+FJSS02nrS02EQ6QFoThavnqdp/LRoxyj+XaqJv035TtXBJNRThOoAgDZrfuoZGoKSp/V27
-          ZSfdlmcD9MlCvb6iCyHSIfm0AVtpD1N1yvYVU0/SvUbpKDQv59WLA9dtP1FtsbbWkKQpgzSq9QLe
-          sQzgSsRAVz1mY2uH6XQaaLCuxexq41GuRfToKv7WIiBVhyD8bFY6Jpnv8++sQT/xQ0Bx5IgjiHoR
-          rz5/gNgvcvIjEJ/4CPq69wGv4coSEQ3kLcpld8yjlsu0xqfS5RE6mjN64E+ivv8r7KxvMrj5Bpi9
-          wnO/9TQPP2w5txcRxxAVwiz3TmnYUwiWonSMc2GSCbmBwjrfOaABwmwXYw8Cn4quhr7rtObaq7A6
-          DLgQzquIKK0yZNW0WjNr3+UfdA5dW8d78etF+FcaHb3aEGRBPy88aUVz7o7iS2dlegfgat2L2mE4
-          hyjts7eFUen2gli31GcPhUPgZ9QMQdpS6e2N0Y72ivlVXfglWTWardbSFkeUxVXubmGL5xstWPHd
-          rqPDMad2N69B8+8agICdkWzn0FrT7w/Z238dpXWLxBLEMWqZLmlNzHWpm7YCx8Jj4iiM6sZSC3ke
-          zjwYuLXmGXu91E/0Jf2E2ZHh6OHfZP0jP4n0Xse5GY4YIa+ZZc0Cyu7GD3EWR1l/ILbIUUmftff/
-          EeA55i8/wQvfeIIXz2iMi0hTYVq4WlOwtEJWOMYzmBSKae6Nv97uKw4JS08dILb6e6A+d4XzW6rB
-          XVzAVfJcgTfvainrthho5WzU0gfWrP5zy/19Wiu1Wws6Fc0+PLdgsE10XUFqW6UR2Objt69rlZSt
-          NNx+p2TJudRr2aqFsJ05AbdS2KP2bGJrh+ta77UB6tqLQrr0B7fwvlxLeMR1qMTSHQBiQaR1SRtg
-          YVuzuBboKszmM5xskyQJeZ6/fdz+cg7AXV3+D86xvr6OdVCWBbHX02q1/NqovncESeSptJ7Db4My
-          r7TIQJUMWCUA6ki0n/EX5bn0DkcvhfWRYzhS9HsFevsnkMEurnwJSBHmrZRUtw5DWPTomoxAMDhn
-          mo+p3Idonezppzn/2PeYzEcM14DIonREHCkOJ45LY5hkjsncLx91zl+v1f6prHGNOrHtUk9dVY+2
-          NxzbhpxS4QPtdV1SbQFuO2GRJeS5NkPXPYTi6Bh+W5uhoam7BaFP6fQKJGAULNKAWVhH1jE+OgNA
-          dZGzoKgr0q2a2+vOnLi6iyA1pr8wgVCBjgsS3l6auzJw1bpXDXna1VkYOOyCFHv3Jvr76OqOyKII
-          iLRYQW3fs9LSWlJwbpV3EMEWJXlpGa1tcOni+TcUDLmSLN5dyzbg2toG86zAuoW9di1dfxWYf4ir
-          dfM8AcgxiIVh6hj1HMPU8/5jbUAU1infU0cQsUQiJKoxKOvws/8p9K7/AMKloDiUhWtRIXIYVk6y
-          OxsWYBiPA1ROwDlwMxjeRZw+xOaGQ48txiomM8d0DuOZIyt8Tasjhw67AtwiGBdSX1Fe608WVlXb
-          CooArBIwAsoDhrWN2GXJawlIxkqgr7MVpKtbJx1gdnF4ZiF/XnFmnSzw6hdLElYI/re7W622nbSu
-          XWSVPE8D3IlUuxu7j6sFQRdBuZZT8gZNSz/ALWwgWuhR1wQg11mDIvWW5O5ac5Eu0LjcQ1uxFMW1
-          W6/ucowmnwUoYTKb0x+uwcXzbxu4v6Y8gMFgxGQ+RykduPKCbfeBfdDF2ObDqt56tTjDz8z7Cbrd
-          kWV7zbE1KlkbKpKeF92wIlirsMbf6n7qGKQO7QpUvIsebWPLvXD+Sio1mRoMayPNzgWvb6ktsHIC
-          hI0fJife2iRKUiQrMUaYTGEys5Slf84oDADZsDJYa6GnILVgYp/i58ExlFYoje90VCw/05oPqbcK
-          VaQWV11JAMY6ZCIVEHDV7bS0QMQKrncLE3tSq96qbvvtsnVelbVUK7KlCU5ugaDU2h7clv6WllNw
-          4bpEGrHTTpXsXBcZb0/9thY1inQ5e07cgjpX83xNdA/G3tU/82VhJ1Sr5pRWOIC0OyhuQY+g1Q9Z
-          EHjFueUmzaLJvkHG5AVkFfN5xsbW8Nq2Aa9mGejyiil/U6Kkx/xwD6W6UtNtZdyKVWIdGAOF8vP/
-          SSHMCmGWwyT3M/2zXBjnjknuOCVw3RBOn4CdY47eusBwCJJS2ATj+rh8jk6v99mhnfuDbdt2oZq0
-          z7UXwlWGbxFMyAaMdwDOTwWquEc03CKenWcwjNkyliRxHCstRQlZAfNcmGUwnfuMYJ7DrBAmGfVv
-          XEU2aVJuJ830Xx1tpLVhOERI6wQbWn+uBUq5Tg/dM+Qd7dVYCqfa+nzSieCLirYVk8apbkkuLQOv
-          /k2psCh1UWxEsbTcpFs2u9YqI1Yt12kZcnc/gHNtW2mvCGsbvFtq3NVy4a4lICataC3tDMC1E4+W
-          LLpqObzu/VmGLroczw75Q9ySnmO9gFHanciutLoooSgydLxFFOlrslcwerN04UqkhpI4RpTGlGUt
-          5+WQhvTSQpzrGyNVayzU84WfmpsUwsUpnNl3XkgjiHUcW1cc3xRO7xhO7lp2j83YPm5YO6ZJN2Jk
-          ZxvSm7HmAFwRDKNJpQQFTjcED0vLVMrgrLwDEFeCWJz1jsEpYePWm1g/obH5jGKakU0ds7HlaOw4
-          OFRc3HdcOoSsEMpMMSthnME4F6YZzAuYGyEv/Uqx0irfOrQVEciXM8Y1W4Rsi+ziz2+YRlzgqDcK
-          NmrZoANw1gS2VSIZbRWd1pFS0h12bUfq9tSatFDtVjty5d66evilMfCaZy+0orVbmKxrW5jr1sud
-          gRpHa5tpJ1NoRE1dgx24Nhrv6s1NVQno+RbtVMe1VdKXlrh2UvmQLdXy5I5WmbDIQZYVFOIudxGE
-          siwpLSRpn7Icv+1ewFWXAKs8TpL2sNZ5g9FRlxYizU66Jo3stmyr919NBFbTgT7qKLLScXEizEth
-          70jzwmuw3rcc25hycueIna3XWB/N2bhrTnrTJq6Y1T3kmjzjBCeqJtY0JBHnSwBKxHkQ0EcogzgL
-          tgQg259wdOYSeweWvT3h4Ehz6Sji0pGwPxH2J97g54W/znkO89IvDSmsz3iME4yxGKfqPYC2ta+v
-          DYDVFF7XwgWQDpgt1YxAeywY1RxOkWUSysIwTWf9lWtmFOrswq3Y7Muy9JXQXqrRsb2G/ljr9dOh
-          79ZLOOqV3QsrtqULKEkHIHMdclTzc3aZdFMBdzW4aFnefOpaWEQIEK4h6tb/l1bmUGcQrtP+82/X
-          NgtRF8BzYUE9SJoux2XZmM5RFJ4TMJ2Mr1g5eHHTo7sSB/Bm+wKrF+/3+xjrOohsZ2GlWuiBthHi
-          QA5xIT02NgCGTjBOlpZoSmDWRYlCxV7+KzdCNleY+RxxGc41Pf/2Yot2/VbLcIcSoDoM/gPDdwSC
-          I1AuItvbZ//cnAvjHvsHwsHEG/7BFA6nMMsdpQmgpKUGQ1VA/12lI6CCNl54jLhK5BSManUnlWql
-          mFVd35rxdW0dgSrHUg0yH4y3DYRJiwPQBd8W1IEqIoCo1QBfZzBpYVR2gfEmHSq069rz4k9UZU1b
-          O1vcSsC8flxrEUenL1cbVjDAumSy9epvh0LEtgzQhU4BAUR2de1fLxQRwplp354azfJdHWs6ewYX
-          RR7aYq2dvYLOLbMT65XF1K3YojTEcXrViL/IAvvzzRzAlaYXvV4fY8zCllrqHvUqzlOzuqq5idJa
-          nqFFhRXcoY51YIzfvlvJbSnlcM5HVCOaYjYGOweXNeSaep+8ax3jimZrfc/N2ZogItVGWeeneEQU
-          zsyQckzaE0bGUhZCVkAUWIDtO2Vdm9dPp4Fc+7zWFmBpjcbW1yDtEWGp68HOnpxKU8AJtiXO2XYQ
-          dU91hXyWdBBv6Rh1W+zTLazVYilRlW6EWsgmanpxRyILVnzRimRdR+FW1Pq1IwuR3nX0u5uo7T/b
-          yoitbwXXwcF/TzplQSOS0dYFdtY/1lo/9WmswVkT6J++dMT6ffKSJvTTBGtNvRp61apSkQV68Aqx
-          ALfADRDAGEOa9K7ITpeX0L4DXQCtI8qw49y1UiwFHfpos0euI6VYG4A3ngB4EaizBrLCy4nFkafc
-          Fg4yA7NMfEswKtkcKWI9xZkxuKIJHK4ryl55Zqlowc526sE6Sjm/sEEiTTmdMN2bMpkr8sxSlMqv
-          ARNLrBSDJGQrzisbq9Zy0Go1V7Wdx2OLNtTJsjRe4m1WNf37VnrdFqeoan5PkFGwcHRpUYwdKmSq
-          LjgO1Tjo1mfUJRypDn149ZCi6gzNVCPBbpFev8icc65DiGmyHLdkKB2eRiugNN0+2ziJKjLXL24X
-          PutWAuycz9KsxVqDsd64XVmCNf63CYbtiRnEkSaKNeujHoNeytqwx/qoT38wYDBISZOU+XTOs8+/
-          wJNPP0eU9oi0xppyYZKwa5qyypAX5x9a48qlKRn103eWCXg16GKcJMxLU6eytdxVpwfbcNutp/zV
-          6bmEqNnxVtY17K+qRLBeVqssINaOnU3HjaeFE9f3WTu+iROHnb2OStb8rnDfEmgdktagh7MBB2hf
-          WVU7tsZhjUGb86ydSpjkORf3LIdjOJrBZK6YzIVppshLyG3VzvTKQY3LDim+qfqh0vSRWxHSm5uq
-          iSptzn1NNqmTfcGiaglv110itmzIrjJZhRP/Gp5P024ptmm1qrP0o6bPtkHG9uNDabNSxHRBw6By
-          PB26bIvqXIV+a9s1OB0p7bpkaPX0q1TdWYMxFuu8sKYxZUBagxOwxmd32u906CUR/TSh30/YGvbp
-          D1I2R0PWRgMGwyFb6yN6gxGj0ZAojhgMR+g4QakIQ0RhhMJ5LYxBGrGWCM8/+RD/zX/7/2A8naGj
-          CGvtcmq/2O9fuQixUSuqSoayLFHRYJGLd1VZvLSJQG9W67/ZL6W0v8mtPnAz99+q/zrppKsJJ+0Y
-          Vx1043y6r43U67t3RpYbdg23nnLccr2wueXQqSKbwtETe5jpmOHJjK37348r5l4+qkrz2ofStdmA
-          tnYKFVGkoScrKA2zMy/TG2luubvHcC2n/AFcOoK8cD7yi6MwXgcgK4W8lLpUcUGvTitHDB0VHeOq
-          dlrVKg1Tdk5QAcyzVHhIA8K5msmn6+uU1siwawl6EDoeKNVJ7WFBHkvaxZhqMoXW2K/rCHpKJxVH
-          hYzGLYuQVLsGXGXkzi3NFdRnQFrgnTWBF+EjoMUDzd648UZlW+09Z/1adx0xHEQM+jGjNGF9mLA5
-          jNhcHzAa9tneWCPpp6wNR/QHPfq9HnHst8xoFVMYG/gajtJ6hacsK5mVJaYsubTvcC4DcorSUJQF
-          vViRpjEiCuM0d937Cf7KX7mBP/Uf/Ic4q1tgXWOtrj24uECUWhzQcK2JRmtt7SzdWxwLcFfaBryS
-          7EDpCOuK5t3IwiLElseufQRN+6oN9Fkn9fqsYeLYGQmntx3X7ziObTjWB/4Jn3pByH4gaCyDZMbG
-          CLa2E+JL5yn2zxGvr+OKeaf3XBGQqtFZZ6uYZRuiSgWwOUGlKbMzZ7nwzIRcUiRWDAbCnbc6RgPH
-          My9bXjyvGGfKb3VRikgLpXW1Wq4JU4DGCsa6urVX6SHW/X7qTDNE6cohBEJVa+68NqYQddtLN6iz
-          ggYQVEpwooMBqxayvFg2+IyhzhLacmW1U6jqmpaDCRmFq3YEtADeesJOaX/dwZhdSMFtcPbWBpym
-          itTWNNmaFtJEM+yl9BPFZk/oJYqdjSFb633WBhHH1nskkeXY+oB+P2Wtr71Rh+woLx1Z6TPIrIRp
-          7pgXltncYqeFP7/BKWodIUqjlCaK/Ap6dIy2EKUK5QxZXpDNJijgxO5xdKTJ5jOvZyGab3//B3zq
-          x+7nT/yH/xH/3a/8CoP1AaXLL79EcwVM1tUUbPgQzjqiCgR0DfHIObe6nLgWbcDL7VJsugHtFM/V
-          umvIYt2zRHDykJQISeSNfr3v2Og5NgbC5sAy7Hmk/fV9xTRXGOt3AGwNYWfDkSQKFXn0PptHHDz1
-          NDvvu7vTy21uVgshXpzEqtFLQaKY/NJFDp4/Sy4ps0wxvuTYPxIMilHfct2uo59Y+heEV/Y0l6aC
-          Nc1Eo5WGvecxAF+L+zmUBuBzoV9cKQublsi9dwJNhFdVJO4YcFOr+7Fn1ZBWguFaVCAWqeBAVgCH
-          CFI5ipAtOBGU6NqpeMeiEOVfx4p3LtaBCYQlE5yWq1oftePR1KuToigIv2jWUs1aD9Z7ws5AGPUj
-          jo1i1gYRO0PF9jBmkEas92OUGHpRgTVlKF8URVmQF4ZZVjCbTSnnM16fClnpRVlLq0En4ToFUTFK
-          R56+HeZRsIYizyjyOZPM/zmbHDE+OmQyPuDg4IDJ0T7jyZj5ZMx8NmU+z4gi4eTJG/g9f+iPs3Xd
-          XRwcHBBFmrVRnzOvnuOnf/rT/OaXvsYzj32HNI1xxrRwr0V68OKU//KsQ+U8WdR8dO4tzQheHgNY
-          6C++0RNb61Y8wDUSVK060DrQlUSW+OWfgwR6iWWQCP3E0Y/94/dn8PrYi20o8aXAIBXWerbm1sda
-          UMoxmQll6dhah93jm6io9BxasThTdpRcu60Q12Vi4Q+nnR2x99hLTKahp587SqcQLewfKM6c11j8
-          ZGIaw6lNRy92XBjD/sxPB9JSP5a6xvcGIM6DnlXab1rlgrguEOhcqMWD4Yq0RDZFBQxBN4ZdGSlN
-          5K9/RrQfpW1Hd9Eg2j+/KKxEtRGXTuNaoKwhwhGFextBFEOUoOKEtJew3osZpjFrw5j1fszxNWG9
-          r9heSxklsNlzbA81w7hkLS5RzpBqR09KnMmwZUZhHEVRUpQ5Zen877lj77CkNNZjHyr2witK+RI0
-          YEQiMSZgR9YWlEXBPMvJs4zJZMLhwSHj8SFH4wnTyREHB/tk0wnT6ZTJLCOfT8my3KP7th0gNKQ9
-          ov6QOIoZDvqsbW+xd3DEc2cu8tf+m7/Mn/mLfxm1dgPOFWiBQT/l4MJrfODHP8XZl55kNpmilWJx
-          3Vg147DEKlqY+WiET5zvMLxTIKCIXJknCQ/SkV4ckuzorjXc7kr0w3P+Y+2nAnVY3V1amObCOPP1
-          V8UmTGKhH/vxYC+hJaSxo5/AeO7XiK/3HMc2C07du8nwli3GT71EdlSy+Z5T6BRcbpoNuW3aR9Ue
-          dNYbpgjOWlQCEinmmWU8Fw7GirzwES6OII5hPBMuHHnl32oN+Sj1T64VjDNh7vz0oqrbvKpO7Ssn
-          UI/91ixAVQN+DoVyjeiGQ9VG7UQFww3GX0V/0WHUV4fvVZ0VX58Wzm9SLp14qTM0xmmIEohSdBSh
-          44go6THspaz1Y9YGCZujPmv9mPWB5vh6ylpi2R1ptkaatRQ2e9DXJYPIEUmOMgVaSmxZ4NwhRZ4z
-          z/1EWz4vySZ+TiIzcCkwIh26xiskiLiUriTLMorCYIxPv2ezjMOjI8bjCePJlIt7+4yPJhxO5own
-          MyaTMUdHY+ZZzmw+hyIPwxohI1ExpAP6wxH9/oDR2i6712+xvrHBxuYGu9tbHNvZYnN7k/WNTXa2
-          NtnZXKfX66OTAVMT0e9FvPTUI/zXf+Wv8/Tjj/D4Q1/lIz/775FN9hCEE1sjvvDNh7m0Lzz46V/k
-          s3/3bxJt7eDKfEEY2K2csHUtEpdb6IwkceyxI+uuvQNwC6SFNxcHWSF57KqeMq2lH2ElWIulaywh
-          VWuAkEi5sHU3iIQ675CL0jFKYZB6Rd7X9oRBD4ap3x5074dT1o5rznzlefZem9HrC8X0OdZu3GZw
-          YuAJOTVgHCAz7TsSzljKccH4zBiXFWw/cIrte45z8fzrzGZClisOpv79WQul8W8i0gKlcJh58K/6
-          PKKQrWgtZMbTnLGqNniFDkovDuu8dqJxKmQBCudUs/5aomDwgsMbvw3prHEKg8JYobQKi6YIhuRU
-          7A+6aKIkJk76DAY9+r2Efq/H+lqfjWHM9lqPzbU+6/2Ik9s9Rj3YGGhGCfS1ZZiCtkVYemoo8xmu
-          PKIsCvKypCxL8qmhODAcGMuB8hmFDRlKFEWh9nc4ibDGkRUezTZlyWQy4Wg8YzKdcnQ0ZTKdsz+e
-          c3Q04eBgn4ODIw4ODzgaz8nzkvG8oMjmUJYtxp+GqIcejuj3egyHfY7fcDu7uzvs7m6zsbnF1uYG
-          Ozu7rG9usrW1zfGdTbY3N4jSPlp7x6dUTFFYcuOYZ5ZLRzkX9+dcHBc8/XzOuden9JKMP/vH78eJ
-          4mP3/Q7Ovv46f+HPf4fR+gaxdpQhyg8Sx3e+933OnJ/xqd/3J3n0ti/y+pmXiXspztpQ+rE0ydBM
-          IrbIUQvlwVsVBF205+hKjfyNnk1UV66pjbgrujvtbWAHGcAaCTvyqrFgrw7sWjvsjAPtfObQiz1w
-          dPHIp/7rQ2GWCae3Sz7+YcN6X/Pwb+xx7iwMRglRz7F3PifujxnuxBy8tEeylpIMIlSqMTmYwmJm
-          liQqOfvklNnEevque40T79/llgdGvP6bM+aF9rsOssZr5lZRWF+7x0rIgGmhGi6AUkSR935x5Ovw
-          wvrI6xH8QHCyro7IpXFY4x1JYZz/OwbjHMYpiCKUipAoJU0HjPp90l7K2mjIaK1Pv5eyszliYxCz
-          vZ4wGsYMU8X2ekov9pnSICqpXAmmRInD2RnzeYYpS6/rkEM+c+QO5k4FoLfRGrAWUBHWRlhTUpiS
-          vMjIs5I8z5jPZuwdjplOpxweHnFp74DpZMze4YzxeMbReMzRZM5snjGZzMgKiymNN2qlIe6h4oRI
-          C700Ym19g83rrmNz6xg3nD7B+vqQra1tjh07xtbWJuubG+xurrE2GpKmPXScEsU9tGimuWOSWcYT
-          w9G05GguvHj+kIdfmXNx/wIXD2fs70/YG2dM5obJtCCXiMnhlNK0mGdRjIoi7HTGy+cu8Vf/9x/n
-          4gw2NrZIeim33XlP4JXA2nDA+XOv8tgTzzAcjnj52Sf45O/5d/l7v/Kf18Zcjxi7biYgQrcl2h6K
-          arcM3yL6L2/UBVia9lvoM15W+3BBfklEOhRwh2BDz9ta/7WS7kYg38eVGhkWB4n4dN+n1DDL/YBQ
-          EgmTmePeG0s+86E5kYJf+zXH2QuataGmZ0su7jl6ccT6dT3Grx5x9skx/cGUwZpm9751Lj05ZXaQ
-          U1rFqZsSrNbsTfxC0UtPOHRyid07U+6+V3j1S4qsFIrScZBDGjpwNiD8BKJSXyJc6Yd+jHH1PTCm
-          oLRVi49g2H6IStCkOmaUDtBJn6Q3YDBcI0lTNtZHrK2vMezHbG2OWBtoNkcxa6Meo9SyMdBoLGkC
-          sTK4MkM5izWG0owpCktZGoxVvpaeChbtB5GczxwcPjPxg0kaE/jmeZYzy3KKomQyzzg8mnB0eMSl
-          gyNmsxn7B2P2Dg6ZTiYcHI4ZT6ZMJjOmWUFRlJjMKzGhI1CKtNenPxox6A9Y39jm1LF1NtfX2NnZ
-          ZHNjnc2tDXa2t9nc3PCp+MYWveGQgoTRcMjO1gbHNoecOTflaGq5NCmYZ4a9w4IX92c89uqMS+MJ
-          r50/y+E45+JRzv5RxuEkZ54V5LmFKEGnfbL9A7wwg2+R6rCDQmlFnCQogV4/8h0BbK1R6JxFj/r8
-          48+f5frjj/Bf/bkP88UvfZ1juzscP30z+9OcvLRcvzHi0Ye/yCwrWFuPeO6Rr/HpP/Dv8/6f+DQP
-          feHXSddGYFuTjq6ZUGizHGWFfa3UWniL8Tu6EuLAIslgiRMe0jvBhV6z61Y3TkIPt1o7HQgcKsge
-          hbHXqhduPV273ho0y/2QTRL5ZZul8Qo8H7q14JMPZEznwq9+PeLMhYjRQNFP/WqwWa6581ZLrEqe
-          eSpjkvcoFRD5MbzxFI6ONFmp4NWSfk9zMNGUVjHLFd/8tuXj0ZTjpxzvvQs+963Uz/Ibj1UkkRAr
-          KBVEKqKwBWU2hlIjLiGOesRpj9FgyHA4pJcmbG7vsL42ZHNzSG+4xmgwYG1jyCCF9WFEL1UksSFN
-          NNplxCoHMign4PZwRY7NcxwKEwKmJaXMhNz6Gr90ESURZd36Uszzkum8ZD7POZzMODyaM5nMuHQw
-          5uBwzMHhEftHE6aTOfuHYw7HM6bTGePJnLzwBuTKADxFMWlvgI40g0GfjfURo+EGt5y6gc3NDY4f
-          22V7a4PtrXWO7e6ytbPDaDhiY32DtfUNdJISpX0goiiF0gjjecnhtOBwbLh4OOPJi0e8+sgRJ08m
-          /IV/735mGYgr+c/+xrf5H/7Fc+AKz7dwDmMaVRit/ay51gqllV84gyPpJURRyXBjRJ4VpJuxJ645
-          22j3B/1/rTVlNsc5hzGmlYCXIRJrVAynT61zNC35xjcf4r7778VFA4w5oLCO7VHEP/jOQ6RpHwfM
-          p0c89d1vcPv9H+Xh3/pcV9ffraYDykL7j8tE6zca2ZeOKkL3Kd6SIpBbxipCbbe8I7Uy6I6Ag5K6
-          mrHOC15UX1fPV+kFFqUX0Yi1Io39v5fWoQ184OaCB24pOL+n+PKjMef2NMOh9tt3S8crY0UaCdtb
-          sHcm47mXYLTma/E4EcgLJnPh4pHCWs3BFG670TDLIw6nPo1/fT/CflX41EczbjldcN95xdefimuq
-          77wUIh2RJjA7OmJ3+0Y+/skPcv0Np1lb77M2Suj1evRSTZr2iFWBVjm4HFQONgN3CPaC/54rK6ok
-          ZAJO46zClM7rJ1ihyA1Z6XvYWQ6T6Zy9g0vsHWZc2p9xMM45GGdcOpiwt3/EweGU8XTO0XgWUu6c
-          +bwgLwMoqhSR1vT6PUbDIaPRiLXRGidOnWZne5ud3W1GowHDwYCNjTV0PAhA2RbXn9olTROUThGd
-          kBvBoBnnwiyzHE4Ml44KXpyUXHxxxsG04Gi6x9kLRxyN5xzOSo4mBbN5SYmmsMJsOsOZDGcMSglF
-          IawNYn75U7fw7/ylL/HFRy6xueazpqQf+aEpPPsv6fXJphMWtwHXTSoRiqJkNhkH4Rpbl58+ADlE
-          dFjJ5YImhG0KWuU7JoWL2dzQ/NKnbuXx7z/Jq6+d5ff9vl9gklmME/r9PlKMefKZFxgOBz44KsUr
-          zz1Gr99nuLHFdHLUlc6/TDrt3KJZt6RkL9P6W5XBt0Vl3zADWPVylys1XGvKYEHJbInmKK0tNlbo
-          cMZdoP5KkAS3DnIT2sWaMGoMeSkMUrj/hoKbd0teu6j4+jMxe2PNaOBT9BNJySt7HiA7tVOy0ct5
-          +ImIi0cRaJ+SD3qCHReMjzSHU41SwuEsYmPdO6aLRz4alA4efzkmTeGDd8y59XTOq5eEJ85EiIJY
-          axyW6dTyqd/1h/ixT7yXteEMzNyfKjMGu9dIZjvtuxHWhalBn54XuSHPHVluyOYlR+MZB/tjppOS
-          w/GU/b1DxkdTxuMpB0cTxuMZk0nG0TRjPC2Y5TbIpnlEP05S4rRHlCQMh0OuP3WS9c0NNje32N7e
-          ZH19xPrGBptbOwxGawxHQ0bDIelgjThJsUQ4SShcj1kpTGYZr+/P2Dsq+OWfvIVB4KA8+sIR/9n/
-          5zH2DqaMZyX7RxnTzDCZFRSlLynK0tYjNWma+JFxW/qJz0gTKQ8U9nsJiYVB4sBEvmMUx5zdL3j0
-          uQPOvP4kX3x4n5PHEuaZxwn8ubFBWi7Myhelx6Tq6OlPsTWWOI6xpcUahxJXi68ggtIemk1ijegI
-          kyaBMhwGvkThrEFFMdNC8+Adm9x2POZv/s0v0+8nHD99C9O5T/9vOLXNC88+zqWDCbs7WxhjUUqY
-          TY443HsdHUDRN1cEpqV7SEdm3CFXDAFcblz4DTOAq9s86ttYNcLeSKksSNMtqCiEToHCq+O6AHxh
-          IVZeINRaT6WfF7CdOu45ZdgZOs7uax45E7E3VYxSryS0ObScPfBRXotw3a7h8NDx9JkYYxXjucWW
-          jvUBzI4K9o8Ue2NFEguHU+HV84pEW6Z5GOyxgijFN55MSZThxJbjxuOWly8YLk4TBj2HloRf/lP/
-          W957/4j8/KO4SYLRmxwcwXRSMpv4fvNkPGV6NGY6mTEZj5keHTCfTJjPpmSzCdPxlNk8x5aGoiwp
-          jZcW01GCUwn9QY/BaI3dzRE333Caje3jJP0hSW+ApEPWN7bpjbbZ2d2lN1wjSlLidIAjxjjH3MRk
-          JiIrLJeOCg5nlvNzx/5BybnnZ+yPc/aOznM0KdgbZ2SFZTwzTLOcsvTjrZPM8BvfeJm//mc/wD/4
-          /PP853/neea5JRITlJy9sSSRJom9oKutqNZKEacp8+kMIamZgM45RGuMsWTzuSdLBWajsUIcK378
-          3hP8yj9+jOFIyHMTopkFp/wAkTWoJMEZ6zUXlUYp1QiqWG/wyXBAMc9IB4N6t1k93hsMHBxlMQ9q
-          UH582Bg/j2CdIbKW7CDnx+65mWnp+Ne/+RXuuuNmeqMNJvsTSmM5udXnH/7zb3t1rKqeD2lIXuZk
-          s2kzFr4YZutswHYi8eIAUZW9vC0Q/+1MA7Ylz2sv47rjwAsiyPXctiecdHnOxgZZ8GqHXqjHFEJR
-          wmhouXnHkig4dyA8dU4zngv9BA7nws6aZTyDwxn0E2Fz5Di54XjihYTzB4pBD/TMA2HjqeXoEI7G
-          sD/24N0khxfPK27Y9vz+SdbSKhThK0/0+MTdBdYJt5102HMwm1t++X/9H3Pfe1PmZ58m3biRR773
-          NF/77D9j75Vn0WQYU5LlBnEGpSOStEeSpiT9Af3egJ2tLQajm0gHa/SHaww3j9EbbZL2RwzWN+j1
-          R8RJik4GGDUktwmFTShJmcxySpNz3507vqvAJl997Bz//MvPURZTpvmEvXHB0WTO3uGcvDDkJcwL
-          n21EcYRzQlFalNK1zJaI71qY0tDTgkoStFZsOuHhF474e597mf/j//gDhr2Yjb5gqvZmVUcHXr6f
-          7vTKSjpJyLMSU9qaZOasDfdXeSdDYA5q7WWwM8t9N28RKXjq5QPW1vqBwdhI0Tkc2mniQZ9slnts
-          obYGizMWZ0vvMKwhn049NbpC1quBIqXBWhSKIp8Hh+BVa+tGnHjKd6+n+PRHb+GRp17iiccf54/9
-          kV8iMypklzE9yfneI48z6Pcw1tZbfpP+kDyfMZ9NiNM+1lmUWxVouyPSwoLgqVscGb7WRKArFRhY
-          ED5doiR2tq66egZA0aCeNhwa1RKmUa3Z+tLCVt9y3bqhLOD8oeKlPcW0FHqR19obpL5cOHfgdwrO
-          C8V1mzlFDo+8mHA0l3oK0VjHZK7YP9RMMsV4LujIk3kOM6EXO7TA0VwhQb1YK8e8VHz7uYT33liS
-          JBE3rh9x6if+OPd98BT5K98m3TjNr//Tz/GtX/377GylfOjHPszxW+9jsH6cpL9G2h+RDgZE6Yi0
-          vwV6gEV7dN4llMbiyozDDKazkr1pwcuHBQevZIxnlqwoeX3/PPvjzJcKpSUv4NKk5D/43bfx6Y9c
-          z9/+V9/hH37xDFnp0WOnI7RWQaxUE8caHQm9vmBKQ7+fMpkVgYBDGLLxBmFb0l0mqBPtjUt+/8dP
-          8NgLlyiMRYljnhvqNSfSHVRpRpIhTRLmuUFFuqZ+V45CJEIQ4ij2kc96rYdsUvKzHz7Nwy8eUZCG
-          RZmmJp2Z8FqiFUVhKOZZqNldV0zEOuI0CdcW9gGEMXCfhWo/SJQkobTIPf9fgkRc6GMrpZgVcPcN
-          G3zk7g3+2n//q1hrufm2O5nNc4x1HN9d5+wrL/LquQtsbGzirEXiBFsaBmsbHFw4V4u+qI42gKxQ
-          EWwtOGml0q4zPvUOMAGvfjioM+BPS/+h3mEnLMwKhCRH2caTY/EDLqE37lBsDBybA0deKkoD58ZC
-          VirS2A92iDjSGC6OA7VWCX3t2B0anjmreem8Ig4EJGM9I+5o5lP/Sa6Z5gptFXPjgb9zB45EW0qj
-          PX8eP84ba+G5C34G4dgoJ0q3+PFPP4i5+CjJ5nX8xj/7Ik98/u/zO37hU9z96T/F+g33kh9cIsvB
-          lH6abG8yxRxYDsYHTOfnmWYl01nONDPkxmFLw8Wx9a1F0RTGE6SsRMRa2JuYeojKOoWKIO3FfP+F
-          MWcuPsv/9K9fZnerh869slLpHFqEwvqsqyhNEPFUKB17AlZuguG29BK0CsM5/u/KWaxVRLHwgds3
-          +Rv/7Fn6iacLK+0BOessWgmlaESpGtzy4FnsjSCfeRpyqNtdNQAkFhPGZatjVBrQUnLv9T3+8t99
-          mTgW8qwIEdEGBJ+AFSSYvOhqO4S9EiiFxZD0UrIsb/XY2yqlwekkHkfw98E0J9Z6BydaUcxyPvWB
-          2xhE8Kuf/Qq333wj67un2DsqKUrLqZ01vvirv+63Xiv/OUkgRPXXN3jl+SdRUdxSdKpGsls7kSr9
-          wpagTRt4F7kKtu6VjAO/nSygngytqKzSJCZK2kJNUk/aq9b4Y6WLp1qgjQ07AEYJ9CLnt+wI7M+h
-          tJpIQ2E8PDJKHZO538KTxkKeCcfWSoyxPPFqyiwXbOARZEEi4GAq7B0qJpkwLjTaeuMvjHDeCsfX
-          DEr51qNHicMgjlI8fzEmnx7xkU/9HP21S7iDQ159OePb//qf8PFP/gQf/mN/HVHrnH388+y/fsYT
-          iFzM3CQ4pchzOJpbCqcpApFolit6qWZeWJx2zaCO+CgXK5+2G9cIqZYm7FbAcs/NW/z933yRfj9m
-          nvvOiQlONMsLSucdmQkfmrGGtJf40kQUDhuUjVpKTdYSaV3rBUyzkvtv3QCnePb1nO21hNwvQ/TG
-          6xxFa3y3zvAcJGnMfDrFFMaflRC5HQ6ldO0MBOunEZVinDs+/J7j7B3mPPn8JbY2UsrCIc4AKqzr
-          rsRVHGU+xw9Pt+XPgvy0NWAt+XTmeRkdJRQJ12CJoghTTAPoJ35ZbNi8IOLJUMNRws994g6eeeUS
-          33noe/zCz/wERnoIvrMwiBzf/u4jDPr9YL/+s4zTPqY0HF7aI4rjRhRmBYbvWvp39e7Iih/gWpf/
-          Nn6t1ASUNwH/ZJVqyUppZNdaU93Sb0O6ClRteeXwD9Z6z9lPLJHycuEijknukyatCYQaP0dQWpjN
-          vYE7/Arx3aHlwqHizJ7GOMus8K9cWucBv7lw8dCv75rmoLWlMH75yKz0ZUCkIDdSt/wiIWQEir3y
-          GHd+4Mdh8gOkP+TRb3yNG04kfPAX/yzFLOf1p3+VeV5SxLuUOHKjyK2QxhHzvKQUx7z0kbkwQm5B
-          l8L+xPk9gs5SOiEvHbm1WOV5D6UJ07LBsPLSceOpEZO54cyFjLVBTFE6lPaLUBSO3DriUMcqEYrC
-          opVFifI9bq29QEuNOzlMaSmKsmZjai0cTgo+cc8WX3vyIJQfZaDWO6z1RBlj7IIYa8Vs0+RZEGp1
-          rXXblpAR+A5QpdMgYslyw+/6yCm++vgFbJFjCyqBhVo30zmL0sqvdbMeY5Gw0FTCwlFrSpJBikpi
-          dBx7uq9Q4w9KR62emEZ0VYaYmtvigirQJHfcfGzAg/du8w//2W8wGR9w1z33MctKrLVsbYw4uHiW
-          Z557iX6/72ndAeBc39xhcrhHkXsQ0hnb2mbslraireoHVPsfVWfl+zUsAVb1+N+wNGgTgWhrSnR7
-          mE5WDQK3SrVWY0ABqfZFUhai/KzwPxnrqm5odP4mebNjsDDC9tASKcuLlyIOZmGWIHh94zwyPJ7D
-          /gRmWcgKjASn4qPs/kzRi6UePBLlf1s0s9mUex/4aXZObmH3hcnYcfG5h/nwp3+e/rH7eeHbnyM3
-          mtwmzHJHZjTzkJLPi5LJ3JGXUs8/zEu/Bn2aWUzQQahWUmgtDCOfTseR3xSkrL9WcTCfWd5/+yYP
-          P7tPHOmwdwDyss61yC1h3sBnVkVhibVwNM2ZZ8aj0eFzMtagRXzrzvlJO585KHY3Um46NuB/+PWn
-          2RjEtfRbWxOwHl+tnIC16DgOeyCs3xHZ2XRRofkhXRdw1s8HbA00d1w34m/+y+cYrCVePyGKgpCC
-          QoPv/fdTjHVEifUdhHCYvG+yGFMySIdk8xJnSowzGCe1XJhVBdYYRMfYWYYxpskSKOv3FkWKbJrz
-          4btOsZ7Cr3/2i9xwcoedkzdwcZyRF4bTxzd4/JvfZDLNGAyG9YIcnKG3ts6ZZ59AVb3/tuC6Wwiv
-          0h1OXWwJwrVaDfpGbUB3dfVEI1zQpCu+xdossuwMM1R7FirVm+BAEu2fx2/RceTWFwdaNQo6WL8d
-          OCulHryxQft+mJQczoSX9xTzws8MRArmrlkEHivhYCpMMh+JlWo0/SxwlPktRFopZoXXHSyMEFuh
-          LDQPfuInYPI8Kt7kqW9+j56MufEjf5jDCxfJckshKVluKKz2/H0FaazYP8rCRKQE7MMbfD+NuZAV
-          AWVWlMZ6hSEDiXYcZVKTogrn70tZQpxqkkTx3acPiCPNvLTkpR+l1UpjxbMFcdZjKoFsFSUJ41kZ
-          NgjbMOAUDKJawRX67Eo5DueG3/HAMV48N+XM62NObA08ZhD09CpVIusq3b6qtHAksZfMUlFU1+1K
-          h2m/MM3mgoMVZ1GiOZjM+PhdG7xwbsrL56dsraUURRGcRRjIcr6MUAbm40lr0s8PdnXyUWPJplNq
-          ckc7elpfSkUqwubzIGsX+OnOdhZ94hyf+ciNXJpkfOUrX+dD730PRg/A7WOBnVHMN7/zML2el8mv
-          Wo1a+2Gsgwuvo6JkYcx+hVSva6+FX5BhlbdgoFfjAN5IX+xyj+0oxwZQQ0lTxyyKRLc3z9jWTjUt
-          fijGWQlbcyvJsabN4KzXA6xSYe8YBFcKo9SDXhcmir2pRsQbjQiUplLoUcTKcZR5CnBuvD6BdY08
-          9rQQkjzIL+FLAyWKw8mc++59gDtvHZJfeII83uXxb36NO26/l/72LZx/4nu4qEcxNz5ld34SEBWR
-          GeEgi8gKw6zwklPzwh+0fAznjywKLyqaGxs4+p4NOcucHwaqVoqJMJkVfPq+k7z8esEks6z1ApDn
-          Go3DojR1fW2t72dHsR9CKktfc1e6e9a6QMJSoW2vgqqtH7/9sbu3+VffOMugnwY2p0/fxQoqiMIm
-          SeKBvYq6UvoFLcaUfiLQGo/EW2/AKoooq3rOlj4LjyMmc+Hj953iy987Q5nPKHLfUmw2q3oDUHGE
-          M67u/wsqpOsedLPOkfR7WGuxZeEzCEeN7DvrSVlIW1RUt/eEeDBQhFkBJ7cG/PRHb+Cr33iI8+fO
-          ce/7fpnpvMBax2g4ZH50gUef/AH9Qb/Gu4wxDNe3yLMZ8/ERSX8QnGZH/jCk9wsSvnJ5fZ9rVQKo
-          t90CaPf9O2qwspQf0JIAc67DEUSJT9uqQaCs9ENDFWHKBbVgV6W5QYO/qouNg0HiDevSRJOVfg9f
-          Be5lZdgfEFRixnP/PWN9dPdTet7YC6M8eBiQcOMUTkXkpfDJz/wUav4yJJs888SLzC6+wm0P/m4O
-          9y5w6fwlxjPYnykO5hH7E7hwaBnPLRfHjkkGs9xnFVnhjXmQao5mfsWTaclj2YBnGFfJUjfAXmEc
-          Tix33LDBN35wRBxHzAvr9emMj77Gev14Z22LNOLoRUJZlCjVZCBK+RQ3jiNEK6LIG0EUaXJjufl4
-          ysYw5nsvzVgbxJTGYI0J16nCBKOjyEqKvPAtubzEWchmGflshik8yclr+pUe7DUtSe3gtvLScHwz
-          5T03bvGNp/YZDeMO70RqsRpLFCcegAzjt9Vm54r/Z61Da8V8Om9lNwGQrr521r9fZ1E6RmmNiiKP
-          F8QpUdIj6fVwTvjQPcc4tRXxL3/ti2xvrXP8+lvJsgxjHdftrvHE44+xtz8m0jpcp8YYw2Bzi0vn
-          ztYC5otM/WaSlu6WHHErWYLL61yvoQO4Gvt3nVmGSnlWWnpzslAaUD8G11AUK5TdhTZdYUIbikY7
-          0Lb2N5RGKCv5uPBnpByxckxy4dJEggF4J5AHLbjSNk5gmnt2YWFVMHyvPFRav414Vio/titQopnO
-          c268+Q4+/MBNHF14jczEPPxbv8XpW+/i2B0/yWsvvMC0iDjKFNNCkxvNtFBkRpjNHftTS1ZasjDi
-          OyscpfW7BWeFz2jy0pEVjsI2IqC5kWYtuB9cIyss9928weG45JXzY0Z97SWrlaCVkMQaHWmSWAfR
-          FUWSpkRRhEWYZTnVRmKvV+jvY1Y6irIkz3OyLKfMcw5n8Mn3nuKhpy5x8WCKLUpMUXrjrxyMccE5
-          21pqzVlD3Ov5eY+A9HvKrW5mRUzZRHURtFYcTnI+escaZ/czzu6VJFHktRQDml9tbpIoRsUxZTYP
-          wq62jopKKZTWxEmMjv24ctTrE8WJN+y0R5R449ZJSpwkiI7QvWGN/Ne7IkILr8xyfvyB6zg/MXz2
-          i1/hnnvuQKdriDMYC8c3Ur7+ze/UCH8ln6ZEoaKEi6+9QhQngXiklsxYWmvVaOlBSseGKqt9cxBQ
-          rvD7b2svQGcYaGFrhKvBLOmseGtWPDV1v7WuTiudCTsFVLMNyLbU74xtvbZA5PwXqbYUplIUcrVE
-          eaTAah89o/C6WSlEyrfgCiPo9uRi5aesoGwQttQRk8MJP/Wpn6Jnz5HrHs8/8wpnnnmMn/jTf4Fp
-          lnDx0php2WeSC9OwMDQzikg79qY2XFMoeZQCsaTaMc9K+jE4LUhuEfHSY1ornLF+MEpJjSUIQj4v
-          eOCu43zt8T2cKZlMZpTGOzHjrO985C5Ms/mU2NgMrYXxtGSeld4og2Zgtaa9MA3JRgSsKPq9iA/e
-          sctf+UdPspZK2IdQyY/59NhZW+s/uaDcW2kIG+O5+c6EtFfpwAlruAfi/L8pnWLF8Yn3neZz332V
-          KMaLcarIa8ET1rsrjYoTz0Dxc7w1maYOHMYQJ9qXG8YiYroOKnQLwFEaS1nkQN7sIagENrWmtCmb
-          GyN+5sdv5rvfe4Lnn/kBP/vpP8m88I8Z9FK0mfH9x55i0O8359k54v6AvMiYHO57B9DCKqr2eXtF
-          uGtLf0h7f2p3p8GbpQDuCr+v3lYv0S3A+e15QEetjFspwS5dSjUcFNpaZZsfUNXlriFF2GqZpnM+
-          KgSmYNXCnhXC3tQPEhVhi1AZlnWUNvwZvj8vgny3I5QAHu02VRlgFaXxenPOGnaPX8fHP3IHe2df
-          wsVbfOPL32L3+BY3P/BJXn/lJazyfX4b6mqlvCLQMPWDJmlssa4MUVDRSyN6vYRx4TODce6YGSEz
-          2n89t1w4suxPLftTxzizTAuvibC7NSCOFN99Zp9IR8zmJVmRk5cliAcejfG1tijfyzdlQaR861EF
-          tLxG3oOT9ctQg/6FUowzy3039jmaGp49V9BPvFYAldS6UoFEZJpVWkEAJk5i35pTCh3SatEaFQAx
-          HUXoJAkqPH6GIHeOm67b5uZT63z1qT3WhqFfbq1XQ5II5xRlUWCtIZtO/UYqY3xbzYRdD8ZgigzB
-          ks898OqM7wJUa7sI2IhO+qD7Xn7MmXrWrlI3TmPh8DDnzuvWef/NfX7zi18hiSNO3ngbs1lGUVqO
-          72xw5qXnOXdhjySOaiMzRUF/fZ3x4SVMUXZU8ZvumevoVXbKAbe8WGVhxu6d6wJc9ZCBtMuB1ooJ
-          R2fBR1PPSTMZGOTApXUYazpw6BBYcUH0scUwCCQVLaFHboRJETj80jiGSnixEnYptfe6edVXrybC
-          KuVdJeB8C62nYorplE///CfZ7o25cMFw8dUDnnn8Yf7Av/P7KaMdXnn1OTKbMC2EaamY5o5p4TsV
-          ufXagXmpyArf45+XlrVBxLTwpCBTev15EUUZBlIyK+TGNnr4KJT4gZzPfPg6nj4zIctKepHqEF8E
-          57n9Lb59Wfr02WvqVeQbV3drlPIU6ap9J8FJZUXJZ963y9eevIjWyms/Klu32iqJaq0j/9lZC9rL
-          maW9PvOs8G2v8J78VF6J0hpjwnaeIG6pgb29MZ++/xjPn53w+l7B7hqURRnmCkJ/PwQbhSXP5kGd
-          uL1n1GdYOvKahtnhJOxZdK11dJ4hKAg6irFlGVrJ3oE734RFa8XFvTmnNmL+03/3PmaF5Qtffoj7
-          7r6T0eYxLh7MyY3hxFaff/WbD9Xlrz9yCusK+mtrnH38JXQUN5G+Yr46aU3TygIJ+PIyPdKZEXgH
-          HYC7whJA2kslWpLgdU+4NRwkS3POtLaxNoMXVpo0vgLBqu2utey29QtIfO/b9+xzQ81AtBXLs/qZ
-          UALMC0ekfc1vXC1cVjsYF7T1S6cojGV9fYOf+dT7OTj3GNFgl69/9kv0U809H/tFnnv2FS4e5BSi
-          GWeKzPix5dw4Ihz7Yw+2+UxchYUWBuUchxPjp9lcBTZa8tLQTxSz0h+BsgYiDRIkxm7YTfm1b55l
-          0EtqpN9WS1VMWWcgzkqI6oZeLyEzQhSpoELk+/7+cwx7CIJjcM5RlpYT6wk3n1znv//1l1nrq3ot
-          ucdkfJ1vTQDwApCHdWFVvKPMvfSYrRezSCM3HpyCBAlzHQu4jAffs8Vnv3OWOA6CqMqF8d2wuEU0
-          cW9Qg5daSZhFqBiGvsyIBmtY3cMw8yCoMTXwZ8N0IqIQM6eczxEtSJHVZzZNUnIT85n3n+a/+nMP
-          cvMtW3zr+8/yxGOP8sf+4M9TkhCpDBtF9FXBtx96mGFI/11oL+o4ASUcXrro5wxq9p9dCp7OtVeo
-          ujdUAKnwFHcVsdldiSLQVXuUutOnaoWTyvgqQivt9U/1hpmWZnBn2VurOgjbchSuHkyp2qX+DPlR
-          0Fh8eyx3nlRjKjpyJTximrJCheepSGWWygF0gUvlFEo0ViccTMb8zh//GKc3M87ulxSl5vGHvsUn
-          f+pjxOunePbr36NwMZPcMssht0Jh/H2YzgzTUPuHKWeyMOZ7NDccTC2x9lRaE1irLgigGgdRqG2N
-          9enteFbyvju2OHdxzOt7U7ZGCUXpnW4ZWpVFeP5axkIE5RwqSilLW09aEohBOItzBhsITzZQco8m
-          Gb/w4R2eOTvh3H7O8Y3Ui43aMMDTKvFwNuhChtZbEvuhHefrM9VaKCKq2fenRPlorTX7E8fNpzY5
-          sdHni987w/ow8eSl8BlZa0InxNKPY6YzR5YJrpyFNW/h/Wpfto2SARQlw36P2BVBVEYzSBN6vYhe
-          LyVNY9IIlPUkpWESoaKgwuwcp0+u8Rf/5Ac5nBvK0vHl3/oq+ewSN9z2HrK8xAIndjbZu/AaL5w5
-          y3A49GxIrbHWMtreYTqZks1n9AaDusRapdMjsmI5cGfktrtiV66Il/Mmeh5vxAS8Gj6xc66zLbbm
-          /sviopPwvYoLHNZmq0YeoP6+DWmRpbvWWMTXDRZXEQIprKujf4VsiJUaKKwn3MT/WYryvPhA7fWS
-          3OGQuqCtr7zMtkrW+NnPfIzDs88Qpet8/euPosyEj37653n6uUvsTbzO3LTwnYXcWAoLwwTmpSOJ
-          A3AZwM1ICVtDzaWjkjSWoDiv0Ph5h9h57sKigJNWink25323jvjNh86jBPKy9ANO1qfSpWhPjnKu
-          ju7W+VVZeemN11SQarXZx/nUvV7lpoRIJ2Q244E7d/mX37nEqJ/Uw3USbqpSXvNQa69o7CrHbyxa
-          HNMi8zP/JfVIbVl48lFZlJ7PoHxZk2UF7711l7/+v/so1x9f4323P873fnCBtaEX9oz7CYkuSYNK
-          9Mb6gERHRGqDRBuGcUQaK+LUD01FYatTnmeI6LC41lEWnihVOkdelBROcTCek80Lppnx9OuAFeUF
-          lN9+jXvu3OEnP3oj4uBLX/kmN990E6Ot4+xPcorScv2xDb75hS8yz0vW1sRrB4hgjGG0vctrL73g
-          y5RF9l+L8deIfy/O/cuiRthCNn0ZCb/LsXtXPP7tbQcOz2jrEcz2qKLreLHOW28tDu1uem1Ghgnr
-          spT4XL7ao+ZFNSXUnkFL3glF6BCoOt0OJYTyizUkiJaIAuUkaO23du6FCEhYjaVVxGQ652MPfoQ7
-          b9zgzGMHyCDly5//Ah/6wPvYvP4BvvXFp0l7PWalCtlv6VNyICsUNqzGMsZz8ouwqGSSCZMiLDut
-          NksHBxgrYZL7dLVal1WBnbee3qCX9HnspQmjfoIxgeIbygt/L2yHog2QpCmTWYnUKLqqCVpOJEzl
-          +Q9Ba83rhwUfvXuHW06O+OaTzzAceFqzMX4xR/W5FmWJVoHhJ17pJ9LiOQBlQa/XI0kieklEEim0
-          WHqJ11HspzFJLKRYTm73+DN/9MPsbvXZ6An/1z/zY/ytf/IEvcSXTCqK0FqT5dav5MpK8qJgnlsO
-          JyUXbUlWOrJSMSssRVFgjGF/7xArvtSzTmp9fWc8iBklCWU+R+sIHYKD0l4RKNIRWW748//tl/iX
-          f+OXSZjwvYef4jOf+CBO93DuEIcHeb/+zYfo99JQalZbnhVJv8/++XNEcRxGn9tov+0a5+VEgdqj
-          tTU3SFpB98pLgFUZQXQtVEVUtbOuFf87OwFbe87bYojVrjvXeq+VUKtrRX1Hey9eM1XowoCPCq2z
-          zlbfIDLgQhqiauAxHIag5Gtcc9XVCq6qh1uU8LOf+hDTiy+g+1t87/HnOH/2FT7+5/8MZy44LuxP
-          MSplf+Y8rTiHzGr6sXA49WCcCQZs8dFlEAsXDwuKMNRR6SkaYz3xx1TblS3i/C76ONacuzDld3zo
-          Oh56+hCtddgrGMQsAn7iCTk2dEiEMoyxmmnOeJL5nj2qTrmktS/RmYJIQVlE/L4fO8F/+e8/wLAn
-          /PLHX+GbTxywvjEgwtGLII4jhmlEP9ZEsSJONCps3Y3jxN9DW+KUQlREXlqyLGdeWpxElFaYzXOy
-          vOD81NEbRKgopkT4J198kf/L33qSi/sTimwSRpg1Vqc4hEgsRTanbjw62+hIaC8hNVgbBn5/RCRC
-          rL1BIqEwdQ5RflWr0QkS6drAfEC2CCU6ithYSzmxGfOvfu0hDvYucdc994bhH8fa2oDDi6/x5DPP
-          t6b/BFOWpKM1siJndnhE0uthbdkIoYTD3uBebhHiq7U03dKUkLyhzBdXkRF0HIC7+sC/8oVqUqC0
-          6YquXgXd3kPvmtAfDFCaTWJdBvSSzmCYKkUJfsONq/rszevaVhJiaSKerUhLoS53gewh+NpfVMQs
-          t9x622186K51Lrz4Ar2t6/jaV/8R9917Jzfd93H+f599mkkuzK2XI8tKvxwzTXzvP5/6dlNpQlYj
-          QqJ99MtKD2AZ2wZFfYo6KxwWTV5aysJQGsN8bPnIXdv8vp+8kf/z//gY8wKszTGlDV2LoFYjEWka
-          IfhV7UmcMOh5pRvZHdFLFGkSk0YaxJHGiiSO0R5RZZYV3H56nb/wR+/H4uf2H7j1BPncb0kqy0Bv
-          tsJRYdnPHNMsY57lZPOceWHQUcrh4Qwrym8jMo7clJRFgajI8wDEdwO0QJIkfO3RA+69dYvRwPEf
-          /dVvMRz1/eCX1sTVZB9eJDTt95nPPG3aWuN1Fp2tZwMcJVoLpvBSY56abLGmaMnXOaK07++fKMTY
-          birqHFpFTOfw6Qdv5Lp1zWc/+2WObw8Ybp1mPPftv9uObfL4w5/n4GjG8WMDitIEADRjbfcYR5cu
-          eq6D1Olrd6DHtbB/ca1OjnS4CE4WMoE3pPq8C5Jg7kpowR1HIa1FYXTFQfCEiY4mwkIzsSYS1bsG
-          /EruNn/fuhZR0gYQMfDaRUJ6H9D+Ssc/THr7iB8yiGrv3HQy5ec/8yA6v4Qkazz1gzM89djj/J/+
-          D/8bXr6Q88yZPfq9HpOCwOrzaXpPHBcnJZO5qanEHvwzDBLh8EiYFgYd3ofSvr6PIw/W9bSml6Yk
-          OsVaT9r5qfef4o//7K30BzH/6R+5l7/xL55le6RqMY808u8rD1kF1pGH2XuRiL0jv2/PWiEvLXuT
-          gnnuRUjmpVA4r6gzOZryW4+8zmc+fIobT67zH/+17/LPvnGWWCymLH13R0d+lLgaZvIdb5wpSZOE
-          KNVkxvgtUAI6cn75ZhyBjsPuh7BrLziv0Zpio6/4f/6jR+n1IvqRpai6C5V0ty3AKbLcaz2U1nqE
-          yBLSaQ8URnHix8qL3Pf2sY3huTCurAjtyQrENEFduFVC6phEWz7z4GkOJ3O+9o1vcvfd78FGAyQf
-          4xCOryf8fx/6PnGShG6Iq4d4ehsbvPj0M+gkqVfCNfoF/vx252MWpLsrrKyNFyzgbm83YL8tSTCW
-          IY0m2XetTUEt0MItIpsdOmNbBb0BCaUzLenCuqnWIFFLaMS6ykEov4NApFGlqWnKvmMhodPgggCl
-          ChNtSkVkpeO609fzMz9+J6+/8gjxcItf+7V/wrHdLe754EcoeoY0jYPhe+8dR35ENYksPRexsZ4Q
-          R0IUpgpzK6z1NeNZ6dtMsQ6IuKfjJrH2yyvKhhab5YajacEvfeI0/QG89vqU//k3nufV1484d1Ez
-          nvveflYa5oXvHORZgXWKwqkaqJvNijD2q2rB1kjrWpRTKS92ksYxL17I+fx3zvOtZ5/mX3zjLCc2
-          Y8pSQOKw6DTIcjkJUdf3aqyO6Q36ZHnhY5wxnl8RxD+V1p762xIMUUozzix3nhzSTxTPvT5n1NPe
-          eVVMuCDEYkyJ6ARTBjKVEpxx9QbkahQ47Q8xJWG3YECE68UzfrRa6SjwD2yTgFv/nkw4n/N5ybE1
-          4b3vOc6//vI3OHPmZX7p9/5iYC8Ka8OUfLrn2X+91M8kBOeb9oc46xhfukgU2n+VcK60Zt9Flqf6
-          OjOzl9H9v5YB+y1LgsllHy+1XqCtO/vN/2m38lidzlRiElLtF2R5capphjTDSGWgl4Ztu12p9SCi
-          QCVLLjWa7YLhu7AhV0UJB5OcP/bTP87IXeBiAa+98jo/ePwJ/sgf/d2sX3cLKOF9d5/k3KUMpyM/
-          GENEaUtmWUZR+EhpnaMoLJO5T+WPxhlHM4Oxrp5PyArr9QARDqZ+7bV1gpWISAuXjuZsrWl+4cev
-          58//tYd55VJGP/Z797yQp+cv+FFcSyQe6IwFBoOUw8Mp8SCu15BV7DNRQtWp81iCIzeW22/cYncj
-          4UvfP8/JrYQsK8O9N4EC7Go0nxYQpaIE0TFFNm3S1moaVHk1HVeWdTRGa6IoYj4r+JmP3MT3XxxT
-          Wr9ngWqugJZqTxSDjnFF7j/5gG+4wDFwpgwZnJDPp4Gd2JbZCtmi9diAKYowQ+A6aJZzoLQwm5d8
-          +gOn2NlW/NN/+Rtsrg+58bbbGRcFpbFct7XOMz/4Phcu7LGzs4MNkmamLBjtnuDg4j5laQOQ6Ro2
-          v7R0/bHdQtd10LKWWMYiNahLBb6aCd4lB7DKu8gSDfEyTuIy68LaWqXCwhuQ7gWrjpZgI9WMk9qB
-          VMZdzRg0pk8tWcVCrdTaeO8dMw3+UG/bVeI37FKt3dYUxrGxscXPf/xWXn7h+yTDY3ztc59jZ2eN
-          z/yu341hnX/0q4/yjUe8vrufOvQIv8Zw8agMmhW+VWmdMC8sW4OYg0nueQeiavKPdRBHmsyUaHFE
-          UaWw61DK0U81g0GPv/oPnuXVi3O2173WgJYmmlckGBMiut9uA3lmyEuHKAeuKUm01n64qhVttIK9
-          acnvenCbH5w5ZDzLGfQGQcAiMCUltPm0CoCqJ/1Y52tza32kF5EW4SXgE9X8vhAWXnncppdo7r5x
-          yH/99x6jF+Hn/oN4p7U2SGs7P0dfGmxRhPNjWwK0/j+tvGMwtmgYedXZs42UhkiEM7PABqx0CZup
-          E5/BWH76ozczm+R89Wvf4b333UU02MDuTylKw85Gjy//84eb9xvYaTYv6W1tceaZ5wKxamFgrmnR
-          dPi+je7nQt/fuZU22R6+XVojeBXZu7rcKjD3VpONTsq+XNew0A60rv131xJJaYqL6tu28uJVJA87
-          7F2VzAVJahue12/PrbAA/2f1M1bC9/FOwKFROuZoWvDpH38/J/oZk0xz6WDC1776LX7s4z/B2vHb
-          +Ot/59t84duvUhhhOjfkhaUoLYn27bEk8ul9pFXNZFzrhSWhWvttwlQKPV6Ft7CWee5punnp5/iL
-          0jDPHVvrKdfvDnjylSkbo57fbxd0+Jz1O+zrw93or5HGEUVpPA9fPLOxmpJTWgWxD8/BryjQkVY8
-          eOcmn3/kIsN+grWtmtNa32EwJly3N2hTlgGMM8yP9sDkOFNgbYktDbYoPTc/9/z9qrUJjsNJxv03
-          DJhOM558aY9+HJy6tEhDVUYZRVhbNvWvc22FTN8WjmIPNraGSVwFDgZZcCWCtUUgFvnpQipnEliT
-          WW44vpnw0x+7mYe/9ySvnDnDvfe/l1nmcM7LqafM+d73H6Xf64UI789fFCfopFen/82gDyxLeofj
-          3mr5uYWHLI/Pt8h3byNzd280DCRX4UW4HD/JNUi/bZEfq/HeVVqCThrswC30sn3dLk0m4NrOqnEC
-          tCJ6FWmcq3bhemOvtP18R8Cn/k5pjMTodMTv+fS9nHvlJXqjEV/8yrc4OBrzqc98ii88dJ6Hn7lE
-          v5f4BZrGBkMtKUvH4dwbdF5aZnlJllvmWUkaRYyzKv1uhj0s4qW8qi6EiJ8lV96BzEvHx+45ztOv
-          TpjMvUai33nnB2g0fjCqqqstzfZehzDPiyBz5kePS+u5BWXpjbma6TfOcTDNuef6AUVueOLlMb1E
-          UZRlEBPxIJ8JdNqaQBRScIXBFYUHwkILtZ41CBHWWtMC2n3JMZ9mfPKBY3zjiQueBVl97tWsftie
-          RBj3tab0gF8oJbxR21AGWHQcYfK8Uzp4MU9Vz/n7nYQKHSfoKEZFKTpOUFGCimPiNMXqlI/cd4Jb
-          Tyb82m98nkRZrrvpTqazHGtgd2ud86++xItnXiNNk4a8Zgz9zW3mszn5bO5Hn2VVF+9yXL42ZN5G
-          xpaN/K0KglzRNODKkmDF1519AEtZQDPPz2WnF6vax3XUTl1om7kWyu9WZChtgZD2Y6lUdStDD9tv
-          beAA+J9TWKe9Y5AI0QmHs5IHP3gvd53UXNwfM5mXfOFL3+SjH76fU7fex289/CqDfuwFOYLem3Xt
-          MWWHVj4Vrfj1caSCYo4lUqr1Hvw1KFFkRSXc4duGxria4vueG4Z84bvniMQwL/zGoKI0QTbMkRUe
-          MS/DzINf8uEHeYyxGGvCLL0fDPK98CpjsLXe3Swr+NR7d/jyoxc9ndq6Zv9c5biC2k/jsf0UoNaa
-          PM9aeao3WBNab842+/Uqz21Myfow5b5btvjK4xdZGybNMqmAG+jYE4CitBcAWk0UJegk8kYbjFop
-          RdLrISr22EjsJw9FK6/zH5xShfVYU/ozZ8swO+G7HNYYnC3JZhk/8b6TzHLLb37ha9x++80MN44j
-          zlAax43HN/n+w98nN14KnaCOhHUMto6xf+71ukRicVaGFRN+IVjWZUtbOm8h0srbUe65IkWgVbWC
-          WzUCvDSisKxiWE8FNAbadSItxZ8qXtRTPK4lBuLqUsG6RjmoIthUxlRP/eEVfG0AhfzXqk4tHQpT
-          A38KRCNRipOUP/SzH2T//Gv013d4+LHn2Lt0iV/+5V/i0VcdF/bGiPJcf+M8uy8rvXcbzz01dF4K
-          s8KRlZbJrARR7E9KxtOCycwwnVtmuWWe+1bWvDDMc2/QZUixwXE4zbn3piF7h3Oef3VCpBqwzwbj
-          NK5iLzZ4iHVePDPLjU+hW2xCF9ZdGRMiarj5hXEc3+hx26l1vvDYRUY9HYZ9bKsGDam4CthDqHuV
-          UkSx5+2rKEZ0MD6l0UoTxV5sw6vtxKiwrGReCB+5+zhHU8OL52f0Emm08Gt5rmZEtsjmXj3ItrIS
-          67f3lnmOiFDM57gyx+YFriyxZYE1Ba4ssKXfG2CLwhu9KUM3w9VjxFhDUTo2UvjER27m8ade4pln
-          nuF9D7wPK9oPIEWatRS+8e3v0u/3w/6KAN7piHiwxsHr5/0gkFsg5dNojTlZUNGWtoOQN7W/ayQJ
-          +OYOwL1BabAsBy5cBqhsIv3Ck7pFmbDawLv1kKvrZkLPXzqlh4/yrRp/8be0HEFo/fmSQIOOmcwt
-          77v3Th68Y4NXz16kJOJzX/ga9993F3c98CC/9vXnKZ3icFIyyfyQzyy3XmXWOmaZDSpEwZCt7zVq
-          BYeTuR/LNQbjbODue/RinhchA5KOTFpuLB+7d4cvPHzBE1uM//myKGvFmTIw/qz1gJlxFq1UcCTN
-          plsJnQEvxhlaZGEiUGvFJLd84r0neOVSxsWjnEEvQoXxXx350VodaaI4RusYFcg8Di+WUhg/Qoto
-          /zkEJeJq8s+GyT9rCkxZ4GzJdDznJ+/f5cvfe80z+4rcG2WRY8oiaBh6I3fWYcrcA4OmrLMKZ8Pm
-          HqWIej2KIrQ7G/2kzgSiRHGjGVi14STA7+Hr6bzk7lu2uOe2EV/88tdQGG65426msxxjLBvDPhfO
-          vswPnn2J4aBfA4jOWJLRGhbLbDwO6b/rpurSzQbaOmftVQV0ZPPbXYEVnLhr7QDkKjCA+gqs6/AA
-          mhHHDsLXqf1dzcBbbAE2i0Zda82zq2v5VuZQAYLS0CmrNUpNKaBq1Vr/dahRqVJCheiEWQl/8Hd+
-          gMn553Cqx5M/eJ5nnnmO3/OLv5Nnzjsef24P8EZnrKO0BmMtiRay3IbWnv+esT4t7yURWW7D9yud
-          Ov/vNlB9bZhE80K0HmkvLNx8asTmWp9HXxyzMUzCXIRPjaMA7Gml0OINWymFM4YkUt746+WXDZrs
-          V2JXqLgNmYGlLEp+/O4dPvvQa8TKUWSZN8TA4LPOUJY+atqy8FG0LDD5HCWOIssDSFjWkRZnQovS
-          BvFNU6/tMg52NnrcdXqNL3z/LMN+5HUXWwBglULrOArCsSGbqadNG20/FWlMYSiDk6gmHAmu3gW5
-          MCUKZ8puGl2PKldcBeGnPnwDPQ2f/8LXuPH6U6xvn6LIc/LScGp3nScef5RplqO19jwFEWxZsra9
-          zdHeXr0PkJUbfGVx2c+Swkcjpy8r1D/cVROBrsoBuKuQE5J6n4Rr6cQ3qbyT1jhgZ9q56r/T0f1b
-          lW44WcwupAa62shpp8ZyjcE3HreqA3Xd87eiQUXMc8utN9/AJ+7f5MVXztMfrfOFL32T604d52M/
-          8RP8+tdfQuoJOxsitqvpznnpVXaiYMBahEgJw57fnpNGKuACfu8gzi8eMa2Fmm2pp6NZwcfv3eWh
-          HxwwmVXR0Ho1I+NHh7OiwJhKzsrXpiYo58yzAlsaTFlShj8rtN6WQdAzAGmz3HLbySGjVPPtp/cY
-          JF5NqN5oSyUbVjkw41mYYTJTB51BV7XmwlKNSqPPk39cQ/4R4Whm+di9Jzh3acqZs0ckOtB6bbi3
-          lWEGkpIpClqN8iAiSy1CFkUxZV6glaCV9tuBdeTVhqIIHSXoJG2EQmKvFaiT1JctUeTbnSqi34v5
-          1IO38PyZC3zn2w9x7733UpKEbgHsjjTf+s53SdLEl0k1cO3ob2xy6bXzLfGPls5f6/dSpSx0BHTe
-          aD1PFyD8IVGBl/AAd/n+gGs1MRtj9GxB1+qOssAE9l1EV88HiGvtGKxbpU3Pv77BomryEIH3L3UW
-          oIOCjMIpvwVGJwMOxoZf+pkPo+YXKVWPV86e49vffZQ/9b/6g0zVDo898wzDftRISYlfNKrwG2zL
-          sOWl2mlYBqbdNLdMMhNAwhamASSimGddskrViU4ix60nR/zf/+GT9CLIsqwlrBp66NbW23GqiNDr
-          932JU4/tNnRTFTbUVNTravHk0czwOz50mu8+t89RZhgmQuls/XoVg8/jB5WIp2CsIUlTSqtqemud
-          WYTxZQkMu0qbQUTQkeAy+OT7T/KbD71IpH3kjYICrh9N1uE9BXUe61BRVOsQuPB+lRIEjzPMJ5PO
-          MFql6e/9aolIgi1yLywqEdVonQslmdKKMndcv9vj3ju3+Sf/+J9zae91br7jbma5ZzAOBz3y6T6P
-          PvksvcQvdAWvR5H0+rgo5WhvPwiDmtZ2LGkRYFqR060Q+oAlGVDX5tm3WYRvYXJ3KQO4mpafvEEt
-          4HDLgzu1B3RLDqMiwnTT9uV8o71bcKEP0jL61lxBJcskrR5/VQKEurWq+9EJhdOcOHmKX3jwOp59
-          5nl6vQFf+NI3SZKEn/u5n+HXv/Uak9Dvn+XOy31ljmlWUpSOo2mBCWVBYXzqP88KEq2YzPIAWDWI
-          unUWjRfrNMY0Pe0Qzcazgg/cscm5SzPOXJgRK5qx4CA26SW+wLoqtXY4U3oZ77yR9qooqFWLkTCD
-          37TqvG7B+29d43OP7LE16gXCj0KL5zFEgW2oRNDio6so372I0x4YQxTpwDfAR1+lEa39vH8U1ai+
-          BE3CUzspp7d7fPnRCwyGacAQKgzIBoCu8BOOeeZpxRUeEByR3zFgPArvnH+8q8BB3xqsNQKtz0yq
-          +t8Di7o+P1oUSaSZ7c34+AMnOTaE3/iNL3Dq2DYnTt+IMT4LO7m7wdNPP8WFi/toFchNhE3Lm9uM
-          9w49IKmqqdIOIy3MNkCXpkZHn6ErqL2osiE1ZrCKB/BW+MDKXSEHYLVCeUNKkNbCYreUIjResNZs
-          d61aRjoqgp0OQQXw1aWCNCVD/b1WWdBm9nV+Vw4BP7WHitBJn8NM+LmfvJ+ReY29ccHe/pivffNh
-          fv53forhzvV87hvPo5TXqy/LkrwwYUuN7//npa0dgHFef0/Coo3pvKxdow2baz0bzpFnRZ3CVhmS
-          VwB2fOyeE3zpsX2G/TToIASjVEKsI48VVMM2gRefJFEAj7zOvVJ+L50X5fSgn9LKz73jiOKIaSl8
-          8PYt9qeWH7w2ZZCquttigrS3sb6MsAG3qGp0FcU4a8mzKbYosEWGLYPopvW03DJoI1Dt7hPL0eGU
-          D9864NlXJ1w4dGid1BJhtZw2DlxJFEfhtSLvWCIvKqojTaS1H6JKUpwt0ZHfZxDFmihSaIXf7qSF
-          JE2Iotg7KBwafy0e1Y8xorl4fszPfOIG/tyf+BCvvHbAtx/6Pu9733u99Lf1n/POep9vf+u79eBQ
-          tfXXWkdvc4dL5y+goqjJTlcaYBOwOiKhbgFKd037u8njmhbA1WIAcqUlgLuCzGFpCEgWywK3sA+k
-          mW2WDsuxWQ0unWGIy9QaQicVbmorVQOGNeBX9X5F107Bf61BIt8zVinD9QG//xM38exzDzHa2OTz
-          X/4OeWH4A7//d/PlR/a4dDBjc31Qtx8rZlmivfhEpMLcQrjUEssw9X1/rSr5a1t3QCIJGoTKLQFF
-          8wJuv26NNI545LlLjFJNWRaAwgRabFEWPpV3zcLV0hT0+wOyrAhTcM10JM6gosQboykRW+JEE8eK
-          aWb42H3H+MLDZ6EsKQsv3+0CkUcpr8DrbCWx5jX5EKHXT4P2oA5aCyG7cGFjkGqQ9mowJystRZbx
-          Cx+9kf/5c6+i08RTn41AWZGGqgnNsNrMBoKeLZu14uEwWOuIbcHs6CBQu8PmH1OCLalljpIemDmU
-          oZWIN/wo6aG0MEg0/8mf/jH+0C/eT28Q88XPfpnz589z/x/+vUyz0isfRRGumPDd7z/OcDAMKlP+
-          +XWk0YMhhxeeQsdxeyh+yWqEtkJ2i9ArYRWZa4XKxfafNOCgexsDe1eFAbgr+J60CD9LmXpnQrCZ
-          x15iDFYCIAv3rLlXQbiyZfyuBvYaw5caYJTOVKFfQK5q45co4WBu+T2fvpvrRyXfOBKSnuOzn/8q
-          H3r//Vx/6138yn/3EKNh0pQrAYdQSkBpSlMgYgmMXK/rh0ZHEXvjImy+cTWaa50j1n4fgQm1rV/Q
-          4Rd27h3O+KVPnObbT51nPs/oR0nQEwisN6U8mOeaiUuUQjnP/bdZQaSl2bYbXldHCleUqEhw1jPj
-          DmaGUzsDbtzt81f//iNsDEY+BY38ui0CzyDPS9/7L109K2udX8wxPpr5tNsUtTCpq7oNdh40Byvh
-          U8WJzYT/11/4KX7mk3cwzgxf+PYLHOUOrUxdj0Yhuvf7CVqVDPuOJI6JVUSs/dRlHEfEUUQvTRgO
-          Emy2zmg4YDDsk0aaXiz00ph+P6Hfi+gNesRhYrMXe0l2HXswcJAoTm4POHk65bmXZ/T7EV/+0tfZ
-          Wh9y7NTNHMzmlMZwYnebsy8/x6uvX2Btfd3vGlAe5OxvbFKUMJ/OSHqpdz5ts3PtKC4V0WWxq9fp
-          fjRgoFuBFVx5BvBmj4reygzx4hRSTUEXd5mlRdIZEnKLQF+9VcgtdUaqKa6mBmqUf5xIU2t1on5Q
-          fK1q/jDog4pAxSARVvmtMH/sd7yHl158iuH6Lg9//1HOn7/E7/vFn+brT13kmTN7bI1S5mVo3Vm/
-          OrvXT5jmNoBqLnDmHaWDfhJ7MQ0KP/gS7EaUQjtLEkdh208QBBGPXB+OZ2z24a7r1/j7X3qW7fUR
-          1uQenUbAeunuPAgGVrRniyOKEw6OZsymOUpFlGXheRTK9/OtHfv9CWFqLstL3nvHCf5vf/rD3HF6
-          yEc/t8Vnv3Oe9Y2hF+wwJZHySjuphkhb4kjR7yWksSaJFcNhn7KISbQwSDX9fkraS0gixbCXoJXz
-          ApyJZtCLUaL4sQdOcf8d61yawB/6vfdzx20nmeeGfhqRxhH9RJFoIYoj4lijlGvNLDS5kgu8B99p
-          cN7BWMMsK5jleShFPNU5y3Im833mWU5eFBQzw/ywZDqbc3Q0ZjabMBit85577uNDD9yDtpavfPUb
-          3H7rjRRqiDMznIObTqzz6//0Ya8vWJOjFLbMGe0e5+DiQcg0u8YnLU2DRsymam/b5Qm/tkbg4l6A
-          MMmpWvuCrtRuL/f96LL/+AYzhs1GoCaVd6tWf4eaXVoKKN2HLLgLWVghJu2pP1pCCt3I71oki04m
-          UvX7q1aNRIiKkCjlcA4/9dG7uG17yteeusjmsVN86avf4r5738ODH3uQv/R3niGJowZ+rFJu5Wmy
-          s1lGpSloA1uxKA3KWfYP55TO18DWmDoWxFEEc2Ge576mDm/MWLjpxID/4k++l/feusHf+vUX+N5z
-          hwxTfLYikEReezHpabTGK/skCUpp1kcDv/xSOdJY6KURcaJJkpS1YY9ILP1ewqDntfmUCD/38Vs4
-          tt0HJ/zt/+IXeeiJ8/T7MYNEkwQdA5QfXhIgioReJETaKzCV1qKcDQzGEhWMMS8K8sJrB+Z57rkO
-          xjCdzzjzwvd55inPFbh0OCESD9LN5xnzLCPPC4q8YDKbM5/NvO7ffM5kMiXPs7B3sPTGnGVkuR/N
-          LUtv6EXuv+cJRGFgypjQvm2BctXST+PbukpHnDx9I3/ij/1B3v++e3jumaf4w3/49/vFsUFIZhBb
-          vv3dR+ilqZ9/qAREtCYebrL3/PNESdwcXbpLf6UFZLt6+1K7U7PgBGpadWtXeBAJcQsiYldSwr+h
-          LPjqiUD3pu2/jo9wretdHg0I4hwLDD5pyD8iCxTIxTUqosJ1qnp/WtNWUQ0OUJcIqlUi+NrfKY1S
-          ERKnGJfyRz59Oy8+8wQuSnjs8Sd57LEn+bN/9s9w7PT1fOzeQ776yKOk2k/piY5RUcQoVRxNxhRF
-          SZrEDNOENImJtCZS0Iss09ww6PcY9GP6aUwcRUSxYn2Y0E8SktgLgESR5w4kccynP3Sanc0UU8z5
-          f//FB3n+3JyttTXSOCHSlkiZeoOvFoi1BwWtKzFh0MYGY5TAzcrzwv8uvZGVJkMpjTElD339S0xn
-          c1xZUJQlpswZT8Z+sWdRMpnOmExmtUHl2ZzZbMpsnjObZ0wmc290pWE+n3vtPutfsyyLmntQcT6M
-          8fwAqRid1cKSxQhUjR1DkA1vuhh+sMf397XygKCoMOUoghZh2E/rWQwJQic6itFhgYgNI45eBCXM
-          EogffPq7f+8f8D/97Yyt9ZQ7734vU+PxlrXRiPOvvcyzL7xEvz8Mgcwf/nQwxNiYyeERcaxxYcux
-          W8QARDr6CU4WlYBXKIAsUW9b+gcrFoMsi42vDuTt9mJ0uTHBq+EB1HTIqjal28ZYYvVIswXIiSwo
-          ArWKf+nKh7V7JJW6iltYRFq1vVzlBOpywJN/0AmTUvHAvbfwgRuEL33+PJu7J/j8F3+LtY0NPv2Z
-          TyBi+KM/ezc3XbcFYaCnl0T005h+DOLmgJ/jT6IQJUXCDExJYQqccSgx9dhyWRqy+Zw8RP/5bMpk
-          OicvocgMv/Fr32c8zTg62iebTVAilEbIipLJZMx8Nq8jZVkaplnBLAuLPOdz8qLwr5EXYQjIURQF
-          WZZRlpVSrtfJQzRYgy2zMBzlS5sOGyu07ar7qUJrS6TV+ZHKwDyRRqvGQKPwvSiK/ZJOHfv5AO0N
-          0ouZKJ/CV23boAxtq1aua5R62ylwQ5Brtgs5XLiO/z9v/x1t15Xn94GfHc45N7wMPGSAAMEcilUs
-          VrFYuaortLpbnYO6W93WWJItdY89bi3JYTwaeXnJ9njZmuWRJdsjyQo97pbckjpVV84shmLOIAkQ
-          IAiAyMBLN52w954/9j7pvgcSJMuubi6CwMML957927/f9/cNMYWByWhCOhkTRTI4AAVrMGFr/X+V
-          JehJS91uhzfOvcndtx6kM7/M4OoGaVZw8/ZZnn/0ESaTnJmZkk8BNsuY3bmXjVGQRItoC/CqTDMO
-          I+tUIo6r/rxNkxfTzrhT7DvhrnX7T/sOumt2Ca1gEPduQIApaeImfkNjHVI5gDUYgG13lHrRIaaw
-          g7oM1Kh53e4Hm2tENR25RhHwHv8e+UdGyChhlEb86ufuYO3SGdA9zl24yONPvci//1f/XQ7v6fLQ
-          1/+Yo29cZabXpTCO4XDM+saA0XDIOPMtbp5bxuOUtcGQ8WjsW9TCUOTWm2RmOVmWUeRFUPlZ3xrn
-          BXlRVDdmadEtQyiHP6gWITVaqTp8UwiU9jeekn4VVr6uStWHVGn/96RWdLo9ur1+7cojldeyx7Hf
-          Y4eceq0jIh2F16wmF8lwwIUrA019l2FdeKUDP0AKQWG9qk5JSenjXlgTWIUhHcmYEMGVY0xKnhfk
-          eUpR5L5VNwVFUZBmqZcemxAd5jzL0RiLtf7jXGjvS8sxT+WV6KRLf26BbTsPsrxjD4ONMVk6DB6R
-          tlLniToFNqyVHTJKcEXKjTffytq4jGl3bJ+RPPbk0yRJUikbAazJ6W3bwalTK34t2uSziMp3uQJ7
-          m45A09FYUwt0NoUDthxBxFsmA7m3wQaaY4F+1/AhzXFFTJ/32oyzwfkXYouWZUuooamIaCYKNRVS
-          dRR5s5i4akNQ23t7ua9H/kc24sC+vXzy5pjnn7jA8o4d/OGXvs7MTA+ZnucXfuWv8MIrbzLJvXNO
-          6YjjrLf1ctYhVYTWukKulfLIv1ISrTVxFKEjRb/XR4TcPSm99l+FmToKUtdSA6DD4SYIesq8PWvr
-          SKsoCHRKw4sizLZlFoBSOjj0BFqwcxRFUL0F6zBjLYXJMNZQmMw74hrIR0HPkBcUeUZRFKUgLwiZ
-          /PxdmMIXAWtDSlBo542pikO5KrUV2eldUk03ccpE02u+8cCFZyV3MBwyuHqZC2dOsrxnL4du+SBC
-          dBkO1oniuOVa6xpuO1JKiqKgk0TccPM9DIcThLXMzfTJhqu8fOw4nU7s1ZrBTi7qdJDxLOtXTvro
-          L5v7VbOzYVYvwe22Jd40td9tcUzdlAi+2d4LsWn/9rbH9VrW4O8pGmwrjX4VDCKm3yM3JQfeglvY
-          9AltiELK/X/tld48/PXMXwt9yvbfI//ejlojoi6DSYff+vRt5Kun2Rg7ZDzm+Rde4a7bDvGNHzzH
-          JHPcccftJHFU0UTzvMAY6Pc7zM52iJT15JOQT1fFXTn/31LKcGiFP4C5v7Wy3ASfe384XOa3C5kp
-          yPIgIipsxRz0xKOcPIiJrCmlvQ4ThEd+lrYVscpnAni5si1MDc6KhrZ0OpjxetheTQuZ5kGsaN5U
-          G5kKn9UChQ4H1P+mjPAWZaLhCSfcJpZs3Tm6TdLYai1rG/YDwTJKCF8gXSG4dOoNVs69yV0PfJbe
-          7BzpaITSquEoVI+wURxx+dIFdu/cweLOvVxZT8lyy+ED87z04uOsrg9Z3tYJQh+JLQpmduxkOIY8
-          y0g62rMyRek8HByGxJQdVovaQ1sYNG0TtgUPQIg2+/W9qgLfdTRY7Vc+VcpcfdjFlJ5ZiE0EwTbD
-          oUL4a24AYkor0AIg6/a/3hj4ed8KFVZ/EcgIJyMy0WVp+y5+9kNLvPrcC8wvLvDwI48xHg/pdvey
-          YznyyrzQRRgrGIzHzM522L1rDutyzpw+x9lzl7m8OqRIc0xQBfp21VV6fWN92+/ei4BbNAg2so2t
-          CBWMTmX5TziTITBTB/ZfqdtvMF+rjxO1r3egGnueTGDM+oNmCEk6+AJUcQwCtdm64NzjaHlshrcS
-          JyADqbwQKhs6nyK0iYM69RyIBv+91HyUqsnw6zJmoPxaQvlLOBsIXC7RnRiTFbz02Hf5wCd/Alt0
-          sDZrtdSlyEkIwfrKJT76wc/iZIyWE1IcO+e7/MljTxAFgU+JfViT013cyYWrQ29YGl5U4Upimr0G
-          gX4TuX1LwY8N5DLhaG0Wmp4JgmunA4nrJPW9azFQK+nMNSf09nqvUes2O4HjplaB4hoX02ZWlaMJ
-          KMoAHHmRD1LjyltfapyMUEmflUzzm5+/kZn8Ta6s5Wzbbnj4h0+xc3kbRVEmt/jvcTROiZOEu+/e
-          y+rKJb7/yOMcO34eW9hqK0F58FR9CGV4WJWUaKFq9+MwKzdvnToGzYX8PH8ApQyHytQPfSmAKWO8
-          au8EV2Wq18VGVJtSqTxJSEYglKy8L4XAB2HqcMYsaARCWmxUYDB4F2/hNw9aoKLACFQOGYFWIvwd
-          UJEkikDFXvUoI9Azfm2qleX8C10uv6F4309M6O0QOAUqEshwwIUSSA1RV6ITEaQakrjTKG7agXQ4
-          aZAacmExwr8eaeYYDR2jVcHknOPiE4bzj0bobod8OOLky09y8/s/x8Xz3l+hNEgtC9pkPEI6w813
-          vI/hJMM5x0yvg8s3eP6lV+h1OxVtHfzY57pLrJ2+goo7WJf7mz/kXbYdcBtBOM0wkIZ7lnBTUTgt
-          DpBoc2ga+ALXuQ7krXgA7+ZicptpO43tnmug9a5iZLrG+qL1Y7XmhZou7GOcRIPdV68PW+zDSgVY
-          2z6VPn8IDSrB6B5JNMuvfHSRV1/9AbNzszz/4itcXVnl5kP7yLMMhERpyWAwZtvSLIcOLvCdBx/n
-          8Sdf8zN2pEjmFehwKxpRPUQ2uO2IMsq8mfBSphWr8PPJck/sP1ZpUF1BFIOSjuFFhRMws2yQCaiO
-          LwpSgg75GjoWRLEjigRaOXQk0YlEa0ekLHEiUT2BjSIky2A6kFjPlY8UIgIZKVQUB+cgi3SSTqcg
-          mRkyEzm2Lzk6M46NUUFR5OieQnYdBgOuQCjnpcHCH0wVS5Ry2MJSOEfuLNG2gpPfiPjjh+f5xF+f
-          8Kl/P5CUhP/ZS/sOF/IclQx0XxFcc0IicWGMjxw3PoDF4UM882A/UBQQb4Ceh5mDsOuTgsUv5xz5
-          Jw7V7XL50gVuY0Dc6ZFno5aETUrNytXL7Ny+yLbdN3B1lJJlBQf3LnH65GtcvLLK0tKip2OH4M9O
-          f5ax6ZKmE2IV4QLO4pptfvj+RVN8b9qxNzQDQESDb9IC7dymcftH8T/BjyoZyE0ZBEyhfM5Nm6Bs
-          YTLomr8UraVgc3fa1FZXwKhsbAiCA673gvOKP5n0WC8UX/zYzRzorfPVc+vs3jPD93/wGLuWt4Xc
-          OO+QOxym3HhoNypO+V/+6R+xujIi6sSoPlhpMKnfuetFQdx3dOdgfrtgcTtEHX9AoyBGEdoRd0Fq
-          h+xAFEOcCGTkI7xlaMOVBtmz9JccT/2z7Zw+Mscnfusiu25NMT58GCl9oZARoLz3oBAOqcqf3NJL
-          JN0oYnWt4NxlhbFzLMzsY9vsDSxFu+jpPp2oR1fNomWMdJrCGorCkJuMjck6V8eXubxxlTMXT/Hq
-          m2+QRBvcdDilP5dTSJBJKM4ZCNMeR8uIc+XATXznMTka8cf/6Sy7blnn535nlXQikFb6wBStEWVC
-          EA33YiF9XrKUCCKkU8jK30EjReT/nvRBrlgfBJMZxXACR1Zf5MSbaxz+aUF22fHaH8VYbRiuvsnc
-          7E1cOLeOjnRtjS1gsHKFD3/ifjLRBbNBURh2Lfb542886b0Fy6dSSFyRkswvsz7Czx3StHgrglKU
-          5lqx3y25bxuGaOeCCxppuNP9e8Mq7T16Arn36geA26ogiC2Qi83uppXoZzr5xNWy3SphRMgaMamQ
-          fVkJQEoA0OHnXidU9WdOxYgoATvDr31yP6+/9ijd/gKvHX+DN06d5v577yLLc5SWjEcZh29cZjS+
-          wv/2u9/GGkkyl0DXYDKH7joW7xZsv1swd4NleQ8sLjtmFxz9vn/gfVW1DfZieEXkFFwSwGSh/KHR
-          Gr7792Ke/lLGr/6j1zj8KRhfgBgf8iGVLwBah7Hdb/BQQQcwE89y6ozge0dhqX87Hz3wee7a9mH2
-          zh9iJt6Glp1gUy6QRAiCaCXsxUVI+DVujHU569lljlx6mG8+9TAbRy/xmU9vY9diRGZStJpFib4/
-          fE74PEWhES4CoVAobCHpJIrvfvkKP/dTG/z6v3cHd26bIS9k8AoQSBHhBw8Z/lEVgFtayotqBip5
-          8rJBKjeVTsKS+yLuEh7Y8yR/FP93PHd2jbv+iuPCY4K1NwVXL53j0PItGOPQUaCVSUlhCjAph2+/
-          h8HYm490kphEpDz5zPP0u50q+IMgbFIz29lYHSOjyG9DStsx6tg5nGxspabPS3vxJ7ZU10wl5G6x
-          Et96h3D9uMB7Swfe9JfclPtPU8FHzeBriH5EgxPQ5vxTD8Cb9P8e4HOtYlBq/1U195e030ERc8dt
-          B7hz+wYPvbDG3OIS//aP/4z5mT5R8M8fDTMOHtxJZob87u99Cyk13e0aOgYzsCzc5Vi+X7DrLsvu
-          fbB3EXbMx3QiP+vHQhJLhRYaSYySGi0lSmiUiFD4tZ4WGiEitIhRMkY6SdJJOHtc8vSZMf/J317m
-          l356hnwUER3wN5/f8Uco2fG3n5VINKDRAjpyGy+cOkNmNvj3PnyIB/Z/gZ46FJbV5Y1hMWRYl2JE
-          imPi299Kd6KIXB8l5tACtie7+dj+fdyz/x5ev/oGr5y8xB3dT7Nj1pFZi6hILxYwwZ7LVjeUTjRr
-          awWvv/JV3veBOT5w290I49DCVNefDQ6wDovF4jBYDM4V1aG21Y1XtuwWR+H/hsvD73nMwjlvlBLL
-          Lvfu/jRn0j9iHMPCXSlrpwXj4QCtXDWK4jx5aG19naWlBbbtvZH1NMMZw64dS1w8+wZvnj3H3Nx8
-          CGvxK9c46WDj7UyyYQj/kNX8730WZA20lHZ1JU5WYgKiYXcfKO6iCay1IIGpgy6aK/brB/HfEgNw
-          7+K8C9fcWrZXe65BX2w5g21pbNhQ7ZWIr2jHBAshWh0AsnzR/aF3QfrrMQAdgMAIGXXITY9f++R+
-          Vt58CRF1uLqywquvvc7tNx8kz704Zn5+hm7f8T/9o28QxQnRIlhRIDI48EuC2UOOnfssH3/fTXxi
-          7+fY3z9IrBK06PlDjj/sgghBjBAREh0SYFWTwoRwXpXokDhXkMgZXn3hKT7z4yf5v/ylT9GxsxSx
-          xYmc9lMR5Mgi+OMj6aoF/uAH32LAVX78I5/kYPQJcEs4E5JqxYSRPcPYXqJgghMe5rcVSh3ePydQ
-          JCRyni7b6LCAYhZhDsLsMxxb+R4P/9H3+Dt/8ReY2BUsWbVx8e++qRB15yIW5DzffvxNvvm9R/nl
-          3zjIqv4u62nmuQo2ODEj/C1euuS68ogbXwycrf0AXfMwWawzvmg4FwpF+C6czyjo6W3snN/Oa6uX
-          0V0DxIGpmjVk6L4DWF+9yofedytRfwE7WWeSFezaNscPv/lN8twnPQlHAIpzVGc75wY9bLrhU5KQ
-          FRhdIZZOtJ5vwVb+ACJ0MK7B7KvBwZoe77bw5ri2HuCdXObvqQNwU7x91xA5tnT9rsXubakDm0OQ
-          Y4r623D8rfj9ZQxT9fuy6gpa/6gYdIeJSNi7fxefu1nx+PfOMbe0k69+4wmSKGZ2pk+WZjgHh29a
-          4H/9F3+GyRzdXRq6BrvquOFXYNudhoP7JL/4oS/wsR2/hKZP4eoEmvJBzV0BogDG4QW1QbxkKw/9
-          OoLKOxz34h4vH7P8yTe+wme/eIi0+xJXJsNKbFL+fCJ8HuuCSac1zHf7/NOvvsqDrz7LX/2LH2O1
-          OEYuP4US66zxBmvFGwzMeYbFFTIzDqu38iB5tp5t2ExJZDWHz8hd3KA/RkHBa4OnMcun+O5Xz/Az
-          53awvGvIJHMN8lUwC8FghQAXcUUk/PGfnefKynl6d1/hyLjDJAUpdePKsOGwO6wzmHCojfP/XZQ+
-          hM5UPBNjDYUrqsCT8mt77kNIKzICEStOnJ9w4iSkqT+YOo4QzgQtvz9cxhiy8Qa33HE3k9ybtTgn
-          6GvL4089Ta/XYzxcp0hH7Nl3gCwz7DuwzI13z/PUKxlHjqW+C7CBcj5t/0WdXlTyIYRoewKIrVlB
-          LW8N4aZUstUZc++Gw/fuOoBr0YWvhUq2OA4NpM9NySWvKWwU7cW1a3mslRSuAPyFIblaA6oE3Zkj
-          tV1++VM3YK8eY1Qo3MaAx598lgP7dgMwGKXcffcefvjEM1y6uEp3tgtJQT6w7Pt5x8J+y/4dCb/x
-          iS9y29x9XM6OhVbeS1y9+2yZMmtp7nBclYnkb7XykPhbzOCMYyGe4U/+bJXT5y6wfI/mjfQ0WR7S
-          Rip/AzAUWJdjyLEWosTx8ut9/sffe5Df+O3bWRVXWFtd5VT8n9JRfcZi1TP+TE5uCnJXVO20FP7g
-          b3Jpr9g1Ei07vKIeZ2KGvHT2Oc7nb5CNJQ+//CQLyXGcVaC8tVkZGGLCz2YSQ36iz7f+qMf2Owcc
-          nVvnpTcDflGlRjdi3xx1wEvj2TC2zZGxbjPVvPZipEoXMkCh4cybsHoFCqvAWWb6HVDai42cRUnF
-          YGOdbQt99h6+ndWNAcJalpdmWLl0mmPHTxAnCeuXznHg0C30Zua4fd9ufuXP38+/+L0/4vD8HiZ7
-          9/LaqYtEUuFMfTlVRjgt6q6ojT6a1N56wV9foa1AADeVCSha9/97SQ/+kYCAFbPPTXmeu2kxkmiA
-          nHV44+ZuYDOo6JrMP0fF9S+1AK7p+BvAv0wlzG7bxc+8L+bFR48xv7DM448/yWg0ZGnpJtI0Y2lp
-          FqVG/OChl4mTDmK2YHLBsvwpx9JtDmUFd964jbFd5dErX0a6og4sFa66kV3Ztpa3WuOwWyxWhDk3
-          FAfr/FbBnu/wz/9xwr4PpRzb+SwvnvWaEoFfrZU8gjJqy392WNQ9nvvWTeRqwqSzwvNvjJBaMbEj
-          LDlKSlKTkhVjcjfBCRsOUJkOZKdWS5YQHARCkqgErSMmecH5c2sY5xhf7DFmwMZoHWFLog/VGq/i
-          MQBnHjVcPZ1x22/kbGhBmoIqyhzCdg6CLwCikSgl2nl44Ru1buqiLIuCg8IEIpPzGZJGOtJVgRs5
-          ijUJFGzbsY3MhAJgLUJp1lYuc/etN6K6i5jBKsYY7r5liRce/RqDwZB4tMq27TtZ3n2AdDLhL/z8
-          F/mTP/saJy+MmB+cZveOJU7GHWyRbnLxaXJiXCjnrfHebXF0RXNDIFrswGvFhr+bwy+uZwtw3ZWl
-          aX44RRWqfpBNn9Bdk/hTZ8g1zD6aTj8ND0FRefyHj1Xar/6ihGGm+KkP3cDM6BRvXs3ZuSPl0cee
-          YveOZZxzTFLD3Xft4PsPPY4pHPGMN3PR8xDtcaychkMfUFxR53jwzFl0TMWcq7o6t7l4tXCchgpa
-          yIaVeiHRM5Zzj1hOv5Jzx18aczFPSTNQRSMmSrSnRyEkmbPEdpEzrxtmD2acW7tMlglUx5GTU5ic
-          zGR+Tm4k6JbV2E5HzBKCPGzzcE3896tBdgVrrwmiUQexnLMyFujCb/CdrN2QnQWbOyInee2HBicN
-          0S0FlzYcZiQqZ0c3dXtXlvKhEDhsnfsQuBJbdqKuRtdt+KFswD2tg9EE8oEgPeNAOfbt3sOJ8ylK
-          lYlThnS0wY233MFoYtFKYaxlaSbmsSefQSlBMRmye/8HkUpx2203s7a6wvHX3yCJYTAas5t1ZvoL
-          rK04n9hMMwCn5u0LN02Lqwk9zVyNtpte7d7cOvDOvSUG8E7Gd/1OUcOt/ieF2CRPdI24WidcW9zT
-          ehVq+q9oWihPywVEJRIPDj/BEaeku8lg+S0jnO7ioi4iWeRXPzzH0Vd/yMzsPEdePsr5C5f4yH33
-          kGY5/V5Cp6t57sU3fZRT4jBDR//9kGUOOxTM32AZ5CCtQhYOoevJrdrxivrmamamuwbhuyRElS5B
-          tgAtJK88BlHX0b3FcPmKwIwaI2RYhUlE0yOF1IAcwmBjQrG94IpZoTAOZXyHUSd6hde+WaFElbzW
-          HlVleA9L70IlUFIgLRgJ51+x3HXrApfFCpeuOiIZBorSHMY6rBVYA6pwnDsGyZLFLBlWLwGpFz2V
-          PoaOqTzI6kA3f3+LG1VQvx6u9M6rASaLZ1DmQ8idI99QjC5YZucTOr1lrl69iI68knI8HNDraHYf
-          vIXxZILAsjg3y9rlcxx56WUiKXBRAkKwtrrO9vfdwqVzp1jqaT718QfYvXc/x86s89rKZVadZ3qW
-          OQFUYiDXXIdtQvNxzQCQzdILUbKJNrGAxDtu/a+bCvwWZkDX+IzimqvAJpep7RXQFg7VMcmicftv
-          lgDXu1bZtlguNwEyQkQJY9fhvnsOcSh+k6+dW2Xb8nYeeexpFhfmUEoyGqbcfOMCp8+cYzLK6M53
-          kbrw5J3tFjuB+YOekbY+AKVt1YxUBGYxJf+uIqvbtbkMTvHeeP5QWucZfadecXR3Gsx2y9WVMMBK
-          KlRcNIQ2Je03MxB3x8zNdnjtIqTOMrdk0RryQlQpROVtLwSbeJtuiotVdicqfK0ogm4EVy/DuVcc
-          6fGEO367w4uDVVQqyJSrTC2atzkSmMDwvEAt5piOpRiFcamxCqqUho4qOboEx9pgcvMRE1NS+0Yu
-          n2zqlRzFRIByFGdiTGq48a4buLJmSLMxSkVEUcT6+hoH9u+nM7vM+tgnH+1enuelFx5kZeUqvY4P
-          Fbm6cpXBYITJh1y8MODWm27gP/mbv8VXvv4wf/u/+fvse98XOX0xxuajGrQtB9fy/JakEFufgZon
-          4lqXZjnuCccmHoAQ7z4QxG1RBPS1PlK8jTCspW1y04kAYuqDGhJGsTVrcJNeWUylqLi2QrAVtlAq
-          QYLoR+gYp2b51fu3cfLV7yHjLhcuXOKNU29y+y2HKQpvnrF7R49vfO95QBL1faionnforiDPBP09
-          jjRtxMeJxtpSTFEUqm/RtXLdq9fITr2XAsRAMDin0MsFqbbITFR0USFq3rd0NX9COIGwjlXWufHu
-          3Tz8B4LximNmHhbnJHnhk4NK6nTphlXqD4QomZON7k2IirnolCMCuoXk8sCxMYCX/8TxU/cf5PK+
-          s9h1h9bBubfSYtRPioygWJWklwzdg5aoJ1CFQ0aCtjFWA/ybppg7sXnB3WAcik1/JFolwzkYKtC5
-          YOOZCBlZbrvtLp47folIeSWlUorxYIM7P/dJrIxR5KSFY2km5g+fehKpJHnu6YzDjXU2NjYYrl7l
-          wuUVVq6u8F/9v/4hr5+5zOljL7Lzhtvo9/YzWFlFtX/CSvPR1L2JqcHduS0Uzm7qz6YKgaxA8Xe2
-          CryuDsBdoxO4ZpxZwxlIlE+X2Ppj2zBIgyElmms/sbVOzLlKIVgefL8BCHwAGYGKSEnYd3A3H905
-          5PvPXWVh2za+9NAjdLsdZvo9sjzzIjstOHXmKkJKoh6Mhxa95CAWSCCeDYclzMJi6sA3CYqtXY1o
-          K7hKPo5ogFwicph1SXrRMX/Y0pkRuAGgmnRoKrCxNrBwaCeZuIL++4bc/eheXv7eGfo/r1gFbtyj
-          iLqOYWHILQgXGmYnywrS+AEsUtiqcelEsKATssJx4qzljRcdT/8by6fvvpl9f2HMy+urzPeD2MU2
-          xwhZAZuqA6OLUAwcvUWYX/QdgQw6CNn0j3D1Ez4N+gl3bYsI4aZkwqLOnZTAeCzo73UMH03YODHi
-          7nsP4/QcK1fPMdOLccIxGg7pRILDt76PcZoDjm6SYCfrvPjSK3Q6CelgSG5yRoMV0tGYixcvM0oL
-          jhx7g4tXv8S+vfuJOjOMNta9OKhivTZiclwbxW8G6G15Iqd8BMWmQ+lqbIC3jvHb2jLsejqA6wAB
-          2hFdzRPuAvnFNUpZnWjS5AQw3UpPr/8arWpl8FHFGYop3MB3ATJOMPT51Qd2sXb6GcZGEo9GPP/C
-          K+zfu9sbWQT67Hg8Zn19hNISGXmCiZoDOp5/H/cduuPbYaVABv5+O/q4keZS/Syu4oK0cx/Cz2QF
-          ug/jFUm2ljO75FhaFGQynNOyrRW1BlxQ66+dc/Sd5FzvNH/uN+7i9f9qned+f537f1lxdsFyKI64
-          uzePihQZKROTkrmCwhls+J4Uikgl9GSXWbtA1/aY2CEn7RonR0NeeabgyO/DZ+6+kw/9Vsoxd4o9
-          21SVrlOi2E3kw1kvanK5wFrB/G5Y3g7ZuhdC1bU7KACbcbjCNZywXdUJVLLzunS2EHTXtI6zDpOD
-          1WAvSd78UhfdHfORD93PD54+QyfR3ldRK9bXV9m7Zwe9hV0M1iYUecEN+5c59forXLx8mdl+j0kI
-          by3SCc7knL10lbnZOYYba5hsSH9mjn379rFz116OnRx7jMO0D25N+hObTnmJHdWxYO660DfRWhhe
-          B0/n3aoB3VvgAe0xwDVDgNsyXyEaP2x73yecqFs40S4S0xFKLU5AuTJyTXjdMwIzFzG7fRufPzji
-          6e8eY25+J88//zzWWhbn55hkXg8ulfesL4wnxKjIz4xCgu6CjBydOej0INKCOA577FJ8I2i0na7q
-          Sqo/C1fY5uw17x0YzQg2hMAKmJmHpTnHyHh7r1YHvKkDqOfcHMvVG1/m//of3ck//ftnePhfXeKO
-          PweDW3NWtk04mGxnR7TMDhURqw5adono+NQgITFOMTGOlXzI65NTvHzlAq8cH/PGYyAuLPCXfuNO
-          9nzuPCez4+zSEqtd9dqLQGgquwfrHK4QqJ7DxgLVUcxss2xfgol1SC2mtiIuvDZi07675TgtXEMS
-          XpvGla5Qpgpp9QSgcSaQueW5v9Vh/eSQn/jZz3BuRbC6tkG/16nSkUeDdW792IcYG4W1hqyw3LBr
-          gT/42lMh1bgONS2/u7XVVXZsW6DIx6ROc/XqKvd+6ONczfrk6QBdkr9KxasTjRwL216AVaOzu8Ye
-          zG7qCsSU9P5693TuLT707YNB3Nv/mdhinSda6JhozzvCBaFE7RbsGllprgH2VQ6siIbbT/1TuTLs
-          Q0XIKGYygZ+9Zxtq7TgrI9gxk/PID59i587lyibLp/WA0hFaSdJxgTMalUikNSRzDmd8MegkkESO
-          pOwEZP3ANecXEXzry8Nf9SbVjBwMIYXvAKKeRfegs1vSmS+Y70KUgtINsWhluiM2YSxedizIsozx
-          +1/kb/y9m/jhV5b5zrdPcezpAXtvG3F8+RQLS5Kl7RFz/S4d3SXpxCAgSzPWhiOurG1w/rLl/Em4
-          8ALEa3Pc976DfPYvzZPd+DIX1y6zK1ZB+tvSu1UFzwXzG4xAdh1ymyLZrolkwXYtGfasL7hb6MW2
-          QoJc46g7Jxrgl9g0L/soeYd1gkxDNO/47n/Y5/VvTLjznpvZs/sWvvr9F5id6VIYixSSLMtQwnLD
-          TbezMUrBect2ZUY8/dzz9HpdTJGGL2JDnBsMNtZZmJ+lP7NEno0ZDga8+NLLLO67nTiJKMYDZPNQ
-          t7Q8bsqNqWGj3bwhhdt0Yrfi+r3TFeC0t+iPhghUAj9Sbr7lpkqDK298UbfN9cwnNm0H2+lJbVDB
-          Vgt1UWEATmqcipBJn59/X8yrR06yuLjIsddOcP7iZe57/11M0rQy10xzgY77zM50GWysYMddZnbG
-          jDbGJB1BOoDxRYh3OXodr9WPtKsiwL0ZZunv7oLSLrjVCFFRNcuPbYU7WkEcwdyyZP6gREeCeSVI
-          OqEzqZyQ/E0gRa2eLN1iXTDxIAFjCyY3vMwXfnsnnzlzIy88oXj6uascf+QqhZygl1LiuRQVr6I8
-          J4Z0AyZrYIuEuc4Ce3Yt8qnPdLnproLu/isM5POQwZ6eDqvE+uYv483qicdVStUokizu6NBdELgh
-          LABxR4UItcbe3jncFsy20pTFBuKPKd/zcvdtQ25hCSAaSFOwsd+OPPQ3Znj6H8G+G/fw0Y9+lm88
-          /CKx9gYgUkiUUqytrbJ753Y687tZHU3AWfbsXOLMG8c4feYsszM9xtmk8rPAWb85mqTMzvTYf/Am
-          Th4/ysbaFbAFy/sOk+iYvBVv7ioX4+kNTPNnrkYb1yrtm9TBTV2Ba/AerrcPeFfRYG+7DrwGkakN
-          d4hGGxMYYC1Uf3qgCLe+bBp71i6/1cFoqAHBR31PcskD9x5gjzrPs+c32Lmrx+NPPMvytiWUFJiC
-          ygo6zwrW1nPuuPUQ585dJVuR7L2tx+rLE9LzArUEq2/C4BAkXVCuntPElKxZlG1oo9pKGj9vuR2o
-          GlgfBmL6FjeBi0cdk5Egz0HaNvIjmq9Rc6sSWHc++tvhxooTXCDafYEbf2Kemz6+RHp1P8Mrfdau
-          aCaZZJw5TG5R1tHZI+jOS/o7Cua2gd5xlUlyjPPDAcUVSCKJVATVXe2756kYoeC50la77Ig8GYko
-          xaWSU8/nHD0JVnkijmtQev3BEpstCgNnoiTzePlErajztms++9BYD5rqGRgckTz+dxJOPTjm0K03
-          8LnP/STf/eGrWFN4gK7MAlCS0WCNe+++HyN6CDdgkuXcsGuRb/zpV7zRaiM+3QWTUykV6SRDSsHS
-          4hwbO3Yw2NhgbnEb0hZ0I8mGNQ1uXm3pI95mHq9Ho2C5tlU7HXA118CF3g33/511AO+wrLSckJqH
-          XmwxsUyv9qj33q0/c0xZIMvG3F+q/wSoCEefX/noDk698Ti60+XU6TOcPHWa991xG0VhKrPOIjfE
-          keSVV8/yiY/fy/cfPUKWO1ZesWyb7XH5ByMO/BqkE8eZ4zCcCGLt11/Bqds71pQFweGFNqIWyJY/
-          i2vExLQYkYAdWdJVxckfwmPPO6yyVQcxjRvZVoDqFL4qQQjrCTIZZJM1EGvoGdALgs62Lp2oS+y0
-          N/GwjsxlrIkxqU2ZrINd88VHFf5QGuGzxEp5gLWbEermHl82QC8tJzgVcfFVx7MvO+JtjjwluAiX
-          4ZY15avpnldyJqT1o1KoFg3rOe+MhA55iBuSKw/2eOmfS9JLIz78wJ3cefdH+PZDL5HnGVGkGy5U
-          gixNsUXKDTfdTmYsSgmiSNNRhseeeJpet1tZnDcxeykVaZZ6A9BYM9ufo9udIen2UBh6ifAvkmyq
-          +0KuY/kzVEZBbhNZuAxGndYAbD5z1nsnCMF7NQR5ywLwTrMBN60yhNgCMhStlV71rwo8a7805ZPu
-          mk6WTX1AxQLUpLnghhu3c8/2Ed99foWFhXkeeuhR+r0eURKRZTkiKMZwILVidW3M2qDg13/5M/yL
-          /99XKPIuc9sioniOycsTlj6ZMd4Ad1oQdyW6AzL2BpelMWYFUwYLKynqmVROWRqUkIjNwYwdsuPY
-          +YDi5B8pVl8vmL2roBj7hBt/A7qaEehcAANlRe7xHnnS8wakg8Jhh34WR4AZOHLtGIsxlpHfAJr6
-          VlVKIkRE7KRf6wXQTXifDazAi4Zs7TsorMOEH0Sp4AfYeF6LDX/jLx6WrB/XrB/L2L3NYAcCa9qk
-          IdWgOYsyEch5kBTjKoGPtH474oC8cKQjGL0pufKU5PwjluxKyvLuZX7s17+AU4t85fsvoAVEcYRx
-          rhYgCVhbW2VxfoZte25kI01xzrFzeZHzZ9/gjdNnmO33yLJJe9NU8lisYX1jyNxMn5XeCKV0SFI2
-          dKI6L690aCpDPsswz9bl1lrlOUQjPl40eKUt38Apiql4S1vQ6zvH+r3SgJuMjpIIVqYEsdU+X1xj
-          pVGRhcQWf6EZ/S3aqkAhUTrGpYpf+shuLp05TmoEajTmxMnT7Nm9izzLKx97T8n1rWuvl/DQw6/w
-          8Y/exC/+/Cf5wz/5AVfOpnTnZym+3mN0NEIvFqjIkfQFUcebaCrhWYGSOqWlLGrCgbUhDMIGC1sn
-          Q1tryQtwqffNs7HEXu3Qn1Gc+l8L5ndbTG4rr30bvleBDDNfaJttab8tqoJiXfj5CldtGggmpc5I
-          bOEPdrVnbOIw1oOe1tbbDVu26KVwqby9bRmTHoQ9ZeRV+LNiYjG5IRtbROw48vd6HO9bisx4Q9Um
-          huFae972mGhdlcbcXBYUeUE6tJB5I5Id27fx/h+/g+VdB3jtjXVeP/0C3U5cjeGy4bMntGRjfYWP
-          fPAeiPu4yYBJXrB/1xKPf+fBoP1v07kF7dSe9cGAvft3cfbiKlprCiuwxtCJXZ3119xqhNlJXEPr
-          5pqOGs5Va94mO1C8h1b/7YJC3xMIWP6cTUBiE57bAvAaGECL8UeVtd6YftnKVtltSouQZAbmdizy
-          Y3dofvi915mb3cYLLxwB55ibm2E8nnivfUHLhizPC6JI8Y1vv8D77znIb/37v8KzLxzl9dMXWF/Z
-          4M2HUiy28q3zzjf2GvzIqdXNlnSOaSqVAQp0x7H6oMIVKhhk2C23vs3OSIZocNGIgCqLmwxW4c6B
-          VLKmWjvfAmxOcqpZZiIUFlz9vjTnzXrjKaZaG1dzBJxDWT9mibEmGwnvmT/tCi1EMyKyuql9rmvI
-          A5RB+RkOVtTT9LbFLO9aZteefXRnljl1doXvPHIM5yz9XtJIXKpneGsNiUwQJueWO9/PcGKqIjGT
-          CJ586ml63aTKDqRhbF8GnSAE6+sD7pjtIoVAlwXYGDraEmmFyXxQapmuJNr6Rq6d6CuueWybK8Ca
-          DSHeded+/USgt2stBJsEDluOA5W3W+MnEbLmkjcSfaYVgqLhNuQaqb8E/zgpJWZY8Od/Yj92400G
-          E8HMvOLJp59j+/alhpW2a7yQjsKWKznL3EyX5184zfL2eW45fBN33nYjo8mYPM9QldQ42Fc1W7kG
-          P7X8vNY1WrcyFLPELqqAS+8Q5BN1fOiIVBKtJNZZn2tgXPgrEilUZQMuGg5JUsoQT+4fcA90eaS7
-          YcxP04dWNLkUYTdkyoMvQAhV0UybFG9fQFUN0jbQaG+XV/93k5JbfY4QTUbjdar37P5vKBk8ASuy
-          WM0YdOGSkUqSZgXDUcqxMyPW1o/ibEGnE1cAY5VpGDAFaw39/gyT8YRtC7Ns33OYK8MRUlqW5mbZ
-          uHqeY6+dIEliH9jSICeL8IzgfPTY+sYGndiHnSglQTgK44hFRieWDCbWM0SbWwDR2PlXY0KT7NB+
-          3sWWF0opfHJ1Z/E25J+3w+8R7zEXoPmNu02tgZi671z1UEzHBpWmF9N1r1wJNW2W69hxP/8bFKrT
-          56c/OMerR15heedOTr5xipXVdXbtWGI0nngGn6vVZpWc0rqqGM3N9hiNUp585gQAcewz6stVUAkK
-          NfMNwWGMq24N0fB/Kw9U9SVE/XvOiepGLkNE6oMSVmxhtqjAKNfePFB68IkSWbdhjlY1yFiOEsG0
-          UpQhIQ1JdaUabIxxiDJdmfrrl6vN0CHYwKnwh9OG31etAiDC9+AnNeULQBkdZmu1X7Uylk3ymGvJ
-          hFsYkfXeg5FWREp6V0LjRQ8yxKuVL1en06ta84vnT/P+O2/F6D6CIVluOLhnO688/32GwyGdzhLG
-          FfUEENbbNnw+KSXr6wOEsCitwvrbBSl1RpLErFsPngrX3NU3mQ3QctFpfFy14vUOiw2cra0pgLf3
-          AXirUJDmva3fbRux1SzgXC3OcNOlBjYxoZiyAW+3/bJOcZ2mCYsy/lmTTSyf+sQhtukVHj2/xt59
-          XR5/6hnyPOPxp14gSrphRx8MNayP4CqHK59S69u8svqXa8bKuDI8ALVyUbRvr/LNCXZawtk6Qqq0
-          25J1jmEZFln+WdUeBkvsZmJNBSQ13jUplbfBMj5uW2uNCsk1ZQKwsw5rCsrcBWddlSREWTBC4fV8
-          hXpsaB6+lgpT+u/PWIMtcsCilUTpDiok8OZF7m/Mki5sg1uf8DbfPtDzWmMULWec1uNeCi+kbPPJ
-          y/2kkH4t4CzYAqUVSsUgNYvbd9Hr9ZEUHLr1TrLcESlJYSw7l7r8yyeeJI7jqthVJUmKKg0I563c
-          NwYjhCvoJjHWGqSSuMJhioxeJwoofcn7c54X4FzD5GOTTKwqCDU1uH0KRUu9Kd7VOXXvZARw19P+
-          X6slaNwim9JAW4fetVr+OnXFBaJrYzYSooGJ1gUCHUGR8Iuf2MvRo88RJQmnTp3hyEtHiDo9/spf
-          +2t87P4PIoQlywrfDjrfFirhAzmVVP4hDYfcOouWCq09y7DUDjRDG0pLKev8wZZAlhc+IgyYTHKf
-          hCsFc70k+BiCsSHfvdEuKymrjtyHgkqM9Sm8voMQVXhleWNKfMhnmuUUxlAUjjiOSLOCTqLpJ7FP
-          KrY2HFoRHrAgnCrzBa2pzDlB+Ohw6gLgb2SBMYV/WIIFdpZlFBaywjIYjul3k1BIHVGkMIUPQ5WC
-          yk5bKo0QgsKW2Yc1918IqmTi8mv7piV0LWEnX44bjjq52IQirAO9OS0s40nGaJzR6ySMBuv87j/5
-          n1ldXWFxaQfLew57Qpi1zPV7TAYrHHnlKL1et0r+FY3Q2fJ1cM4ilWY8TsmLnF43YTAcVR2tNQXd
-          OAnMQTll6lF2tNP+eVPYjnObPXWmKHXlSCHftSj4R8AE3BrGuIZSoBmMUF5lDd2/CHCw2wLWqPDR
-          MimmAaoJKcknhhsP7+TwtgnfeW6F5eVlvvbNp8kN/N3/8v/Jf/TXf4NXT1zgf/i9J1gbGpQUFIWP
-          rNZR5LPibe7fwCKv5iqHpNdNSNNxtXorLaFLR1kpLKZwqEgHo0vB+uqIH//4Yf7yX7yXtPChnf/D
-          7/6QN86uojQUWe4Pg9YUReENOEvLr5AgLJXwK8sg+SxJHzK4IFvrbyKkYjIoOLB7gf/7b3+OtcGE
-          5W3zvPjyOf7hv3y0If91SO3bb39rmyqP3trywRYIGWFM3rAJd/XXVQpjHFIUwfQiYbgx5v579vMf
-          /MYDXFobsnNplsuXBvyP//xhhlmK1sHPMIwKUnpr88KYEHdYdhu2el+lEETdPjbPcaZAKFWxKKVw
-          FIWPCBdKoqIYZ4sKdNdaI6UkHeXcfGiJv/gb97G6PmLH9h67dizyH/+tv83dd95OZ36Z4cqAIjcc
-          PriHo6+8wOrqOtu3LVAURb0xELJ26hGyGkXzLGc0GjDb77C2PkRrqtcz7vhOCFdUFOJNQ75zmzva
-          ciXi2oXBNdyAWu7bjvfkBvQjpwKLTWB9k9gzZY8s2qHHrrFKcw2+t5sCGktgp7QGkzrCDSS//KmD
-          XD1/lijukeUFz71wjM987vP81d/8Jf7ll57k7/zP3+Xq2pikk4Rb17fOOk7I86Kar5wxFZCmohgd
-          RUxGw0o4Y8s5DIHWmjxPsdbfCgiFlAKTZTz23DHuu3MnWit+++/+GU8cOUsnjnx3UAJ8ziPHUgYg
-          NIwfMrCMijwLs3wZ/W29xbdvDfxtKj2QmGc5N+ye4Vd++gP8f3/3e/zdf/Qgl9dGSGnC7C+Cd72A
-          MBJUb4iUftEexzX3tmT9VCCngqQD6aSB3Euwlj/81gsc3L/Eh+49yHcefIn//O99k6MnLvgkk1IW
-          XmT+8ykf0kqW+ladpilm4wHqzcBoRBX7W+muw9VvC//9COU/V9k+hSDUkig201d8/sfuYG01Ze/e
-          3Z77f+gwae6fusIYdi31+OYfPkEU6TCONW5kAdbkLUs2AWAMK6vr9OZ2U1iDckGjYixxItA6wuRp
-          aWIXLpXmas9VlmFuWvjeZNJNGbkIpnA19/Zqv5pPJ1ry6U0F4D1zirZq9V0DtGkygjcnhPq2rzSY
-          bAjBXYsl6B9YJ308VG4Vi3uW+dSdfR5+6AXm55d4+pnnWV0f8Ju//gv8/leP8Df/+6+yONdhaWGm
-          OgzWGoSIEUqSq3KWNDgncS7CWUvS65GnGXE/CYWniWYrpFJkqQ3zOiGFF/RMxMrqBk++cJZ/8qfP
-          8+JrF9i51PdjRChcSsc+h7CcW4O1tbO+K/G3kA6BpxUE7oE3YyrveQFoJbm8Bg8++QaTUcbf+Lt/
-          yMyuJbYtJL6oBRaSUhJjbD3jVpQ0VSHreZZ7YoujJflVykfwFh2QIiSJOotSmpV1y+996UXGgzG/
-          8Td+D9vvMrcttNLhcztinCmIOj2KAkwufQGrWKKyskxTUYKQmjzymQbNG7Nk8zkg6vTJsxHC1Ym9
-          5eeQSpPZiP/s7z3I9sUZ7rrvZr78la9DMWJhxwEGwzHOOs8VyIc8+8KLdLudKiy0WgHqLlZkQN6Q
-          P/uXb31tyPLOuBoZcN4dWdmUOI4ZpaaB/Ddeb7eFK8AmDYAIZjCutbJuGuo7aLmGvK0ngHNvzQNw
-          vH2c8NvGDU/7+ze9z6d3v0wHJIrNLppiih9ergqFQkYx+cTx05/cz+DqG6ysp+hkxIMPPcLtt9/M
-          zbfcxl/+u99gbq6PUpDltgLrrDVIrbF5Ed5A50HBxrea5zmTycTPoIYKzQfQWpKmIx+mGShwwvoV
-          0erYcO/tuxhNUl44fonlxRnSNAt/3yCEwtiMIg9JsmWcRcAFCiMoCioyihMOZ2ryjC1sQxgpfIKO
-          zfjUfYf4F3/6DHphjkgKsrxoMCdDlk5uKsS5scNARwl57h2SbNOFpty9C4fJJgE09GOBFRLlHJiC
-          D92xi3/xh09QWMtsxzMuW+9hKV92iiwdVai6cDYUqHLLYRAypshSf/EHTrxrgLC+ZimEcRRZUUWf
-          lzRGARiToWO4enWdI8cvcfs9B3jkwYe54dAhdHeeYn2MtZZD+5c5dfIEly5dYXFxHlMUtbLTWVxv
-          D2QSmW8EFWq5zVVcWVnl7o4O4iIJxr+uioJOJ2KwZvzvO9s4+G6LAzuVENQyDxFhk9D0zmji6uIt
-          b/a3wvOavyffJe2/4n3TVIM1v1HXlrJuJfxszQ9iakxyNduvEgGF2884ge53+OK9C7z48ikWF+c4
-          8fpJzp+9xK/9ys9z5NSAUxc36HYib10lRdV0SOVndleteQICHj53FCcYU67NZAVOiYYgyVoXLG7K
-          3Dp/MCe54/MP3MoPnj2NwPrVVGVl7t9sa4qAEde3gnMOpaLWrtivKW0FGjZoekEFZBlnOTfvW2S2
-          l/Dc8cv0uwmFcTVzsgTPKuTdVu+QC4dOSuk5B9T7bi9rN9WBMMYXSxc48s5a0tywuNjh4O55Hn/5
-          PNFsrxqpygONNThbhK+R40JL7aq0hJqk40JYosnT2gK9HM+cDfO+F+WYPKvXuSXVFlvlHqRpzuKi
-          4gufvZPXjrzMG2+c5o67P0BuJVJYiqJg344FnnzyycbGxVXdjxACmyyHkJkpJZ9WXF3Z8GGtUtK8
-          zoQtAgvR1Sc6UHxpxLq3kP9GtPsmvwBBiw7cbprtJiPRt9z5X0vJ+160QKJpbODcZoLA9OcQjeyA
-          JsXXiXYqoGjjBrXiRSKVpBgXfPzeg8yIEVfXLb1el6eeOcLuGw7xmU9/nH/zrZdIYklR5H5dFoAo
-          T60NyrBmlFOVv6eRWmNMgdbaFwhZptYK3yKDJ/JIv4Yskeo8t+zfOcfhvUv88IWzzM8krY/1jDzf
-          qiodocIoIZVGqRgZJ77D0TqAdhKlvCml1H6dJVUU9umSSEnGE8sXP3obT716kXHmiKIYFXWQOkbF
-          Xf91VISUChl1kCr2n0NHSBWhowQZxUgdoXSC0jEqSpDa/56OOyE1OfLfo4qRUqGVpEgtn/rAQU6c
-          XefqOnT7MwjlP4+QqkLppdQo7VtsqcP3L1QANcPuXwh00gvztqvSiUreghQyfDye9u1skGPL2pE+
-          cP6VlNhccO9dB7n50DwPff8RAHbtP8xo7DX+UaSIZM7TzzxLp5OEAknFURA6wei50sesdYS0kqyt
-          D717lPagbNlJ2iKn2+/WpLfS1NVdiwk4JRfeGgWvO4PmCFGuV9+DFPi9U4GvWWdEG6kQYsuNYe2c
-          I6sZuU2tDTiA9FmArvL9S/i5T+7j9ROv0p+Z4+zZ87z66uv85r/z61wZxzz8zOvM9DqkaeYrbwnC
-          CImQjjwbVztkH2jp5aVRHJOOx5gsDZ4DbZxCxJK8DKQvA+OwKAErqwN++pOHef7oBc5f3mDHYofc
-          BIDImsoS25rCf+6SJBoCKsx4gsm9X4EpI6ac9THn1uGKonaTdGCMJVGO99+8i//6XzxMEjnyLA1y
-          WgGBI4DwhRAhWww76zzmkE7Gni9QSpobM7cTUJi8Re6qaMj5hE/fdyNfefQkIirxusB78D7jAcyV
-          WBFjzCh0Fg3tnwiELmFRUZciTWuZtytHGOMt3/Edl61wl7gKl6m5GBqpIxA5n/nIzQzGlm996zvs
-          27OT7uw2Jusp1hp27Vziwtk3OH3mTebm5rCh2/E3dYGLt+NUJ4C0DSq087f+YDTGFf62H4ei4pzD
-          5ClJPBMIQqZ+1kU95bfHATctiGn8OVMbgOlb/UezBpTvDf5n6ods7/nddPuyhZ5+U+GojD6mpb/+
-          xi0yx+Gbd3JoccLJ0yv0upqnn30eFSX8/M/+ef70+0f9HrqBH5QR01KpBjNuilOAR3CLvPDFpkFK
-          cniU2TrqfXqZ9BqsyJJY8uHb9/BnD71Gr5dU7L6qsZNB0FOi+zQYfOWKzrngcKQaXHuBM7lfR5aq
-          SSkZpYYP3LGXtUHKsdfOkUQiGGUEUNEV1XqzAtKqNr+UBEqKNK1GDd/eG6wxFUvR/zpkGYSPm6QZ
-          O7Z32TY/w6PPnCCKIcu8b54zuW/XrfEoOgJT5NjCb03KbYu1BmsK//H4zUw+GfoxI0+xJsUVKdbk
-          GFNgCl94zWSIySeYIsMWOabIcIF85FzBJM/oRxn3feBGXnj5BC+99Dy33n4HhggpHHlRcGDnNp55
-          5imMKeqpqsHxsPFi4CFELTmnCxjIZJIxnkzodRKMrYlS1hm0sug49oSnLbwB6p3/9bXoLdPZa1sp
-          /WgKgBDvbH5otShuC4jQtVmATfPw5gO+aX3YuCFEQwEodISbOH7u4/s5e+osMkoYDIe88NIxfuxz
-          n2b7rgN889HjzM70KGw909kSjAHyPKs56yVl2TmUUhRF4cGgBk/dlvFTQgewsMmW8xr8YWq597b9
-          jCcFL524yEwnxthQvq2ttN4urLRsI0hVColQUY0rVN1BYxSqDrDEyRgdxZjc8mMfOsz3nzxOlYgh
-          gkVaI3bLbipYnsYrlMaJKCQUE1KcZTWbypD6W8ZTlXiOElCMMj5z/+28/uYKG1cGaNnUDrgWliOl
-          wuU5rWikQEgSUgaOgA4tbSuqKOAQVCEbQkpsMWlr42uRvV/FTlLuOLTALTft4NGHHiZNMw4cvo0s
-          y/0ooTRzPcmTTz1Np9PBGNOS3goVYfQ80uYgdftSC02QyXM2BkOSTkIWwEMhfMFUtqCTJH6UmObs
-          is23+PSwu/VNv/mMiLc4neLdFoBrmX9e64uIrZicrcpQo4HCTQGHjd2gm/6WphOAhReSFAYWdi9z
-          /y2znDh1lcWFOV5+5TjDScEv/+JP850nz3B1IyfuRB7sEyWrXqDjDkJF4XOFGVMqr6iTCh3HmKKo
-          9vrN7IHyY62xrUNpTYFzhlGa8fmPHOa7T73hbz4bzDmcwxZZQKeLBl4SWmxrEVEHk+dhFVkDXiWN
-          15q8sUHyI8ckL1iclRzctcD3n3qNuBf7gmdD6KgtwBpPbXb17WaDSs0WmQfTsry0FfIH2NrqlkfK
-          QI0OewRrKrYkwI/dfzPfevwkdBL/cU1tgCsdff1rZUwa6LQl58NW6kCcQ0WxBy8DPlPO1BUJjJqY
-          48r1aWPj5MG0UFbTlE995Bb6XXj4ew+yc+cy/fntTNKU3Bi2L86xduUCb5w8TaeTtKjWwlmE7lOI
-          BGEzkLp2ZG65szhWV1bpJTKYyjYEZ0VGEumwcnW0JJDObXbMKlmXU72+EO2Fv5hKBHFTlOB3K+WX
-          77aCuLf4jWlsoPaPn6p3zQCE6SShcrcbWnWpNW5s+alP3kS6fp6NkV/VPfHU89x1113cdvv7+INv
-          PE8nkeRZ5h9kIcKbqAKRxqPepVSUEuTTCid90pCMvLmoiBIfF6YUKoq9zFYpD5BFCSJKEComs4Jd
-          iz0O7JjjoeffZH5uBqcSZNxDxl1k3EHoBKkSZNRD6BihI1TcQSV9ou4sQmt00vUgnI5QkQfjVKcP
-          uouIO4i4i9SJX0OOMz7+/ht588qYlaFkZmYGHcXIqOPbVinDTl0gomBnrPxrIKRCBRAQLCqKkVpW
-          r0upVizfHFniAgGgm2SWGw4sMz/T5/EXzhB1dChyYWthy2IhQEbYIg+Fshw9yiIX/A6U73pMOkBY
-          vzkgjBA+wtz/PSV8Ma0XJeWflaw7KIwlmenwmY/fzelTl3j22We55eZbyKzGWcMkzbhhzzZeful5
-          ssmkJUEvzWoLPReIeUXgd2zmrCDg6uo6cSQbnaQvUs4WnnRG3XWKRsLTtENgi9EnXJsv45oxc+1M
-          7fL9eLc+AW8LAr4zXfFUpt9Uy1OnB9etf5XrNp0i1NwWVL7/UFiIZ2f4sXsXeOGpJ+jP9Dl6/CTn
-          z17kt3/7r/HKqQ1efv0C2+cSsrRo1TchIE8n5Fla8fD992Fw1iCimDTPKbK0YuCVP4B1FiJJUaSh
-          3azXgkrC6uqYn/zC7bx44hJXLm+wtNgnL/KKcy+c9XOsZ/UEIlIwMom7ZJOMYjIKG4IG1TlEeJtg
-          NClC4rCSFpumfO7+W/m33zuCjCOKIOkl3NLCASr2HALC7zeBsjjBlC5DYfzwD6gObbAO8teoFc8m
-          hYX1CZ+9/1aeOXqeyShjZqlLYaRPZDYmtPUWRBRkzTm6o2vRVbXG9IVdxwnICBV1Q+FxjZTdsp0w
-          qKQDhUG4Trgti0AO8h2iihImueCOw/Pccutu/vQP/5jVK5e48ZafZ5IVlT378kKH33v8SaJOp237
-          FUaRXM0jnCnFCLTSSMqLSkpWVtfpJF5HUa8rfVfYibsIVBUHB3aK1NPwYKARJiqu57CJxqr4+ih8
-          b/VR70oMtJlrWAEBVdCH2xQEulkifK0fWjSyT8tVWj4qeOAzB5HpFS6vZuzaPc/Tz73E0q5dfOxj
-          D/Df/t5zgdIZmHnOVm+K0hGmMMFzrcHqCjtplMbm46BXr7jH3vVGRf7hdllrJ2udQ8qIOEn4xAdv
-          4h/84VPE/W4FFJb4glB+tHB4Gq9PN/J7fQEU6bDeAVcPvUGqyI8GNq9lsThGmeHA3kUW5ro89sJp
-          Ei3IJ6OAuvtbUUpFkWUYYzyZJKDcVkhwOVFnlmI8wZkMyvmcmh2oIoHJJ9XN74SuGjabj/jInXv4
-          X/71D8GNyCalP0DexixciooSTDrxB19KWsRwIXznICzGTnCmwBT+Y5Ga0mbY2cI/XjqpRjQ/5tQ0
-          Yd/hacgyPnzPPqJE8K1vfpOF+Tnmtu1hbZRhrWPbwhyTjRVefvUo3W6nJbMFh9QdjEgQrgikMx0K
-          fs1tKc1FV9cGaOnQug4Dc85hihyp+96TweW196Frs/u2fP4bhaYtmGtqaTaT896uDLj/w7YArglm
-          NMwb3Nay35IYUZP/2hhAhZe6hj+A8PRfVIfP3LudY0ffoNfvceHCJY6/9gY//oXPcnmgePDJY/Q7
-          Gj+SBU89a7BFFhiAvt20Yb3mrPFrNwQmLzza3SAe+Vk09w6+RQli6YriKoRjMBpzz+ElcuM4cvwy
-          /U6CKbPEwotgKyFJLWV21iKcwRWZn/VLo43p/YnJW2shpTRF6viJT76PZ46cId0YBw/C0F6X3H3l
-          pa01F1xWN7lQKoBb/qYXwgtthPQHTwUBTrm58Pt4D1bmBRw+vJtYa55/5Ry61wvS5nqT4gFJi6ze
-          a1eLaUKHUt6YIpi62nRYHWprLCZPsUWGLfz7glCYLMOZHJun4ddhjDAGU+RkkzGuGPKxDx7i6sUV
-          nnryGQ7ddDNORlhjSNOMg/uWefnIS4wHA5RsW32Bw+pZLwZ3hX89hQpcgHpkdXjW59rGCGs9X6Ts
-          2AgEKiV85oTD0UQCS8CyJQl27Si+hu67YUfmphi3bgvc7f/ANeDbYQJNlJ3Nq3yaGYBN3LMOe5xC
-          vYPTrsALWYrUcuDmXeyenXD67DpRrHnm+SN0un1++Rd/li/94KhvlQNIVifqBgmrq0kUsvkm2CKg
-          /1ll/tAqR87bc1mT+VusnMWkRGtNNkn5/IcP8a3HjoWVl6uNTIOazpkiAF6uPiTWYxHGFG0L8MCM
-          K41FS2DQU1ElBolOEu67cx9ffvhlZEdhCtNgm7qa3NTgYTupcEKBNSipcaZoV3FX7+aF0liTVS1m
-          6X2gpMONc77wwB08/cqbmFGKLuXDzeTUkvqhFLZI621PaeBa8dOtF3SVowiiIkqJcr7Hr+KE7vrX
-          MPwjqjhj7UcaIciznH27erzv7ht57LEnuHjpPLfefiejNA/+DI5d22Z57PHHkZH26H/jcGmlKdQc
-          wlkkJVVZVXTq5iGUQjAYTZik3iHYNuguvrgXRFEcLL7bs3x77nc0r8GtMgPFFDjvWkYi/yfxAN4W
-          C2jkuU8Vt008Zpo5eo3MQDHVPpQFQUoJmeOzH9nP6vlLyKjD1dV1Xnj+JT79mU+xtOsg33nidRbm
-          e75ddMbfnN4YDhX3qcB7Z6o21wmF0rFPFJLKM+GCa03JuNNxB6HjwILzclOpIpSOKIjYvXsHN+zb
-          zoNPnWButhPEKD6jQOrEjw9B5lvt8QPLTeqkWpNVdlzhJpFRHHgwsp5IhGA8Kbjn5mU2BinHTq6R
-          dBIqgXzloWBxRVqDZKI+4CJ8TlNMPP+0XGsGcZFwBZR6/eDegzPeCdgYpHbcd8devvnEKej3sMZV
-          2wNny02G725EeetXB6hN/3amQOqSdq0bFlfl+x+YblIFDoZt7ORFdaMK50lWZI4Pv/9Gtm1L+OY3
-          vk2/E7Ft1wHyLMcJmJvpUaQDXjxypGr/K+TdeSKSlX1kZY9swreqmlEd3lFaCoq8YDIe0+1o8jyv
-          OVpCIJwhSeJqfKm3ALblaDHVHk/balX/JzYrCH5kVKAfjRx4arNXJ9i4yiuupfcpP67688ZGQDaQ
-          Q+E19LM7d3H3gT6vP3uCxcU5nnjiKbJxys/9wk/x9UeOc+nKBkvzgcTjaqspqTSmyMnTSXizS0mu
-          Z6xFSY80L3B5jhClH4AIDjoWFXdxeSDNlLJcIRFSsDYw/MxP3cPrb66zslGwuBhTBNfb0rDCGIMJ
-          Pu6uLD6AjDtYGeOkq76vCkGRsfcet1ktFnHSMwnHI378gVv4wdOvg5Bo3cFI23xB/eVfGKTuBKm5
-          DbH0fp71/5+HgyWq7gKs330LDwyW3HbhHEJJJmnBnYeXsU7y6uurdGbmsdk4hKUKv3oMB0rqcqRR
-          3sMe61v8hvajpALbYhIAU1s56Loyw9w5n15sxq103NIFyAW2nbW+SHzu47ezsbLODx96mIM3HMLI
-          LtYMyAvDwf17OPrKS6yvrDC/uBAsxCqoF6tmMFWobamFEPXIN/3QG8Pa+oBed4ksN6BL7YLHLpJe
-          t7rMpsLL21j3tEGIm078EVswbsWWnJ33TgR6l4QC1yIttAMwprN/tso5q3OR2nFJUinsxPKRDx9k
-          cvU8aaGQAo4ee4M77r2PvQdu5g++/Dj9xHeHdVqQqtSG+WTYgLhENY8KIRG6E24gUe+DAwlFSI8X
-          lO171YqHNzkSKR++bQdffug4ca+HKQLoaD27jQo7cPXnthZbFMgSGDSedWeMwRamGiM8JlF4kYwx
-          WFuQphNmenBw1zzfeeIYuqvIi9xjF9biTOHZdiXTzvg52gUmnS1Sf/tnE7+WC2s4a42/uY1nQNqG
-          j73DsxyFlLjBmM8/cCtPHXkTNxl7NaLSoQ33ZCYhtD/2UQfrglZC6XoVq3TVHeneAlaUVmTat/qh
-          +5I6QcZdhI79+tdaZJQgtV+9ovznlVGMij3usmtHnw/ec5innnqes2fPcNOtdzJOPfpfFJY9O+Z5
-          8qknKvJRPf57sxIreziXI4R/PUpPPl8A2vO6c77YrqwN6CbBSyD4N/q4spw4iStilQvejS3UbtM9
-          voVpl9vcKTRNYd/r6L6ZCHTNg/12xaFhud0wemiGPuDa6cGtsrGVywES40DNL/DB2xY48/o5km7E
-          G6fe5PLKBr/wiz+HdZpTZ1eIy/QXUSv7lI6CQaRvwbWUKCnRypt3xLFv0WTY38pg4V95/UuJMEVF
-          Bvb8bomOYjbGObce3MbqygYvvfIG3bi8RcMt7MqduKv0/A7/MUJ4XX/J+y8BNP89+O/ft44ytPXe
-          5ddMMj7+gRs4eXaFlUsDkiAe8l9ThnEi8i4/yHbMNsET0AX6rVAVEaksWjiDkIlv640fo8qDUhQW
-          HTved8sevvHoMUj85sGZUKjyFJOlGOPpubYoMEFjYPMMm+ce1MtTbJ5RZGMcmiIrMCbHZiNsPg7r
-          0sKDf0Ue6MQCU/jCaYrMF0lbkqb8BsCOU95/2zILS32+9o1v00k0y3sPBj6Io9dJECbj+RdeotPr
-          VhbxpZJTqg45sUf/rWn4DIYRxE3bbvjAgctX14hVyZSsW3hTZGgBSuspoLE+C5uuROdaK3N3rYO3
-          iWi32ZrjnYCD12UI4q7n99xW34VotzstcpCYKhqixXKSUpIPMz7wiYMsMeL0MGep53jiyafZsXMH
-          n/jkx7j18C4+/eFDfO/JU3RiQWFMyI1zwSTTB0k4l4YHRlTIdmId4/GKLxjlrFv2L0qhncPkkzC/
-          B0WfFEwGGbGE/8df+3P82bdewBYWaU1g4pZtuCifkTr7QPh1kpIRznl7MillZaDp/U60TwVyxice
-          e8TJ23mNch74wC38yfdeQ3biMN6HEaEyyvNR14JSZ+8qUY4UYPOJ329rXeMFQSWpVBzoyqJSsDnh
-          wbwidbzvrsNspIYTJ84Tzc8GrnsAraXyH+8ssjPrRVsia8299W1auwtjTNgEFOF1krWRiC387U9U
-          xRlVO/XA0/eUZoWTik88cBurGyMeefC77N+/n6g7z2htQF4U3LBvD2fPnODyxYvMLcxhCtsy2CCa
-          wViHsCUwWI58zW5yioejFGtrQx962qAJl+ODlL4AFGnWsD9rMmHf6srdnH4x5RZWdZVb4XHvhAug
-          eTujj3dIDqp/SkEz4tRtQVh0TcNA2rZh/pcRD9yzl4tnjjMz2+fqlVVOHj/Bz/7av8PefbtIIsWv
-          /eR9HN633QMzhUEJ6W8mBEL6r2EKQ14U5AFINtbf6GmaUhhLVhgK4yjygsIYHJ41OMkycuMwzq+2
-          0jRjcc8s/8Xv/BQfv+9m4jjmSw8fpyh88IhF+QfJGbJ87H++0oGYgILHXW+v5WzFekPp+h/nvE0X
-          ma+aUkGe8hd/9SP83E98iH/+5VexxGR5HvTxMmAOsk4+CjZgCD+BYzJUSEOSUez/rBVcGbgSxqBl
-          6cgsqhh0szLiCx/7OI8+dxbpNEoErVtZNEOrK4RARR2KLAtmo2GTIkTb+UdJbDrAFZNAOpJVOGaV
-          NCg8MOtXtcFQs0EV9yxF72s4O9fn0w/cxmuvvsyp14/zuS/+JJPMF54sz9m3e4nvfuUblTtvUwCk
-          pMbJjrdoK4umMzU2I+QWT643PF0fjLxEWXmn5GYGoHKGKErIJwNAbVYANpWBW6H8zXjwKsIhMGTE
-          lH/AewDy3xERyF2jIsjKMaVtBjrN+a9vf9fwBmziBiGEQ2rytGDX4UMsd1OOvbzC7n17ePa5l4j7
-          i/zET/45YiX5u//zN/mXXztCHPu/raQk0po40tXDF0URSkm0gkhppIAk1ggpiCOvbe/FER2t0Fqi
-          pWf/SemttJRURAq0UjgDv/krH2Nmoc+ltSE3HdzOf/gXPkKWZZg8q2i21njH3lI6a4ylyP3DZKVm
-          PJ6QZZn/uSXkuSHLDFao4LZrSCdZADBzfuWnP8Sf/3MfIookf/u3Ps1//ve+ho4M+WiDwhoKpxBK
-          khWOIigMcxNezyLH5iNQCRTG+/K5rPHglSs6A+k40IYjf9BMAWbEX/gLD/BXf+Nj/IN/9gjWaCaT
-          NPgLlnNTIBCpCKE1Zjz0NGRrK6BRlEInmxPpjifMKOFBRBlXXviiFDQpjYoSXJHXIhLZTIv2Byi/
-          dJFP/OQHuPHgHP/2Xz2CkhG79t/EeDJBAFEU0YsczzzzLElo/+sH1CJ1QubiUHhsw8bbIqSnA7tq
-          fq/DO6WUjMcTnDHEkWKSplWuoXOAyYnjhGEVCto87JtdglqgmWuv0sQ0FdjVXgPuHRCCtrrE31sy
-          kNui5d+K9VfTl2sF3lYMwbBDF1KBEXzoQzexdv4cRkSsrA558cgJPvmZz3Hn7Xfwl//T3+fBp08y
-          NzdDngcAJgB8KoopsszPspVNucSGnbPSmmw8bOzLG5uHELflisyvEQNHXscJk3FBZ36G/9tf/gyP
-          Pvkaf/u/+1NOXp7Q7XX9rSEEkZbenAJHpARJHLQFUhApH/yplSKSgk6iieMS2HJopehFilhrtAST
-          F9x9225+85c/zomzV9m21Gd2psMvf+FOkk5MkWdBNWeR2puZeHTdSxhNUVAUnuCkotgXlNySZbmH
-          uITAWCicoChy0klKlhuMkwgZk6UpX/zUbfzEj9/H5WHGX/3Nj3Lizau8/OpJrMuxTpIbKJyksMIb
-          lzgfWmoDW9KE4BOKvOp4chIYDQMzskbaW320lCAnvtCEIBAPi0S+QFmH0oa/+u9+jN/81c9w6fKQ
-          H3z/B+zdd4DuzCLp+gBrLLt2bufShTOcOX2a2dnZ8Jw0dvC6S2FFoBbbMBYFZ6SgkLQtP75akj1J
-          c/I8o5NEjEbjhszb5wRoHdXPuNsa6d9EDWyafjim0oKbmJts7Reud+Z3P6o14JZsxua+rwx9bjid
-          tpqbcsacRkGlxBSG3s493Lq7x4WX1unN9Hnl1aMMB0N+7Vd/gS997zgP/vAUO3bPkWZFIKqElZfy
-          gJ5QntRSApTg522ddLEmJxFRnXtX+atZpI4DSq799ya9lFZKgXWaR597k7u/8yJ/5T//fXIZ0et1
-          GI+zwPDzG4PCG/v5ljyMMi7YR5l05B9iGcaDYD+GDK69rvYMwFr0N17k5pt2cd89B/n//ONv8/d/
-          93tkBu+sW/IW8ECnEhYlNSoUECE8Ct7tzfsAD1cghZ+bdaRJkoRYCxIdIZVCK78qVKJASsvdt+3j
-          V372AU5eWGNmtsv5S2vcsn+O3dvvREhFEvmgDyW9Z4GOEy/dNTlK1aCmLQFHvAGpVJo8HSGECuNX
-          4ORbR2EF40nGOC8o8C7KJvdZBGmWB+pChEDwF37ug9z/YW/8cfToMY4cOcIHP/Rh0sKj+Fmes3/3
-          Mk89/BXvi1BumcIgLoXAirL9r4VKJTnKOR9B10yzrpMrvM/BcJzSif3I6Om//jk0RYZUSbBzcxWo
-          WLsDi82Hvz0cT60J3TU//v8UHsBbthfi2p7+ONFKpmsaf2yyBw3rOTs2vO/9hxGDyxihiYTkxeef
-          5+Y7b+fGm2/jv/m9P6W31CPLiqC3D4UkrO9Mnnk1WUD3PdvMdwPGWrJJ2vbZC9ZSpQrMFXlIoMEL
-          Q5y/nbONDT79/r388y89x8Ro5ue65IVFhIdHCb880tqj00EYgBOe+YdQONVt+P03IR/vm1fBH9If
-          4tXzKzz3/Cm+/dBR/sE/+j7Jco9u6WMXMgOF6mBNRm4hLwrP7y9TjVCoyYh8vNGIbpJt4FUoKIqa
-          9lr48YX0RbZv6/GXfvXj/MnXnuG//h++wpvn16E74/+ONUGNZ8DlxL1Z8iz3xUb57YWSMhQmH6fV
-          6c0hTI60BVEcBzDU26TFcUSkFcrlREmMMymdTkKSJHR7Xbq9hEg4lHU88OFb+Oyn7uL0mxdZ3rGN
-          Lz/xBOPxiL0HDpGmaWUlPz8T8cwzzxB1unXwp/AFScYxhfMgZAX80aAwO/8MtRKKq6bVd1lrgwFJ
-          PIN1Pq2ytAhzzqGVH31KvkIr96/KoGgahDRb+kaOemWW67uSkij1Iy0A70VQUFMdxWYsoAUM1gSf
-          zc4C/uWxxqBml7jt8ALnT71Mb2aB8+fOsb6yyl//nV/g6Zcv8tqJN1lc6ldVvanS8oYXRSMOTFYf
-          I1UU/N/C75eGjUF7IJXyYwPgjAeePAAjGBvDzp0L7F5e4NEXn6Q71yMvTCAvhs+pSh24bNCjvZ2X
-          TCKfxBOKUSUfLUVJQdIqMBWfPgXmlnrsXZ7j//37jxEvzyKcT/wpOQkCfD64M76wyLDGkhKBREe+
-          OMTabzNcMAcpY729LNgFl7NynRmjpWO8PuYHj73O7m0L/PZ/9ofInqK/NFtRX52TCKexRiCV91tw
-          uggOx4bc2MrjoHQ7isYx+WA9EDeoAePAv8Ban/gkFUwGjdFM1VsF6/jfv/YM/9uuRQ7ftJs8zXjw
-          +w+xvH07swvbWVmf4Jxl+9ICa1cu8PqJE3Q7nfZKTjiEiiksyAD6uebhLyG3ypei3Lq0zTrX1ofs
-          2rXY8hQs5c5SB3C1dIEu62+L7CO2IP9s0V47B9Nkuh8lEci9SxygxWJ0DW6za4uFavdGWhTgigUv
-          JEJH2BQO3n4js2aV9Y0UBDz/wkss77+Jz3zms/zrLz/uU3myDGNs8Lt3IXhDUBT+v0snH+PAWP8P
-          MsLkpjLz9F5zdWqvR2vxhBZZmnhqZByTTiyfvf92nj96nuHqBrqk6Jb9RyDFVEnCrqgrelhJensu
-          U9lumXBT+GCQIszIrhL35MOMT953M29eGrB+ZeCnhhZAFHICTeh4guy3EjOV8e152hA5iZD/UWry
-          8U5IFkxhvP2WNRQobFHw0Xv2879/9UXQMUnSISuc/7jC7+vLwBNUTFEakFifjyecReHjz5SUJHGM
-          xqIU6CRCJxrdUeiOJupG6K5G9xTJXJe4G6HnZ4nm+8RzXeKZhHi+Tzw/S3d5ESO7/Hf/4FsURvH6
-          yTM88/gPOXTjjRREAf0v2L9nB68ceYFiPA75DrbS3AskTnj1ZpW62+DZV1FdlUvT1gSZlbWBN5Kt
-          Voi+YFm8V4HWUZVs3LzM2/ef2Oz2NV0FRPPDReOyfYdn9W21ANewBduKeOTYwrxgq9gica3/qBVy
-          dd5fh7vu2M/gwmXibo9LFy9y6sRxfuKnfoLVgePxZ4/T7UbkRREUYa5hZy2DpReYwgaGXe5HAmcx
-          JvdKs+AxV/oD2jC7e/85U7WK5cNsjEMr+OBNO/jKQy+hOhITfOhKm2yv/5YIdLkc9wXFKZTu+Yy/
-          MmnYeZqsc0FHH0g/nsmoEXjeAUXOZz9yE9/44WuIKPJ/R+iwO29jL6JyyC3ZjhYlXPACoOID+Hbd
-          +HEp4Bau0hIE6bAzFLlhYccS+3Yv8Nizr6ASR1GNFrby/XNVN+ItvcsZ2IZiZBssSIQgT0cVUFbG
-          fjvrCUGViWhhKLJJ8CIUoYB7UNMahymst+5ygl435qnHH2W0cok9B25iOJpUB3ppvsuzzzyFChZd
-          FRZlPcvUENX6kOqfmrdQWpVvZt2V2Yk+LViFHMRKdFbZffvchaqjKCXzrqn+a3bRtQtSRXue6gnc
-          NXb94nrtBN6WCnwNW7Atv6ho7y4r+WOz3Z+WB7o2cbj6tfKSz/kDB1iKCtZWN+j1exw7ehQVdfj8
-          F77IH3/jaYyp3xBbyiVKZ19TutE0lHAhZVgq7fX1Uja+l5pJh4w8wBQOqasONoyHEz54+26G45Q3
-          Tl0hiYLsOHwMwWPQBHmvp9hS0XSt9T5yzpqQe1felCbo4E3lXeiCCi8dpdxwYJ5+N+aJZ19Dd0Sw
-          B7N1wQ1mI+WvSxRdlm4xykeS+Y5HBWGLqG41IXUwRlJBlOT/rQSYwYhPfvAgl1eHrF0eEikqR5/y
-          69SefspTiW0eikI5mpR7cVN1WSbPamp1oDC7gPS7shUvI8wqyq6oGZVlZzUp+LGP3sjSrOaRH/yA
-          +eWdzC7tJJ2MKYyl3+syWFvh6NGjdLpJQ7aMdyFWMYUTwXOgfO1sY6oNa8FGUnT7JHngdTgaeRt5
-          JatDXJLOnM2JIl23yFNr/2ZGQKuYN4MBGoBh012ztk17b5Jg/U6NQIS4lnegu7Y6aOrmL5ODagdg
-          Uc3DN952I+MLp7AiYjwacfzYce594BN0Z3fw1Qe/TjLTCahxO3xUITFFVnOvw0ahXKQ6633bK8ea
-          asEazCZLEk0ptQzbDCUVLs/44gO38e0nXvOf09by0EpfELTuIWy72gpIpXwLbkzAKKjjxqoaXDRY
-          c97bPh2l/PgD9/HckbPkw5wkjnwwZtn6WR+f5cLI4EqBSCOWW0hLkY5Dmo6pyeUm+CwIibVFGHVU
-          K5ACk/PJD9zA1x89DoHb4CqVlwr1s+QBJJ41qaLwjsvqgJQHQsUdnPS23aXjkP8ZwtkWEmzhcYQQ
-          zuGxUm94Wq7uhLMYI4i6ko9++GbOnT3Piy++zI033+F1BIzJMsOhA/s4deIow/V15hYXQ0gLVQaF
-          k10fpV7Ta6b2842tllCbko5KLstoNCbNcuLI8yNK52UXDGEjHTc0Lps+TUPae217L8EWtqGVJfp7
-          8wV4x4YgW7cfU3Zgrc3FW2UJ16abrshJlnayf1EyWVsj7nZ5/eRJ0knBz//CL/KDJ46ztjIg0trX
-          rVLdhkII3UgPUi3uscfmkkp5KMpDHgJByjfSmrwC4spZGSGYZAV79syzfbHPD599nbgb147DDaqr
-          tUUFKtb2W6G4mKwWPIUOxDnTiHYqQTB/mHPrUB3Fvbft4+uPvILod4IjsWuYf7hKUelvdv9wlyOR
-          D0CZGsuCv3dpEuJHHVsZiTp8257nlu2759m+0Ofhp44ju3EVrlJy5Svj0tCR2CIUOWtwNsfZHGtz
-          L0zKfWE26cR/LZP5j8E0blrfbQkVex2+VDX7rSxQQiN1jEkNNx1c4vbb9vPoD5/i8sVz7D90I5M0
-          98Iea9i9azsvvvg8ouTji9r7QAoZ1JF1HoAIxaXxxta+ElJuPcAKQZ5ljEYTkjiuMJ3ydbeBCCWV
-          bkiBG34Azl2LAlB//cb6fNoc5L3ggOJHaQhS79rZ2r7cbRYwuIYJiF/dOfYcvIF4eIXMebnusVeP
-          cuiOu7njrnv4t195HBkriiyvBCg2zzDpGBdcYVwgn3gPexHWfwTffX/TuVDRhdAgI0/CCdTYMpHG
-          J9ootNYUowlf/MhNPPPqObJxgdZxxWkv3YpFg8QiG+69Muz+q9DHBqWkBHOqWKzwgEgc+XDMvbfv
-          ZThOOX70NDpWrdHJv2ZRMAKcYlqFOV5FsS8OUjVNrwOq7WoJr6vba6w3AXWjlM986GZOnrnM6Mo6
-          kZ46AOVO3HreAU3de/X56hFASJ8mbPOJv+2MCUYp9YFxRe7fJ2uwRRGwlxybT3DFBFeEDAFTwGjI
-          /XfvpdOP+P53v0s3UvTndzCeTCisodNJkOS8cuQIneb6j5IrEgXyj6kTiFuhHLa+lUuTFbf5ni0L
-          +HgyIYqDbXyz6NrSok1vcgSm5RbUtM2pzDVqGxLnNi/V3HtbA7gfhSFIszKV3+NbyhtLTzPX/JED
-          KNNf5IYbdjO6ehmddLl04QKrFy/x53/mZzj6+mVOv3GROAlrtoZEt1oxFTnOhDDN0uLJ5t4rPve0
-          Wi+/DeCgyYPzjcXkeZDl5ljrbaisyciKgjjRfOiug3zj0aOofic48Lh6bSUjjFOAxqGw1JmBQkb4
-          eEAdPP91vYOXUWXqKIQKRUl6y67M8sWP38UPnj4BqGCR0I5Vl1IE31RVzYolHlFqAVzFkTD1GqlK
-          7XGV826Jj1UCE1vwqQ8e5Ns/fBW0bLvnhI6hMgtRKsRoy3b+YJmtYC1CxWGEqHr58PWDkAmJFSoY
-          i+YNTGzqJhEKIxQiiXngw7dx/twKTzzyMHv33wCRdw3Kspzl5e2cOvEqly+eR0e6ttaohDydymwV
-          ShFQGbVlGwXRNpKSXTWutuS4zjEcjb1vZSkJxwOl1lkkBVqraixtGXy4za212MppB9fKXKgXau/d
-          FOBH4glIOdM32pQmMuA20wUaN5k3sNxx8DCLekxRGLSOOPbqy8xs28lHPvox/vVXnoAoqoAiW7ba
-          zq/0bECPy1fGUT+IUiVh/pPhfhUVqZPSLDPEbosyVCO8wdlgzMfuvZGV1SFvnrpIpGWl9y9dh5yx
-          vviU4GGQ3NrCB2maIguAUOlT6CqE3IWxoQK4hCQrLHPLM9x8cJnvPvk6YnYmnJGA/gf9vFPezaj8
-          B6EQ2oN9Ku7i8PbepYyZEIQqKv5BCB11ogJSBT5JedfeeeZmOzzx/GlkL6mUf4TcgQq4CkUGkzWA
-          qxqDKS8GqaNG8lF9wzVtxwQSIaLaydiZRqGxVSdhc8eevQvceecNPP3Uk7x55jQHbrzVE7IEWGPZ
-          u3Mbzz79eOs2rTIIhA9XcZVbkmtYjLupKO+SFyCnyGrtwjQYDAIvyLVDZ0KxjKKkpQVwW+Z9NXAh
-          4aavzVra7XiPU/+7KADiOn6N26pLEi17MDGdElS+KDLmwA17yC+fQXf7DAcbnDt9hk989vOsDQRP
-          Pn2MuJtULZao3HnCYbBFGPlt9WY6a6qb05YPsLON9jfM1KZor4JKMYpUYAw/9uGb+erDr/i4sEaM
-          eLAc8h1JtfsPB8rmlVhlGu11jWpYdivlPC2ExQ5GfOL9ezl6/Byr51bREt8SB7TcBo8Cr7vPvdgn
-          zN+uXGEKTTEZVZr6avavvh8ROt9ADBLSuw6pCEYZn/3I7Rw5eZXJ0BIlSeXd76XJGlmaiaqo2pX7
-          TYKusgd8NyORkfbJx9a01t0CVwWrehfkQIaq9PhBAtx4yKUQMJnw4Xv2s7Q4xyMPPYRUksXlXeTp
-          BGcdcRyhheWlF14k6XZD7l+9c5Mq8pyQRuEVbTvYKUagrUxBqmzFMFqWncB4NETrADSX2QjlRscU
-          oQiLVnHZBPlda1XePPVuah34oyQCXe8I8Ja/dm+BDbjGAShXHUJgspTZnftY6FiGGxtIqTjx2lFE
-          3OOLP/lTfPU7z2GNj8+uZnckoJEqqcG8MjSy8WNJ3cEURSPdxfrwiaqVCipGKX1RqW5CRzbJ2Ltv
-          gdluxGPPnkD3El/Zm29TeQPS1D+E21FFId1HVD931WIL1Uh3LQ1BRMVa/OQHb+Hrj7wMcdRKyal+
-          1tDCE+K7/M8vqlvdI9GmbmfLnXbpHFxx3cs2t4zjNqAsH733MN98+BWIfKHxRbKoAzvK9txZbJ56
-          ai22QU8NxCqnUCrxHIjg4lOlKpfpvyoKuIsCm4W0YKq0ZiFVlejkABEpPnrfLaysrvLYo4+wZ+8+
-          VNwjz1KyLGNhYZ6L509z+cI5oijarLtRHsStdvJTNtxui8NW87M3w29SCsbjSUhDFvXBD8+KC8az
-          ldm9cw0wr7k2dJu8ckQLM3MtnMA/p/8HjABv5TQkrrkanLrbXaPKNUMTyuDK6u/5+Kl9hw4h1s+D
-          SkjHQ14/eoQPfPgBduw6wLcffhnV6/kVnzNYVwR8yTZud1Hv411ZxzXWBQS+4TNYauG9XVWCk76V
-          Rvr5XCJQWmEnBX/uo7fxzLGL5Bl++yBV7dOuVDDdpEqocdXOO7ACA0ruD05IFcbUzLNAviHchnla
-          sH/fEt1ej2dfPoua6YSbV1bYQYnuO9t4GEvnGrwTUjlHl7t6b0gaCmBp9ilFNbqV6rYiM9xwcJl+
-          J+b5F99AdUpuBI1CUZJ6vLGqtXnDkqzsSlLPTjTeFKSYbDRGpwxns7B5aDoPubAtqLs7ZL2elFJi
-          CsvSti533XWYI0eOcPK117jh8K0U1j9nWZazc3kbr7z0XOASiJbO3oetRCHHQEwJEOv1LcHEpQyt
-          cSXou8UtLKRkMpn4VaeUfhPQOMW+I/OXjGtKgJ27ZvJvteFhsxVos/N4Jz3AdTMB3VuQ+Ny1RoCW
-          Grje71PnNm5RWHwwRGduiaW5hI3LF9BxwoXzZylyy8/94i/wzItnGa75NrTKgAs7VSHDTWgLTw5x
-          we0j8LB9Kk3hH8SiCOy1wFAz3u/fBjTaFjbkCfj5Lc8tSS/hvvcd5ms/fA3ZTygaJpKleacl+MaX
-          D2pYF6moE/5bV0wyKUTd8gYSjpQRsnRCEBI3HPP5j9zKc6+eoxgbTy6pPqImn5QWXmXCTnUzSAkq
-          qjkHpWMvwdWIIHUuiTlBOyHCTcZwxOc/fBMvvXaBfJihSiflcuQqxydnvSegNUFT4eqLoHFLCqVx
-          Ugcnopr2TCPfr/pc4fOW1t+uIlGFNGfncIMhH7h1N3v2bOOxhx8B69i55yB57ttsFWnmZxOOvPAs
-          utPxl4Sj8exIz/4r8Z5g+10zMUVdaJssVXENwmywAsvznCzP0VpW2Yo1WSsEvcgonHvx1q1z4+wI
-          WnaZwUnpne3nps+ueKcjgHurcaDBBKzVSwI33boIWmqocmVksoylAzeh0xWMdRTpmJPHj7Ln5rt4
-          /4cf4I6bdqBnut4BVwm0JPj6SeIoCV59njgjpawNI3A+788WASUP8271j9e72+r7LhC2CIxBiRkM
-          +fj793JlLeX8qUvECg/2maKmCZcswIBkO2fDQ+tbc1sUgVzWmAetBy1dE1SSqvo91e/zkXtv5juP
-          H0XMdCq6qZ+x/YwuS8feEO7RGEy9ZDk8zMKJxoqrbFbqW0hMGV1a60ALPnDnAb7+yFEf+mlrym/l
-          4uxMQM8FzqQNNWXlXx5ARhfWrxO/8w+FpDLHKLMIXOhOTFAgltJo0fy4oOEXgk/cfyt5nvLYww+z
-          c/cukt6c3/KYgsWFedavXuDNM6dJkpL918hbkDGWKJjOqEBo0rRCTVyjCAhRE5tEw+5aNMM8BMYU
-          TNKMOIoalGOqdGpRWdS5a6diN4DKTTIAIarErZZW4V1g9j8yPwCYEvs40Vr8uzJxtWyjaLoAgbAG
-          ESXsWN6OHZwCGREpy3D9Kvd+5NMknT533trno+/fzYPfeAZ6JfAWlGIRkGf1w1Ky0vCWU+Wqq5y/
-          RKX59wdUKo20RWkMg8NXaeM0bpTy0Q8c5t98/SmEFtjSOTjMz0pqrBOVd3yzKRS6TMvN61vFNZJh
-          nF9P+upucd68gGJiuf8Dh5hMUl4/epp4YbbWsAckWmqvO/eAmqwPkywfCh1ufx0MShpl1xrQSVAA
-          lroEH6AqhSTPLbfcdgCk4qUXj/vUH1cSUWyoJQJcSEmyflePFHXacdPbP7D8bDZumFrIShNfq0dl
-          kEJPqi1H+fCUAZtlfVjc3ufD993Ka8eOc+yVl7j7/R8kK3zXkOU5u3Zs59irT2PSFHo9oPAsU7zz
-          kIx6OBl7yjISIUs1aEMZWq4xha1H/nJ1KxoWdk2czlrGoxFR5HEin0xn60tR5MG6rX6GxCZDDdEy
-          Dql5pmIqOSh0z85xvaZg7zgb8Hr/cvlnfo22+ePrSHDXkD16b31T5PSWdjOrUvIswzjJ0sIScwvb
-          uHDuLN1IkMws8Dd+68/ziftuZpxnjAcTxpOMwSRnOMoYDoaMJoZxmjKe5KTjMaMsxQhNOhlh0hyD
-          8FZYJViHN8XEbvjqL6W3yBICnNef/87f+hm++IUP8ftfetw/hCryC8Rwi6typVbesqE4OJMjowhb
-          FA2POx8p5juD8kbwrwHBtVhHivzqBp+7/xDf/eGRqrV0gsbc74tpzf031e3gKsqqwGaj0OKWPIEa
-          AJQ4jDWBhu3q3YySsDHmsx+5heeOvIEdj9G9LiaEidYceYtzwtOjHT7DoCXuVFU4SNmxGDKPsTgq
-          s1InbHAuNpUpa8UmrR42W2EsQioYprzvvhs4eHAn/+Qff4nJYJ0du/czGY+q+X1pYZavPv8MMo7C
-          eFJuL72fg1EzPqtAEg68qIDbCpUvjV2b9t1y2upOtMJC/HJizNzCTCPlp6EwtDlKxwEbooH90NIB
-          TPN9Grrjll5ICOFFb+98W791ARC8Ax/ALSpAkad+hpwyOXSiHYRQ1zOHMzkzvS7KTMjDpDvOHR//
-          6If50jce4T/5G/8RH/vkp+h0E3Ytb2dmZp652d30+z2kitA6ottJaqRYSIzxJpCTzJJlBekkZTTO
-          GI4zRsMxw9GEwShlODFsXF1hfVwwmuSMxyMGGyMwOX/93/0CH/zgrUwyy2/80sf5L/7bP6BQMbaw
-          UGR1aqwJ4RplO6kjb+ppDRQT79gTPAH9YXfIqOS5u0qUIwSMr6yw/4ZZ7rplJ//g9x5GzS8El2BR
-          6ROEksGEoqhv/9LMI4idSl6DwNVbhSowRHllnjW+62i0vd533/D+W3fy3//TB6E3izFFcAkuV2WB
-          vuwM6Mgr/xqGma6KJfNzrtTdwNey9b0nbFUQPSZZeA8DZxEyqgteubINYJ3UCUYaHrjvFnJr+eFD
-          DzK3tI2kP89wNEECs3MzjAernDxxlDhJQjZincgjZIdCzYQuTDa2JIXPACj9/0t+QHnduiAWEy1T
-          /4o4VUpzJ5MJ2yI95eDTHM9U8Fr0QHB9uJskn7afhqC20BOitAHxfoRZllbaDPEeYsJ+JMlAPjbL
-          Va1qddynVzDCq6REKHUmG/ksNqVQUnP2wlVuOriTX/+lH+fVV17m6//6H2EKS2Y0MvLSzTz38lYt
-          vc+djjpESZd+v0sn6dDtzZB0OszM9pmfX2B2do5Ov8vszCwHdswxN7tIt9sh7tyMVDFJ7AuJ1hor
-          JEVIpOn3ND/1Ux/n/vtuJ88MG0NfPPKsYDROWVkfsrYxZjxKGYwmrAwz0swxWBuwtr5GmluyScYk
-          LZgUXlKcTzJcntdOwdITjz7zsRv5nf/gZ9mze4n33bKLBx98BTPf87bZga+uowiHB8wQKhSWWoik
-          lVccinLlVEZalbeoTrB53rhx/N/VUUS6usZthxcZpI7jJ1fRvT62SEGUAaOyIuegIpyI/TajakNF
-          zakv0W0Z+W7EZqH7967FfpSWDfJT4rcCVUFqCsaCVCqd0J+RfOiDt/D6iZO8+Nxz7Dt4E8YKnDGM
-          85wbDt3A66+9TDYY0FtY8ABvNYJaiOYwegbMxHv9EYxZbE0c83mAuv51iWkQbVbBOVfTvIUkTcdI
-          JWsxmfNrVee8z4JKOr7I2SwUmwaoynRutmA6Q7BJppNSkXQ6b3lJX++OQF8Xn+htPptvi0Vjxyna
-          P0JVCMOeOqx11lcvIeRtSBVRFAVxJHntjYv0uwk7D9yGVpIo8lZRKsgt08k4gIGOPMvJg52zySeM
-          x+sMrlxmYAvOpjmj1M/LfkdcYKyvuuWqEBxaCaI4odtfQCcdOrGm1+vS68/S6fVZXl6imyT0ZmdZ
-          XFhgfm6OnYt9bj20nZleh16/RxQnxJFGK4V1qqFftxS5ISscw3HBYDhmsDFkMMoYT1JGgyEz/Q4/
-          /oV7uTpIGaUFf+XXPsbalVWM0gxGKePhgCKbkDvLKMspcuNjw2zAcAPomQsLWQpRN3QlRc01lyHZ
-          2PkEYBlGB6UE6XDEXK/D7/x7P8ObFwe4NCOa7VOgAqnJ1gRWqXyGni2xDxvGVld1A9UNaAtcPpna
-          nolGpn1ttuGDUHwar6tc5QM/QgvcYMCNN+7i4MHd/Nmf/FvWrq7ywY/cQJpl/iKxlqWFWR7+2lOI
-          SFdx6M00nTxewsoY6QxYCTIPDuRhq+GKyv2nedo8iJxW4JwvqqKlcxFCkKY+lcm5AiEiFJY8HdHp
-          z7Fjz17OXVoNXZgOqUOiEkKV+EJLjTpNq3e1FFdpVTkqXetouvfaAWwKI3iL/6XpGK1nNhkmVIKJ
-          6sWsX1glFdlkwhvHX+PwTTcyGU+w1hBJx2BjwNqaq7zzWoai4U2qPOeU3wIo1SfuzNOb1cRaoYJD
-          rg7W05H2ggyJZw3muecUaAom4wmFU2gJWTphfTBkfbLK2sWc115Mvf2zHWOtYJLXazgTTCN1FBEl
-          CXGc0EkS4k5Mv99nZnae2dk5+v0u/Zk+3f48vZkZ5mb77NmxwMItu5ib6XHhwnksfma+6aa9/LP/
-          5bfR0t9Sk8IFW/GCjVHKYJSRTXI2NsasDVPGowmjccr6YMTG+jBgIylrwwnj8YTJJGecG8ZZTj62
-          5E6SGYcpUsw45a7bd/N3/uNf4KZb9rO2OuD3/s23OX7kHPT6gd9vfMuqNOgIgcYUwfY7EJhE1f6H
-          QBQVsBU1LX6tSUsQNiKVOpMAXNajiYwUeaGgsPzYJ99HVlgeevAH9Gdn6c/OM0pTpIB+r0+RjTn+
-          mm//XYNxZ50hTrpkne3+5lcJCD/KlYGxwoqGdXcZ8FJiEBF2eDaMQY0wkQYKIIQPCzWmYGFuhjhO
-          iJTlxz/3c+zdt58nnn2F1SdfZX18yW9WWmlY3p+Aa0nsRftjLd6iPp2Mr/POfuvbW78b4GD6f3mW
-          ofv1m+laaapuM4NAeLGE1prXT77BcGONPbt3M5EU1QAAMlBJREFUkHRnAEenkxBFEToK8V6VuKTW
-          VVfyVOfFPVlmySZ5xahyzgV/PsLevYyp9G2tVgqlZLgJvfJPR/6G629TaK1IYh2iugnZAN5OSwqL
-          loYszcnyAi2gKHKGkxRT5JgiZ5IOWLmwwoVTE0ajCZM0RZY74ywLyjyfT6B17FWGShIrRZx0SPoz
-          9Htd5ubm6c8t0J+ZYbbfZ2Z2lt7sLLP9LnuXZkj2zRJ3lpmb6dLv94l06JZEIAYJKKxjNCmYjHMm
-          We7HkklKPkm55eb9qESzsjGiMzPLf/wf/ixf+fLjFCJiZX3ExnBENh4zyXLGRpJlhkmekuf4XEVj
-          obB1sXAGeguQjcCMGxyJ0IkowrZGoKUGm4f8wMDGDEacQijyjQk7ti/wN//mr3PPvbdw4o1TPP3D
-          h9m5azcq6iAmG2SF4cDuPZw7fYLR6gq9+fnQoYgqa8DKGfJCIYohVsgG1yD3HUG57gtErZJcJqQm
-          UjlmdAmp44ZnQMN3ITzZpsgxeY7UEStXV9i2fZ7UaSzwx3/0B6jeMlGyQB6YqfX83zCmKf9bNBhK
-          ro2dgSOKNDYfXifw595ZByB45xzjLBvTnVfh4NkaIClXKM3z3xBZOAlKCs5fWef86RNIJkRJDx3F
-          6ChCK88794czIo5j4jgOLXeM0ppIh3hvKYk7EUqpKnJbaV0JN6qVmHMe4ApuPzZ8r8YUjNI0OAeb
-          ECARLLxsOxtehFgv73orQry4QoguUvVJehE9HSGlQ0mBVp6noCOfUVgOSNbk5IUhyw2xlmSTlMFg
-          4BWKRc5wtMqljUtcedMxmeSMxhOstRRFwXjiPRGl8Hk2QiriOAYZobWi2+3S7c3Q7XWZne0zMztH
-          d8Z3IzOzM8zPLbJt+yLHXrmMExoZ+Q7mzlt28sn7f43CegETSvpOzFpGacFoUpCN/dZlkmYMBxMG
-          gxEbwwnrGyMGgyHDXLB6ZZXBYMholDEMI086SZnkhffTNz6LIEtT/xha44FVG1ybrOAj99/K3/qd
-          n2bnjjlEMssf/cHvcuXUUe6+9y+SFV4/UKSGHdsXefBr36y4CqX2QkiJzTJ2fuB99G59gHR9hXw8
-          xgiFS0fYyYgsm+CM9fmFkwlkQ6JIIuIephBMzjzhGY06nmLDNdR7wluET7IJk/GE4XDAJB3xv/+b
-          P+bmm2/yTlHDK6i5Ob+ipbTEdxW5zV9uEiHslqS76r+tI4kThsPJO2IBXvca0L2DT1TOe5PxiEVJ
-          dVtWWG4jIry15yj/bf0eWksJszuxw/Nk6djfkNZOWV1NBSqUqTTh31J49Zuq/tFEUYyKNFEUBSwh
-          IYp8EdFaE8cxnW4HHUUooYmT+u8LKVFKV4SW0knIA1kCY21lSuocvmgYi7EmjDNBEho+vvw7Mhhk
-          lrHpCIHWurLQlmqeKIpIIk13uyBSijjygaYC0JEKXvsCY72fvTMBHLXe2GOS5eRZjjEZ49GYq+ev
-          cuVsQZ4bRuMxWebn1Sy32BBKaq3DyYgoSlBSIbSkm0T0Zubpzc4xO9Pz2MjMHAtLCyzMz9GfmWdm
-          Zobt2/oc2L9IlOyh00noJBEq8msvKX2+QmmhZoxhnGZkaUGaFYxHfrW7vj5iY2PEaJKyvrZBN4n4
-          7Ofv86NVp8OjD32Hf/z3/yF3fPDDbNu5j8tX14kiTZx4/sixV4+gO52GYMuFiPcOUi5QXFxD2wJt
-          /VpPdmZRM9twwmGxJDOzdHozDE6/Qrp2FpH0WHnjFdbX3/SH1tqGRx8t1F4Ewk+WpiRJBweMBuuM
-          NlZ52focw+Xty6xmFnQXYbPQNoQVshNT1AJR5UxSMwcqQxkpBel4vOV5FW9D3oM2nqm3+s13OhZk
-          mc9vU1rXueqVFbirfln+mCU5w4k6hw5AzOxDjM+DyfzMiQWnGgwzWurClscA/hY3RdEwKd06f61V
-          W2Vt7CGVRGtVdRyR9mNIksQkcUKc+C6kk8TESeK7D62Jo5hYK2SsiVRNMS2dhas4cukPri8U3rik
-          KiTWYU1BUVgmwde+HnP8LlsEc5OSeSfCayJCN+LpxYooSoi6/nvpLEq2K0UUYtCEUJUuIGSqoyVI
-          LGluSdMJeTry/84zTF4wmgy4sHqJPJuQpxmjySQUP0dW+Dhy34l4NmISxyjti2+/16HXmw3dR4fZ
-          +Xn6/Tnm5udZXJxjdmaWpNdn+9IMB/YtEccd+v0uSmsur044++Zp/tmX/5h/9Xv/mjtuv5mPfurH
-          eO3URbSUpJMJO3ftYO3yWVYvXaI7O1O1/6X9etTfTrZ2lcnaFWRA37HGE6CUrsw+Lrz5NNgMKSPS
-          yQbjtUs+3CPugCk2hXW0jUL9w1XkOb3+fJCBpzhTMFy7ys7dN7BtaYErJ6/g8nKFapCylma3bnrn
-          2qe5Ikc5lNJoJZmUGMDUob2udCC3RQfwbg1GRHl7mJQkThiNh74TmP5WqmiAkm5ZBW8HfzqFExFy
-          7hCsHQ9CEtEQ3DRltVtXPBHYVLLac9M2b9gKZqnwKetvRZOTpg5n2sKmLXPcysopVeg+fPx4iSdE
-          OiIKY0ucxFUhieLIW2Rr35loHdGNY3QchW5Do1TJbwhFMhjsiOBpYGzZeVjyvLRHN5jckme+gBTW
-          Vt+6cbYyPa0orrIEUDUydD1e1dYlSuaJ+ppESvpSoIQMXVOExKKUItKqNlAJxipFcF3Os5TRaBQw
-          j5TJYJWNy2NOZxlZ7jGIIs+8Jbmz1SVgnUPqmDiK0cpy+cJZrIMvfP7HOHTbPbx++hKR8kV7PEm5
-          6dA+vvfVf1uxQGnYbgjhLdkng4uenKSiirLsKu2CD2RZu3jCaxZKpaKUqDjxoqXwDojGVqHtbeEL
-          fJbnKKVqWriz5JN1BoN51tZW6HQW2HXfZ9i4eo7x5QuMLr+JzccNJahFWBn4ElNTM36z1O12Ea6g
-          CFjCe3UG0m/X6l8vJjAZbdDp9BkOB6W9/rU1SaJhiFladKkYJyKc6iMWb4XLL1QmEJskmtfqBGia
-          LTRIG85d42dsH2jRSDSWerOCaVr8NA1tWGtJrWWSZQ3O+3Qg5LQ6Q0KZpCMlSofxReuqUEQN/GPT
-          P1Hii4yOkLFGxx4HESGjQASVoAn22rbMBQi5Cdb4bABjPPZhrCPPcyZpsAC3HtKVQkwVVFHRu318
-          uj+UvghqlE6Q/XkSpehpjQ7YiVZey1HqC7xdv8HaolaPBmefwng3nSjpMxgZXn3tDJH23c5gOOKG
-          /XsZrl3hySceI+n1Gsk/vsORKkLKGJNuBGJaGVJaMcCrGb6/4zD5aBUXXKFckYe1tarn8oakXZSZ
-          ljUJkzRNMcZvmVSUeDt6UzBYOUfSX6CnJTNmg6XdO5m/6UZmY8f3vvZlVlauoFTAXFo52tP2Y5Zu
-          r0M63nhPc//bFgDX+AzuOtuJ0XCd2W0LjRVMg/snNiudnGh458sIRBxSYjWuuxe5I8Jdejo8KGHH
-          LDZ/U641JzW0Fc41qnWNQ4hqndLesVZu5m5apOWmxE9tNZcTzXTW4A8vauc/IWold0vfHR6iKk7R
-          ehyhyAzYNPjpu3YRqTCUBkumvK0CduFHGIUux5fYR2slHY9/JLEfX+Kk40ecuEOcdOhGGiEjlI5x
-          QSTjglWZCwKZuqa5EAISQkICYGrDjJ8VE8zYBhuwpkZAtHwwfZCp/1mkVH4zoyOkkigZAx2yQUZ6
-          eQVnLUniQd1JmrG0bZk9Oxf5l//sH6J1hHCGpl+LwDsReU2C3+f77YgM2aP1zwSS7twySW8xdDQ5
-          Lp9Q5BNMkVKkI4QrKv/HUvzWHDUFMB6sIZwhjhOSTo/JZIwpMnozc+zadwO7du2hk4zIxiusvHmJ
-          Y1dWGGcleavRUripEbpaEji6nQ4bVy687UF/Oyyv/Bj9Vrv/66si/iNGgw2WdqoKOKvecNE4IaXd
-          dksIFXjRQVgjhMVl69hkO2Ln/bD6GkyuBnFNUyJVHypX8eFpt2kVoDKFqlbmHQ2S0lRhEQ0lo9hE
-          yG4oMxyN7DhXrStLDUTNBnVT8BFVPJeT9eeSQuAkaGTL+llsbqI2SdSNKSiKvPJeqK76itI6hYuU
-          aciNzkNrTRz50SWKY5K447cuSZcoTtA6Jko6RFEHHScoHfnDpRM6cYJMNFp5wZZxouUJUZLAjPEs
-          u6bTcGWiUWQUhSML7jpCQKQkVkqKoiCKYnbv2o0wI/7VP/+fuHLpHP25Rawp14ilxNhnRK5cfq4a
-          pXw+gkYoH2Uutd8yqSghihKkjoh0jEpihOj5t9ganM288UmDCFwawZThJ84UOGfo9Pvs3HuATrfP
-          zEyfXqJRUjCZ5Fx48xQXLl1kMByRZRlxnEA0H86Fa5OBpjvdYK0WR4KLg/VrdrbXc+ivGQ/u3kEV
-          aQuZBHlRYG1B0u0yHnpnn4acqiUJLr3gIMhnnQRSKEaQ+Ugpbx6RQrGBKyZgiy2oDaL2F6zUZaJ9
-          PgPgKJodyDUrp2iMEvUV77ZSXjva6sfGSd0Uh2rL275UfAWhTsWa2yJVSbiGgGhqJKs0FqIhYGno
-          coL/QKmUrPICplscQcNrzpHnBVmeMRyy2R/PTTkQI0MHEvAPKcPKNgpblxgdJeg4IY476CgmTjrE
-          SS9sZ2J0FIfD51e6KvLFhCCBFpUsN4CeWGwx4cSRx3j2se+T5SlRlFBkfn0ssBRFXu3VTTZs1O3w
-          TBWeDp3Tat1q/T8iCJnCz6UjtI5RSvtfh61S3OkQRxFx4rcmSgp27drB4UMHiLRmPJlw9PgpTp06
-          zYULFxgONnDgXwvtWaNCSrLSPGdKTCeat3BQHCadDraYkGXZO17Xvys14PV8kebhGG+sMDu7jdHG
-          BkKJqQ7aBcZT4ygFnzjXEG1UBo1mAjb1TK1SdOMa7q7THuvBtYYtAhbcFj9LNW01BSiN/24XLtmm
-          Zm5a0DZCGqbmJ9ekcuI860zUfyamew5Ha+1TYQnV2tAXjHKP7Jr58c2EWTe12RE1kUq8xXpIIkGL
-          qq60Wo4tgKGKdOUsJkvJ0nFlNdYwf5wWuNfr2+AlKJUfW5QOBy2sbHWU+Hw95xiP1lm5fJ5suIaM
-          fDdiTYhijwxSxUhjsBi/cSnSSspbvn/e26PpYVDnVDaHRGNtAFhzcKOqEJcXiWu87+V8rqOYXbv3
-          4Zzj3Lk3cTIKYKkm6XTDW+dHo9KfsHL9tmUxtq0xt+IZOEe/32O0sXZda7trvsdTv/8jIQKVf2N9
-          9RJ7lnYH4GmLL9jUOzZWH00OuY/jznx3IBU42fRLbSg2XU0vdk1Uv7Zd3owPuKr9dw2lFg2bsrfU
-          PDROSnPur4IaRen+39w8iBYlun0eag24m0qNdNNVy9l2V1E6G0+tN10DAHVVoqwIiNe10mearDOm
-          zEztVBFoF5GWKEyGrY6TAQgWW7wOtI1Rg8qwKArybELTN7Ll2V8eDKGROqG0gxPSOz8V2Rgdd4Ps
-          NkdKFfwgVfOabz+RU2t91zItFdXl5AFO0TLmqDqGxognpSI3fi3rmayd1rPvnwsd2IYF2WBIYZWX
-          VVcFRrQyAV1j+zA30+XcyRPXtba7Fj9gupt9SyLQ9RYCFwQRk8kEijG9fp/xaFCPAU3gSoj2g1GJ
-          SILtlBI4qyqZY9MLvYHwTb04jT7AuYbnXvv23WTeMeVbWOvQmZJ00s5tZyoPcWqP+5avXQuMrH3m
-          6xBKUYlSWkVmavWweRfdKKLNIcQ1y18bZZ7eIDedHZu76Op1dpv1622jmimAtlG4Nr/+Yuq/RBWZ
-          trk1D8CbMcF6u1GUAonG5BlCKnSUkCTzpBuXvZFp6HxEE+UVoor6bn85AVsU7vpRKM1XRLuAuLp4
-          evmzqqjoJf7gMLgiJc8mIaDWeCq47iFE4VmA4fAL1zDTwGMm3W4XhWE8Gl3XzX69xeFHIgdu/m99
-          9TKLC3sZDjbKwJ0GAdDVs7hocwl8ZSzCmyVbcIVozfrlJ3StG8sJ10itKVtp1+gKRMussd042Pb2
-          QrjW97zpqDTR+Kbb8VSxaSvI2lLSuiOx14fcCjFVRBqGIVMPrROifaRbQKZo+cM51zQuqacFNonB
-          mgKYBgrTDO8UTePKRqEQjT1IOc6U0mGxtRGGa70XzXt5+n2yFV/E5ClKJwipmGxcCanFJZv0Ggx5
-          0ZT4iGo1KwKeVOr9Ram8tKLyWywNWfyIWK8KBQKlPOXXZCOKbITJ0/DcaISKkUmC0JF3lmoOoc5t
-          ApmcLVhaXGRj9VJjJeiu68Z/ewxAbEb8RfOivV4sIHzw6tVLHNx+gChKQpLrZj1Y84ETLZ1TGXCp
-          K9OMurV2jTdrc8lrAid1sXfVsa+064LN/uw2WFo3FYstTdY0GajRBjdz98qPbvb6rjmO0I51cu2/
-          V4ZLCNGc57fAEqaTbN+erdXiODTYK61C4ouvmMY3p4IpRdXxCbZsstqcjHp/Wv+Oc5u2G9d6nFtM
-          cilDHJqbEprZkDXqn7eNy2e8H0JjFN3qexNbhFm4AMq2Z/H2ZVRDGbLR0fkMw9VLKVJK8nTs7dvw
-          VGAZ9ZEqDma2gQmLnDp3bku0WSrNbL/D66cvXDf6f/1yYHeN1t+9808mhKAoCiaDK8wvzHP58kV0
-          kOFu6WBaoVVNAEa0aK7NEKSqRSzns2qH7tthKWX11Iry88jGzSFqlN41fPxFae1dRl9VQZx1yKf/
-          Pdt+WJrrNNc2byh18s3D7qaTYZxryVBbWwC79ceXX9c1rNcrE46y+Lnmjrr8vPYdvafNQlCPbjWA
-          VsV2l6/zNHW1tTRrnCXhNkVkt/GZpuW1aOEalQGKmxrxhLcTUXGXyXAdk2fIUryz5RUmKpfd5hiz
-          FShboS3Nb1g0k41swwPBkU4m1cpRJf0q06D5RZqv7fRWebqpN6ZgaWkb6WiVNE3fEftPTGHS73gL
-          8I6hwP9/e1fa3MaRZF9WAyApiaJoWoflQ9bla2J35svs//+6ERszsRNeHxpbNnVaEkVKIsUD3V25
-          H+rKrGqAAAGQ0ozocIQkkkAD6Mrj5cv3/IVtPX+EL+78GdvbPdWD5r5nkZLKIruHbAVRgqkyF6ks
-          MxTJdKq3phQwHL01wA3iOaLiMyevtQqoKhNVdFxx0AqbJ2/IQEkEM1hqhRaDgw68tZHMY73rL4lq
-          IGns+2zDlGU+Kwxhkqsv5OGP/4eFlHRjWmmJBR1oJAlJZ9JUvkswMKHTx99y8WCJzzLQbjnutpMa
-          3ZLE45T6LinAlEXVItz6nKlr1UdzdABr22Q/Tuge+yq+CGXwDCnEh0iX6BIM1aasiAtkTrQz6Qeo
-          82q883RkFFI2ZoXAvdwjbKxfxNPf/2/q2f8kwPZcAoDmRjswsB3uYX19Hdsvt9DrVaVBIFCM1uKS
-          ECj+l8rXFBhC+eXKqQwbN25sZyjNwJlEVWFkNnGbYWSMlxgHYAwqQ6DKf3iBsmrEbC0i0u6xqso4
-          ghmlLUdrrR/5BI87r8Lb2kjSieSXWHHAGZz6QGLbdNhtq7N/qHzi3wOibll0F3nlIFsQ2aogXY/I
-          xswdXnbMI4NGvD5BsuIJwFE1ChafcfFn6kgEcGYcODqIQcOpJkvOB6kqRs7884wrt1goghw0gg6e
-          C4WmSUcETbPnYc5K7sxLM8UUJ/x58eJF2GYfe3u7U3P/J2nde5PODydtOMIf/3i8ic/v/AU729sJ
-          ZRajMOkkFBhiyTRUdghprZgD6CIukiJo463BTCUESmWYSUEg9W+cRjwmVAxJZtwYt+jDzKCKvEkP
-          eacdcT2woJ5x0tNeG9G2KXCE341sRz8PDuBg6vsZtuE4V7eNBdcWw9p7DLQuwFjLsLWrTKw30+RW
-          VgTJhZlbK7CcFCQkYs+CbuyCkgwSgtPAGsMIuvvq3+Rz2RyQDU9jlW08s5wQ2LFM1PK+rKIXAeT/
-          sl3xKslBmhsC3JMKvXnjEjUVs8WfcqzIkbAEkcC4lBFErv6nATJS5DkG4crVy/jDZ/+TDOdpBA/m
-          +F2Ak7KMfGn/9u0ehm+3sbGxgRcvnnufNhZMuYQ0smLuhTEIidJTAC1hQSiaYhgvTWXKMKbaghQo
-          wq5V9IDx2AHLEVow+iQ3ygzVg8MaEpZAvjIwfq3TodKORRbemcoYmJ5bTyU4GfCwvUc+uJgKyfWI
-          kuYALKPxZJcAUjJb2KELJk3bpgPrK4vgpsONXyluXIsRfta27t8ccObJRNYdWBsChtX6tKHVSMFD
-          BBmrwUqyOtBozoUGSV37wtkoV5TBrEe8xTAzO/wUHZpM/Pf0fTnLD2vpRk1iYmURgNbcNRh5Vuck
-          Y0bJwk04fYjXRIpnTxIQFphHyP7r6+uwwz3svnl94s2/48bSvVkPf+fIwV/oowe/4Pa3f8XOzisX
-          9QVnv4TwxZsexjeBeMJO+Sah+OmxyAeCaNJJbs/e0Ufl/eQiqhUjJUsEitZt5Psz4SPnFYJdReHI
-          NGzIi/r66sHb8gVpJ0YVX0OqOsmNpCu3i9/UFlXlzC+DsWZkFBJHEKyqGJYYS72+szbzph69isDn
-          GXUzxHKQDid4w49UPUQpbma0NaNpvG0aCLZx1UY7tF7AlMFexNQ27EiVVlQDQpclWHVZHzRc1UCi
-          8tDfl2434WcSWEl6gzMjI+mxqWilY3tAMQiE0Z2TIHNbkGSE7ZfAlGTPT2wyHgkyGjt7lqnVDFGW
-          WIIQeWHbcRDLzdRiIE1QJjpXL3+EzX/+feref5qvHhb0RUQYDofYefEI165dxaPHDzHo9wWBRGR6
-          3/OGA8URmffECMGmSj6/0ZTGU2PD90xEhr1nRzrwFsIV1miAygYwyimutK2jZ5qK0DY+01ugqlyb
-          EHTnDbnNQkOuFyVvF+4cyQgVuSxrDEBsIq7gJhZOJ896C29l/+QVd32Hgsokw422ZZBxjslVz4Gc
-          lh3mACIYtqCeV8TpVTA9d71LQbiicT2yk/Bzrj9N7d6vtrFA6wKCbTnqhtjgrWLdv3PrqwXrXp9t
-          bWRiuz/biG/EqkEyFTP5/Ah6drQTXYCC2rGM9mQmqQmbsGVaQS6NSUCPC1qScAvmbAQYNCbYZhAA
-          q7Vx1eNLQVsloZ4faB8UfUtaD2tc+/Q6Dve2cbC/P5e9/1EJuzcpYJBTj+XfecREgIjw7Okmvv7T
-          FayurmHfLwkFBJpjWZsEESnMdcMSSKCeRAceTpRJX54xSU15K2kFYpLgkXgLL0DpRCDJz5aZ2PeI
-          TniBBMkDZIE2WY9z65x9DAgtuWzU1K7FaH2QIeswBGvchiMqH1TAACoctu6eMj3nDWCMf9U23VRB
-          tIOFtJgLKuEG7qEyzmG57w95G4wtjHWiSmD0jIE1HnOwFlR5laIeULNFrwcYYjSNU5yxllFx8Fu1
-          rh2Cidk/HHrYgD0Q2tYZlbYNo22dMAmYHOgZ/BR9uxDNPqPimzdqZV0l2OCCLCYFcgoSwd+Q5QGv
-          JO1KezZVshtLcxoEUxRim4hKLGYLsUr1Gn0Sp6OqKKwTcO0PhrVq9EldkxVFdEjtqm3d0s9HF1dw
-          7/vv537450P9n3I8cHHtEj699Rf8fO+et9VireIj+yoiTVxR6D+Jnl3+nPGVmivjKXx44XeiK28q
-          18KGnPOhN2I0GKS8HGhHXpvehMfwBYYzI0V0bAF8CW68TLZf8U2YFMdsbipP9/UThqoy6PWNwwTI
-          gWRVJbngHigEOz07k0agpnIeesb/nmsTAveGQX4a0RsYVD1CMwyYgVvJNZW7XtsAde1MONvGk7D8
-          YWZ224UBPwgGmuyDAbHzqmsb6w+4BbeOwkpKVIn8973FuHVLN66S4AhApnbfnaA2jmKRjUATE5Jl
-          KxnuCe8aFfkEEuIrHHzkoZQ8EJsYm9zFmAn/G8XfDwFOHmDm7p0qEuPEZjjE7dtfYvvZfey83Bob
-          AOZxeKd6jO6NugkIJcz44uZX4P4lPHywif5gkOblineNqBWoDrb8UCMPwKjxDik+PRIqK0eAFPT6
-          pJ21DypVlSYDoX8PH61xen6Rf+ABQVNVioYcAkD4pNna+G+Vz+Th0FVVBfK4SOj9XYkvsCTLjkPu
-          e3+GkyYP48jQR7vqwaIyyVSy6lWCnuqvw9+0bdPGEGyMP6hIN1rb+qBgfY/epsMplw/BDEMVrCXU
-          dQNiePNS3z5wwlTcgiCHKalrLXxlYOM4VICQ4Wrj+NOmdkJU6HESEVH0QIc2MTPDVwExS4utUrVJ
-          ko04WQnSWh0wKB/hkWpPGMq4GWVPw8U5qesaV65ewbl+i99/+fHE2X+aQz0JWaizBZjmSUMJ/s1/
-          /BWPn+1id/eVs+Kyuu+VO/vpYECAOC5Dc8ji8efzQCGf11cAftmE1IhIZnwjeN+Io0EJ8LjV1dTX
-          GUPxvjPhkKvpkDu4oKAUxNHnAMwwPYr+f0aS7ow7sG7bzTvXeJKjqRJD0rJFZQxar5VgKr/Lbhwm
-          4CoQgoXL+m6qaVRGi3RVEkVym8r10GnZpo2j1NTPhzEhxWzf1G3M1IG7QEQeR/AByVI8vNZPOqzg
-          RbhNP5v2AoRoSGwlwgTJYwc5hZ4jKYSiNH3ckeByyQtywzQwQgWFnOI0w2asTzmTIM2xALQyNmvq
-          cfpdhwMtLy/j1o3r+PEf/x3FUhad2WeqACavFNyNtbKygjvf/Rd+/uV3t6pphPRRAPFUBhcH0miP
-          9kQOQra0AeXvno9+wuMbEloAnjNOVEVwzrnfUmK3+a0uUxkhNxYqA6/kA9f/uy1I9+/WMwfd4a1A
-          lb+5KYA+LtNXvRQYXAXAkcHYRqoz4kgyBAvfUTkfuqjRB4Cc8QrIom4aryhr/PO4W6+pGzmdgzHG
-          g3e+96dcCSkcRo+d+IMblI/bNh3m2OOzq6Zsmw5421gfyH3Jz07UNPThNgQGIgdIWqs2DlOrwEI1
-          jZUeQlH2h+sXS2Fq/zGnTSfQIgLNquSXOxxiY1FtnrJQEBrh/CMrr6+/uoOHv/4Du29eLbz3P1kA
-          mEA6/LhWYOPjK7j6+bf48ad76PUqoYBDiRxCyMgaSC2BwAb0yqj7njFJc5AEThAJQ/4GMGQSKhzH
-          SEiIstBhJxFYKLQD4XUZE2nH0ioqsBQdGMq+jTBikQTelTYhIUYo+LisL25KH2QCccoYkbU8G7G1
-          NlolVJWJBKNAbTYRDHW23HXd+ucM6rhWE2EoZGJXWbTeq4GZvZdAah0Sa9HtTVgfqJMFBCdKM6fM
-          DqTyP40ZbQw2riWwuuqGxgqsH73J/Yh0w5Lq1tW+hZq9iayu1JBsRqXW2IFeaOIO+aaOsab8LSI0
-          9RB37tzG7suHePb00UIO/6iDPlcQ8DjWUcQDvryLwfnL+OWXX9Ff6kcCUMgATHo3Ox4+5IsmpINF
-          aBHC4ee0sklEqi2QOwWaZko6qIjgULYIJq4uk0/Fcb9BBjVKZJFAMU66um60xwxUPeN7eicqwtaV
-          +K6CtRGljtr0BvEAp3Tjg5AxEYMIPXYo/ym4N/kS1wWvcL9bXyHJXQES5XBW6gbCj+XI82/bRs29
-          KfA6LETrkEaEqbJAtoDlOA3c2hhcSLj/cLZbofYdIMeO6d5jGQC4gyoTS34IMK+brgvOtCNiRdKV
-          7ksxFvKH/4sbN0D1G2ze//nUMv/pTAHGBIFbd75FTRfw8MEmBkuDwvQnJ2vIWSv5jjlp45mEBFPa
-          TtPLRLJ1YBCqyCRMGAQpTCG2Ej7DQ+IEsnrwSx4kBEhl2RQZfqGHJnbSW8RpZ8EI4lKgBkfJqYyA
-          Zjnq4BvvbxgENCEnED74SBFSI7OQxyZCyS5FRkOGjz28tcr5KbAHUxWQ7Rx44C6SpsJM3IYNTuv9
-          N21YRYhbnakyQAoUUTuP0mQhkIfbtmDUSXoxZTsJEjjkTIZbgYrQW5UStWfOW4G4gFEwY9VfKUyE
-          DOrhEa5/+jnO91v886f/LQ7/aRzOUw8AKgjc/RMO2wGePHmMfn+Q9VRi71qbJvmDDy2IwRJA1Mxu
-          onwXnoXQpM7YYqNITx0CiAiTFmb8Yxj1+HK4QZlqDymNfQp+8uE6Tfr9kOFJbUKmDTcTxp0knocS
-          8y783WSy6Gqxxt+glq3gY4Se2aY2K8iRZeo/7CsGQWJVOwZR9VeM6Nz1SQYQFG2Y4hZmYhmSt9Jm
-          1qvEEXFvm2LzjQWDMGm3iDVwqZ+IRL5SYiSwKvuT1K4UJT91LEQJ6abi/jcGGA6HuHrtOtZXB/j5
-          +//paE1O52DnW5JzjwbHtQN3v/0zDps+Hj54gP5goG9SRqbPSXJpQJTx4uORfAK1FwDIjS0Yscde
-          aG1nrYD0IZQH1rcBxQgz8yAAaV3AwDUPIGOE5fyOQ3RW8lnZBAJQKPeJhUqSoxi7TMyaeEq+fbBC
-          hSeAoKZS2oqWrTZSjduFQqhCbKolzX/N6IhUX181qAAgNgulDqT7OS8IEw615QyxJwThj1SqU/Id
-          UItFrNoUBQ6Ka+AwKSEqsjXLUaAC9JPuJGtgIl0Xy2CthXUc0+8IV69ew/rqEu798Df/2U1/9o5r
-          uSdqy2c+87MhgwAz7n7znxjyMjY3N9Hv9ztVd/VIEdmMIc/ASaiTCuXfiN4JDID1ajKoo5ooZcyS
-          VFT2b5RUc9KmGMX9APnWE2UEkghKpkQZlpBkNUN5Rs+FOqO2JCmOOUQA0CrE6aY1fjzqKMrCfEW0
-          SjaOy8IehNWioWyiyhJH1mawN/N1uUfyreViNCcJPyK8KAUmVtWI1b12zPQ6SCn1JmFYEgjmYXNR
-          0XelQmsu7IJMEzFn+GWtbVMP8cn1T7F2rsK9H/6eLOznVKIv+ucXgBy6IHDrznegpTX89vums/YO
-          brygjCMgY05Z7sdxohGZHGlqoDeOO2SylPaALA6M+BmO82WpcUjQkloQ0wd3kE0hOUZK6ELUsESC
-          n54xGJEHgPRcMcMSadApsGaRZody+1GdzgiiWsFTh97K89dnZZkeZN1EDy5VjCAkz1yQSDP+XOWY
-          O0UyGAQTF6M0aSdkfSvWj23BzedMak3z8bUgS7mDIJ9LS62WYqgsbif3OpvhEDdu3sRy1eDeD3/D
-          XLA+0hjHJHm5MKhZVJ8xcR/i36Drn32JtY+/wP3fNlHXR14P3halvJCGTLrs0OKh0fwxHrAucpLM
-          7nLcmAWVkKmL02syFaP8eUQACIQiQfukrmCoAoxuJWIgMKkiCaVy4EvJvpMMCUJKanei32Jhdshq
-          rh3VmjNkM63SpEPnvi8mIRk7J1wnFBkHSlUpndUw2yM1/cgDShIEFWvjYW7PrFoc7kLj8609lfHR
-          MR2AaimklLhSvJfrzETRsfj27ZtoD1/j13vfz5xQZzm4J/H+nPgnj+v5J+EJXPvsKzx6+gKvX+0k
-          XCCmocTHV77A2QiP5QSB9caWHOUVpb843HpHuzyolKiC6LQRzcQ4KX++rmCRv4MheCT1E+H0I39c
-          qmeymGLIeGL0YfYAJgtgS8n0sk10bBiBkMv9BIpZkYzJBAAl2SXJg7PQQ2TYTFZcM+n07wv8oFgd
-          thkAB4UBMHR/TwoboOKwFwEnrwbEOFD2+DnDr66HWDl3Dndu3cSrF5t4uHnff4bd5KDThuU7ny63
-          JT+t8UEIAssr53Dj1nfYHwKPnzwBwW2pKcw21xklrfFG6iOB+Eg4SYTJz1wcYpamEECZsUUAcVNI
-          ysrk0klXZuAOBcq48dZRFugy3xiUzvQjajyUU4i4Mx/K+C6nZaWES35F1kTd+1Auh+mLDLahaggl
-          eRLXyPt7uQhTqifHaQLp8lsCgmnyZjsOsATyOJvKdcjDK1IPd8/uWQt8pBaAVOlvjGtTmqbG5Y2P
-          ce3qBh799gN2tl+eTNTzfSACza0kEQaJN25+jfOXrmHz0RO83dtFv9/39NqU5RLYpkdwqRenThcb
-          3QJkXjfyMEpqsggOOKb0R/54ohoolsqyhRIJHiYfewEsUvdOWd5JRG1F6pRlVS0PFzRaLm/uLEDI
-          jEck3YWEBVwXSg6R3Tvk0yM6wSwMclN5LrkCEOYuTsRFz+fj5iCEzHzEIbqQfwFSSkFVoMAEGB1G
-          LERo6gb9QR+fXr+Oig+wef8n1MPhqZN8TjUALKp1uLT+ET678Q3eHrZ49OQp2qZG1eul+yrPokXW
-          1NVAmtlJxxhpIEZFFZR03lip0mqVGRZ+ccp9XvABjPCVZ30DBc1D6EARNAjSSJJL3EBUM4F0FE0u
-          mBS1IQIi6uXmXob6hpe1EWedRmQmykBbKACxAjUztpAY+yYk32bmIun6rPqEGPqgEjKfBmG+qSm7
-          KPp/bVLCxbWGykk/fyKDBWfmj69cwceXLuLls9/x/I/HY1vgWQ/grDjcQqjAs4ENZUtABHz+5V1c
-          /Og6nm/tYGvrpVtu6fWKDKO3CyV5JfO0k9m7uDYag2Uglv2RV0clzkAFD4EKhJZZLpJk0lAK4KSO
-          bCwITuK1xNGcUMFRr5KE5Hrx6ckNNOGxoKoDkZFz7CMES5ZEmtSEkeqQpVGszUgz0rehrDwKDJtL
-          PcHc8o06rUcKxc50pbFq0EQqzsxjCG6jsrUWaxfX8Mm1K2iOXuPBb/cwnEDHf5Yp+twCyLzK93l9
-          bxR4uLKygs9u3EV/+RKeb21je2cHzIx+T7sH572vdNCN0B5l9GImtZjUBTMosC2TKU9MOs2Yk3mM
-          sv48oUdGTNe4q5kX74cpKp78IHJOlMp6A+6oi7RwhTY7UeNIZv16suDCcr1QzMxJ+I6xZgbJKa0g
-          E7E2RKGOwRVL4CWj76KU3aLiV7gwBZW2fImMpcFViqYdLSxbXLiwiqtXNtA3LZ4+vI9XOy8nAr7P
-          bPR+dpjj6HnkcRco38zV1TV88umXMIPzePlqD69fv0I9rJ3QZlWhCyVk8ckS9FIQRIWgMAPp2KqE
-          G1kQ88vZfumQ02WkKTk6RcQQc3yZOUVZT3rvgIocB6Gr2AEo5j5wWR+cQduJbj2CW8axzGdF5NFP
-          QcrLD7qeScHadq3dliGRi748P/iyZdHuSzk0kVq9zOCUOen8k2Mttm0LQwarF9ewsbGGgbF48XQT
-          Wy+eifeKTyywizkdSprA3m9hAeC4F3LSJ5aB4PyFVVy+9gXOXVjH3v4htnd2sL9/CAY7KW5PvOEM
-          zKHsxk+SUkl/bkQCFqi3lDATJpmZdjx3CE9oZ5usfM5gy6JEVIYX+bRGBIUgkRbBOYIeQrA+dLlU
-          VrEAg0IOu2tMpgIR60wtMy+XgvkZ+JaqhPL1Z6ybYA8HVsIeSrpbVkYkXueYGzHtJbhDDwBLgyVc
-          Wl/H2sXzaIdvsfXsEV5tb+mKbAFA37zOU96WT30Oz7RkyGbm4Y0eDAbYuHwNa+tXwDTA7tsDvNnd
-          w+HRoVPV8dt2puD8F7IQpZEUif5btAkqQ4s9fZZtQliACX20nNnnh9iQ3jTN8Izkrdc11yD1vXKa
-          SEWfDlHekgALWYF4pSFmOQ4g0Rmlwbj6/XhBun3gzMU5VTKM4s1QOD5103AlB5+RjfqC6KzEIbKp
-          UHAc9mvIbsOSsLS0hNULq1hdPYdeBRzs7mDr+RPsv93rvB+PO3R8pidnelm/d2I8ODIqZn3WhQur
-          uLRxBecuXAKZPg6OGuzvH2L/8ADDo6F37PGc9yglZlTIJ4X4Y3RPTvLDH12xxANMpfX2KBBNMRqR
-          lfDcXT3IdkJ1KuIfci36AJSCSbn3qINEI5gHYz2pGV20hqwx0zLhJObwOblpVGbtFOrMKpCsXUix
-          wkYwNowPjanQ7/exsryMcyvLWF4eoG8YB/tv8GZnC69fbQtFKBp9Xe/J16nwAKbpP07aq6js679W
-          VlZwfnUNFy5cQn/5Aogq1K2z2hrWDeq6Rl03DsyxNhOYsMU4sTObFh7XefUwImt2xZeufJGDBsVB
-          ynQTjikgswKke0SqMADKLL258/KKM2kzqjFle+65a7L0h9YLnyPfw0KkQ4YdsYwjxVzCt6vKSapX
-          PXfglwd9DAY9LPX7IFgMj97i7e4r7O2+xv7eblEtpCCAuXD6x97fczilo6qQMwcBT1wdlBucasTH
-          JdsGg8ESlpdXsLRyDoOlFQyWzsFUFapeH8wE60Uyq6rCYLDkRCoy5VdNstGjx3hG1c0r2XasZMoi
-          0Gjz5RSOSjrQCTytogZdAJK20yYp5ki80suasXcplgKqstJIu/2JCMTR8RedPIEkviJxAr/hp3j1
-          JM6fMHgJgh9CB6JgXIarsUmll+JCU2bzIaYxSdADqOuhz/B60ck2NZr6CEeH+zg6fIujwwMcHOwX
-          h3rWbP9utM5jrmvS7aGFXMScoui4EnzsLBbwyjruwFVVTwmUjAdmBH7QWRGM6BzUTH/Mix9XR3NX
-          kdG166W5AAW+oCpmVp24fKiOpWM9RMhs8Ijz10clroAMkDvuK8dYMHZqGm+suh4KU1OLpm3Gq1wv
-          uLyfZJd/Xvf3uxuYzuLZ85k5A+9mbP7wdTq3Q8ZmeA/7+VmOkSE6fvQwrxFGdzQ/nTdInnhlow3u
-          7sWp3BEknPy9omN+ljqqBDrha5RSAZQ9dudzg0ZsTEx2cIjGH6pRr/PY94z0+6D+TDSX+5OL+2Fe
-          N/dsZ2ia35s7lfi0RwXzKoc+fJ1dNnlfPruTUdIX16KeNDDMSUvk3WcCjvvgJllb/vD14etDgB7T
-          AiykzJ6idJnlxXw48+/vTTx77/5+vZ55XS7P+brnFgBOImlENPmbw2P7uNO/K9+lG3Cal0fvwDXw
-          HD6iiT9zWsxBnPbefxeTFc8jANCEh7wz+/NizueJfpan+30+CwBzDjcpTxMsaL7XxzO+Xl7U6ZxT
-          L/0+fplZDziPyYqTHvJ5RFA64Wc+asy+iA+YTvD9s8gcvODzNS6w8Bwe4yTXSye6eJpLK7voNmjc
-          z5lZPmA+o6w4ayqiE9w0cylbz7gaoCkfi6dI2TTFNUzD+zmtzM6TBnvPxKSz7qemOG/jfs4s6izS
-          BOGJjulNaZrykKfLqscdTKLpP9+ulzxLNqU53/M8x2iSt058TMvXdQ3TVHXTvleL7ufT+vhi2obT
-          aisWqgfw74zSd44tqdxd4H+h9/Csrnfm5z3BA0StFZ7fTP4sRDvNoh54FjWU04x+01QZ02QrnsOb
-          8q4e/nHA7mm2NvMgxRDSouLUgCZ3Y0jzjD/zlAXveo1mkT3ntI/Fc+i5Z+3tecHPN68gOcuHNOvn
-          Ogtjdhqgk07pHpj1sz+T6cYM15g5RczVlfhDe7DQzEtnvqzyr/7Z/bvdm2ba+fdZtQfv0w20qMfj
-          BV4Hffjsjn999O7dHx8C3hz62Q97BB9uhrN8n8/yff9/LgqzXHK5x3gAAAAASUVORK5CYII=
-          B64
-
           cat > app/src/main/java/com/dakone/nivelfv/MainActivity.java <<'JAVA'
           package com.dakone.nivelfv;
-
+          
+          import android.Manifest;
           import android.app.Activity;
           import android.content.Context;
+          import android.content.SharedPreferences;
+          import android.content.pm.PackageManager;
+          import android.graphics.Bitmap;
           import android.graphics.Canvas;
           import android.graphics.Color;
           import android.graphics.Paint;
           import android.graphics.RectF;
+          import android.graphics.SurfaceTexture;
           import android.graphics.Typeface;
           import android.graphics.drawable.GradientDrawable;
           import android.hardware.Sensor;
           import android.hardware.SensorEvent;
           import android.hardware.SensorEventListener;
           import android.hardware.SensorManager;
+          import android.hardware.camera2.CameraAccessException;
+          import android.hardware.camera2.CameraCaptureSession;
+          import android.hardware.camera2.CameraCharacteristics;
+          import android.hardware.camera2.CameraDevice;
+          import android.hardware.camera2.CameraManager;
+          import android.hardware.camera2.CaptureRequest;
+          import android.hardware.camera2.params.StreamConfigurationMap;
           import android.os.Bundle;
           import android.os.Environment;
+          import android.os.Handler;
+          import android.os.HandlerThread;
           import android.os.VibrationEffect;
           import android.os.Vibrator;
           import android.text.InputType;
           import android.view.Gravity;
+          import android.view.Surface;
+          import android.view.TextureView;
           import android.view.View;
           import android.view.Window;
           import android.view.WindowManager;
           import android.widget.Button;
           import android.widget.EditText;
+          import android.widget.FrameLayout;
           import android.widget.LinearLayout;
           import android.widget.ScrollView;
           import android.widget.TextView;
           import android.widget.Toast;
-
+          
           import java.io.File;
+          import java.io.FileOutputStream;
           import java.io.FileWriter;
           import java.text.SimpleDateFormat;
+          import java.util.ArrayList;
+          import java.util.Collections;
+          import java.util.Comparator;
           import java.util.Date;
+          import java.util.List;
           import java.util.Locale;
-
+          
           public class MainActivity extends Activity implements SensorEventListener {
-              private static final int BG = Color.rgb(8, 12, 24);
-              private static final int CARD = Color.rgb(18, 26, 48);
-              private static final int CARD_2 = Color.rgb(13, 20, 39);
+              private static final int REQ_CAMERA = 2407;
+              private static final int BG = Color.rgb(5, 9, 20);
+              private static final int CARD = Color.argb(226, 17, 27, 52);
+              private static final int CARD_2 = Color.argb(230, 9, 17, 35);
               private static final int TEXT = Color.rgb(235, 243, 255);
-              private static final int MUTED = Color.rgb(144, 161, 188);
+              private static final int MUTED = Color.rgb(150, 166, 194);
               private static final int CYAN = Color.rgb(57, 220, 255);
               private static final int GREEN = Color.rgb(51, 255, 152);
               private static final int AMBER = Color.rgb(255, 193, 84);
               private static final int RED = Color.rgb(255, 82, 108);
-
+          
               private SensorManager sensorManager;
               private Sensor accelerometer;
-              private TextView pitchText, rollText, statusText, errorText, savedText, sensorText;
-              private EditText nameInput, targetLongInput, targetTransInput, toleranceInput;
-              private BubbleView bubbleView;
-
+              private TextView longText, transText, percentLongText, percentTransText, statusText, errorText, savedText, sensorText, modeText;
+              private EditText projectInput, techInput, refInput, targetLongInput, targetTransInput, toleranceInput;
+              private Button cameraButton;
+              private ProLevelView levelView;
+              private TextureView cameraView;
+              private FrameLayout rootFrame;
+          
               private final float[] gravity = new float[]{0f, 0f, 0f};
-              private double pitch = 0.0;
-              private double roll = 0.0;
-              private double zeroPitch = 0.0;
-              private double zeroRoll = 0.0;
+              private double longitudinal = 0.0;
+              private double transversal = 0.0;
+              private double zeroLong = 0.0;
+              private double zeroTrans = 0.0;
               private boolean hasValue = false;
               private long lastVibration = 0;
               private long lastUiUpdate = 0;
               private int eventCount = 0;
-
+          
+              private CameraDevice cameraDevice;
+              private CameraCaptureSession cameraSession;
+              private CaptureRequest.Builder previewBuilder;
+              private HandlerThread cameraThread;
+              private Handler cameraHandler;
+              private boolean cameraEnabled = false;
+          
               @Override
               protected void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
@@ -1574,43 +239,58 @@ jobs:
                   getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                   getWindow().setStatusBarColor(BG);
                   getWindow().setNavigationBarColor(BG);
-
+          
                   sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
                   accelerometer = sensorManager == null ? null : sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
+          
+                  rootFrame = new FrameLayout(this);
+                  rootFrame.setBackgroundColor(BG);
+          
+                  cameraView = new TextureView(this);
+                  cameraView.setAlpha(0.72f);
+                  cameraView.setVisibility(View.GONE);
+                  rootFrame.addView(cameraView, new FrameLayout.LayoutParams(-1, -1));
+          
+                  View shade = new View(this);
+                  GradientDrawable shadeBg = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                          new int[]{Color.argb(210, 5, 9, 20), Color.argb(110, 5, 9, 20), Color.argb(230, 5, 9, 20)});
+                  shade.setBackground(shadeBg);
+                  rootFrame.addView(shade, new FrameLayout.LayoutParams(-1, -1));
+          
                   ScrollView scroll = new ScrollView(this);
                   scroll.setFillViewport(true);
-                  scroll.setBackgroundColor(BG);
-
+                  scroll.setPadding(0, 0, 0, 0);
+          
                   LinearLayout root = new LinearLayout(this);
                   root.setOrientation(LinearLayout.VERTICAL);
-                  root.setPadding(dp(18), dp(58), dp(18), dp(28));
-                  scroll.addView(root);
-
+                  root.setPadding(dp(16), dp(50), dp(16), dp(24));
+                  scroll.addView(root, new ScrollView.LayoutParams(-1, -2));
+                  rootFrame.addView(scroll, new FrameLayout.LayoutParams(-1, -1));
+          
                   TextView title = new TextView(this);
-                  title.setText("NIVEL FV");
+                  title.setText("NIVEL FV PRO");
                   title.setTextColor(TEXT);
-                  title.setTextSize(34);
+                  title.setTextSize(32);
                   title.setTypeface(Typeface.DEFAULT_BOLD);
                   title.setGravity(Gravity.CENTER);
-                  title.setLetterSpacing(0.12f);
+                  title.setLetterSpacing(0.10f);
                   root.addView(title, lp(-1, -2, 0, 0, 0, 2));
-
+          
                   TextView subtitle = new TextView(this);
-                  subtitle.setText("inclinómetro solar · objetivo X/Y · ±70°");
+                  subtitle.setText("solar tools · longitudinal + transversal · cámara · informe");
                   subtitle.setTextColor(CYAN);
-                  subtitle.setTextSize(14);
+                  subtitle.setTextSize(13);
                   subtitle.setGravity(Gravity.CENTER);
-                  root.addView(subtitle, lp(-1, -2, 0, 0, 0, 6));
-
+                  root.addView(subtitle, lp(-1, -2, 0, 0, 0, 4));
+          
                   TextView byDakone = new TextView(this);
                   byDakone.setText("Realizado por DaKoNe");
-                  byDakone.setTextColor(Color.rgb(180, 240, 255));
+                  byDakone.setTextColor(Color.rgb(188, 245, 255));
                   byDakone.setTextSize(13);
                   byDakone.setGravity(Gravity.CENTER);
                   byDakone.setTypeface(Typeface.DEFAULT_BOLD);
-                  root.addView(byDakone, lp(-1, -2, 0, 0, 0, 14));
-
+                  root.addView(byDakone, lp(-1, -2, 0, 0, 0, 12));
+          
                   LinearLayout statusCard = card();
                   statusText = new TextView(this);
                   statusText.setText("ESPERANDO SENSOR");
@@ -1618,95 +298,123 @@ jobs:
                   statusText.setGravity(Gravity.CENTER);
                   statusText.setTypeface(Typeface.DEFAULT_BOLD);
                   statusText.setTextColor(AMBER);
-                  statusCard.addView(statusText, lp(-1, -2, 0, 0, 0, 6));
-
+                  statusCard.addView(statusText, lp(-1, -2, 0, 0, 0, 5));
+          
                   errorText = new TextView(this);
                   errorText.setText("desviación: --°");
-                  errorText.setTextSize(15);
+                  errorText.setTextSize(14);
                   errorText.setTextColor(MUTED);
                   errorText.setGravity(Gravity.CENTER);
                   statusCard.addView(errorText);
-                  root.addView(statusCard, lp(-1, -2, 0, 0, 0, 12));
-
-                  bubbleView = new BubbleView(this);
-                  root.addView(bubbleView, lp(-1, dp(240), 0, 0, 0, 12));
-
+                  root.addView(statusCard, lp(-1, -2, 0, 0, 0, 10));
+          
+                  levelView = new ProLevelView(this);
+                  root.addView(levelView, lp(-1, dp(265), 0, 0, 0, 10));
+          
                   LinearLayout grid = new LinearLayout(this);
                   grid.setOrientation(LinearLayout.HORIZONTAL);
                   grid.setBaselineAligned(false);
-                  LinearLayout cardPitch = metricCard("LONGITUDINAL");
-                  pitchText = valueText("--°");
-                  cardPitch.addView(pitchText);
-                  LinearLayout cardRoll = metricCard("TRANSVERSAL");
-                  rollText = valueText("--°");
-                  cardRoll.addView(rollText);
-                  grid.addView(cardPitch, weightLp(1f, 0, 0, 6, 0));
-                  grid.addView(cardRoll, weightLp(1f, 6, 0, 0, 0));
-                  root.addView(grid, lp(-1, -2, 0, 0, 0, 12));
-
+                  LinearLayout longCard = metricCard("LONGITUDINAL");
+                  longText = valueText("--°");
+                  percentLongText = smallCenter("-- % pendiente");
+                  longCard.addView(longText);
+                  longCard.addView(percentLongText);
+                  LinearLayout transCard = metricCard("TRANSVERSAL");
+                  transText = valueText("--°");
+                  percentTransText = smallCenter("-- % pendiente");
+                  transCard.addView(transText);
+                  transCard.addView(percentTransText);
+                  grid.addView(longCard, weightLp(1f, 0, 0, 5, 0));
+                  grid.addView(transCard, weightLp(1f, 5, 0, 0, 0));
+                  root.addView(grid, lp(-1, -2, 0, 0, 0, 10));
+          
                   LinearLayout form = card();
-                  nameInput = input("CT / INV / tracker / mesa", false);
-                  targetLongInput = input("Objetivo longitudinal", true);
-                  targetTransInput = input("Objetivo transversal", true);
-                  toleranceInput = input("Tolerancia", true);
+                  projectInput = input("Parque / proyecto", false);
+                  techInput = input("Técnico", false);
+                  refInput = input("CT / inversor / tracker / mesa", false);
+                  targetLongInput = input("Objetivo L", true);
+                  targetTransInput = input("Objetivo T", true);
+                  toleranceInput = input("Tol.", true);
                   targetLongInput.setText("0");
                   targetTransInput.setText("0");
                   toleranceInput.setText("1");
-                  form.addView(label("Referencia de medida"));
-                  form.addView(nameInput);
-                  form.addView(label("Objetivos y tolerancia en grados"));
-                  LinearLayout row = new LinearLayout(this);
-                  row.setOrientation(LinearLayout.HORIZONTAL);
-                  row.addView(targetLongInput, weightLp(1f, 0, 0, 4, 0));
-                  row.addView(targetTransInput, weightLp(1f, 4, 0, 4, 0));
-                  row.addView(toleranceInput, weightLp(1f, 4, 0, 0, 0));
-                  form.addView(row);
-                  root.addView(form, lp(-1, -2, 0, 0, 0, 12));
-
+                  techInput.setText("DaKoNe");
+                  form.addView(label("Datos de campo"));
+                  form.addView(projectInput, lp(-1, -2, 0, 0, 0, 6));
+                  LinearLayout rowTop = new LinearLayout(this);
+                  rowTop.setOrientation(LinearLayout.HORIZONTAL);
+                  rowTop.addView(techInput, weightLp(1f, 0, 0, 5, 0));
+                  rowTop.addView(refInput, weightLp(1f, 5, 0, 0, 0));
+                  form.addView(rowTop, lp(-1, -2, 0, 0, 0, 8));
+                  form.addView(label("Objetivo y tolerancia en grados"));
+                  LinearLayout rowObj = new LinearLayout(this);
+                  rowObj.setOrientation(LinearLayout.HORIZONTAL);
+                  rowObj.addView(targetLongInput, weightLp(1f, 0, 0, 4, 0));
+                  rowObj.addView(targetTransInput, weightLp(1f, 4, 0, 4, 0));
+                  rowObj.addView(toleranceInput, weightLp(0.75f, 4, 0, 0, 0));
+                  form.addView(rowObj);
+                  root.addView(form, lp(-1, -2, 0, 0, 0, 10));
+          
                   LinearLayout buttons1 = new LinearLayout(this);
                   buttons1.setOrientation(LinearLayout.HORIZONTAL);
-                  Button calibrate = button("Calibrar cero", CYAN, Color.rgb(0, 28, 42));
-                  Button reset = button("Reset", MUTED, Color.rgb(29, 37, 58));
-                  buttons1.addView(calibrate, weightLp(1f, 0, 0, 6, 0));
-                  buttons1.addView(reset, weightLp(1f, 6, 0, 0, 0));
-                  root.addView(buttons1, lp(-1, -2, 0, 0, 0, 10));
-
-                  Button save = button("Guardar medida CSV", GREEN, Color.rgb(0, 45, 30));
-                  root.addView(save, lp(-1, -2, 0, 0, 0, 12));
-
+                  Button calibrate = button("Calibrar cero", CYAN, Color.argb(230, 0, 28, 42));
+                  Button reset = button("Reset", MUTED, Color.argb(230, 29, 37, 58));
+                  buttons1.addView(calibrate, weightLp(1f, 0, 0, 5, 0));
+                  buttons1.addView(reset, weightLp(1f, 5, 0, 0, 0));
+                  root.addView(buttons1, lp(-1, -2, 0, 0, 0, 8));
+          
+                  LinearLayout buttons2 = new LinearLayout(this);
+                  buttons2.setOrientation(LinearLayout.HORIZONTAL);
+                  cameraButton = button("Cámara OFF", CYAN, Color.argb(230, 0, 28, 42));
+                  Button capture = button("Captura PNG", GREEN, Color.argb(230, 0, 45, 30));
+                  buttons2.addView(cameraButton, weightLp(1f, 0, 0, 5, 0));
+                  buttons2.addView(capture, weightLp(1f, 5, 0, 0, 0));
+                  root.addView(buttons2, lp(-1, -2, 0, 0, 0, 8));
+          
+                  Button save = button("Guardar medida CSV", GREEN, Color.argb(230, 0, 45, 30));
+                  root.addView(save, lp(-1, -2, 0, 0, 0, 10));
+          
                   LinearLayout diag = card();
+                  modeText = small("modo: profesional de prueba · v1.0-pro-test");
                   sensorText = small("sensor: " + (accelerometer == null ? "NO DISPONIBLE" : accelerometer.getName()));
                   savedText = small("sin mediciones guardadas todavía");
+                  diag.addView(modeText);
                   diag.addView(sensorText);
                   diag.addView(savedText);
                   root.addView(diag);
-
+          
                   calibrate.setOnClickListener(v -> {
                       if (!hasValue) {
                           toast("Todavía no hay lectura");
                           return;
                       }
-                      zeroPitch = pitch;
-                      zeroRoll = roll;
+                      zeroLong = longitudinal;
+                      zeroTrans = transversal;
                       toast("Cero calibrado");
+                      updateDisplay();
                   });
-
+          
                   reset.setOnClickListener(v -> {
-                      zeroPitch = 0.0;
-                      zeroRoll = 0.0;
+                      zeroLong = 0.0;
+                      zeroTrans = 0.0;
                       toast("Cero reiniciado");
+                      updateDisplay();
                   });
-
+          
                   save.setOnClickListener(v -> saveMeasurement());
-                  setContentView(scroll);
-
+                  capture.setOnClickListener(v -> saveReportPng());
+                  cameraButton.setOnClickListener(v -> toggleCamera());
+          
+                  loadPrefs();
+                  setContentView(rootFrame);
+          
                   if (accelerometer == null) {
                       statusText.setText("SIN ACELERÓMETRO");
                       statusText.setTextColor(RED);
-                      errorText.setText("este móvil no ofrece sensor compatible");
+                      errorText.setText("Este móvil no entrega sensor de inclinación.");
                   }
               }
-
+          
               @Override
               protected void onResume() {
                   super.onResume();
@@ -1717,39 +425,44 @@ jobs:
                   } catch (Exception e) {
                       showSensorError(e);
                   }
+                  if (cameraEnabled) startCamera();
               }
-
+          
               @Override
               protected void onPause() {
                   super.onPause();
+                  savePrefs();
                   try {
                       if (sensorManager != null) sensorManager.unregisterListener(this);
                   } catch (Exception ignored) {}
+                  stopCamera();
               }
-
+          
               @Override
               public void onSensorChanged(SensorEvent event) {
                   try {
                       if (event == null || event.sensor == null || event.values == null) return;
                       if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER) return;
                       if (event.values.length < 3) return;
-
-                      final float alpha = 0.88f;
+          
+                      final float alpha = 0.86f;
                       gravity[0] = alpha * gravity[0] + (1f - alpha) * event.values[0];
                       gravity[1] = alpha * gravity[1] + (1f - alpha) * event.values[1];
                       gravity[2] = alpha * gravity[2] + (1f - alpha) * event.values[2];
-
+          
                       double x = gravity[0];
                       double y = gravity[1];
                       double z = gravity[2];
-
-                      pitch = Math.toDegrees(Math.atan2(-x, Math.sqrt(y * y + z * z)));
-                      roll = Math.toDegrees(Math.atan2(y, z));
+          
+                      // Móvil en vertical. Ejes pensados para uso real en estructura/tracker:
+                      // longitudinal = inclinación arriba/abajo, transversal = izquierda/derecha.
+                      longitudinal = Math.toDegrees(Math.atan2(-x, Math.sqrt(y * y + z * z)));
+                      transversal = Math.toDegrees(Math.atan2(y, z));
                       hasValue = true;
                       eventCount++;
-
+          
                       long now = System.currentTimeMillis();
-                      if (now - lastUiUpdate > 60) {
+                      if (now - lastUiUpdate > 55) {
                           lastUiUpdate = now;
                           updateDisplay();
                       }
@@ -1757,87 +470,427 @@ jobs:
                       showSensorError(e);
                   }
               }
-
+          
               private void updateDisplay() {
                   try {
-                      double relativePitch = pitch - zeroPitch;
-                      double relativeRoll = roll - zeroRoll;
+                      double relLong = longitudinal - zeroLong;
+                      double relTrans = transversal - zeroTrans;
                       double targetLong = parseDouble(targetLongInput.getText().toString(), 0.0);
                       double targetTrans = parseDouble(targetTransInput.getText().toString(), 0.0);
                       double tolerance = Math.abs(parseDouble(toleranceInput.getText().toString(), 1.0));
                       if (tolerance < 0.05) tolerance = 0.05;
-
-                      double errorLong = Math.abs(relativePitch - targetLong);
-                      double errorTrans = Math.abs(relativeRoll - targetTrans);
-                      double error = Math.max(errorLong, errorTrans);
-
-                      pitchText.setText(String.format(Locale.US, "%+.2f°", relativePitch));
-                      rollText.setText(String.format(Locale.US, "%+.2f°", relativeRoll));
-                      errorText.setText(String.format(Locale.US, "desv. L %.2f° · T %.2f° · máx %.2f° · lecturas: %d", errorLong, errorTrans, error, eventCount));
-                      sensorText.setText("sensor: " + (accelerometer == null ? "NO" : accelerometer.getName()) + " · cero " + fmt(zeroPitch) + " / " + fmt(zeroRoll));
-                      bubbleView.setValues(relativePitch - targetLong, relativeRoll - targetTrans, tolerance);
-
-                      if (error <= tolerance) {
+          
+                      double errLongSigned = relLong - targetLong;
+                      double errTransSigned = relTrans - targetTrans;
+                      double errLong = Math.abs(errLongSigned);
+                      double errTrans = Math.abs(errTransSigned);
+                      double error = Math.max(errLong, errTrans);
+                      String status = statusFor(error, tolerance);
+          
+                      longText.setText(fmt(relLong));
+                      transText.setText(fmt(relTrans));
+                      percentLongText.setText(String.format(Locale.US, "%+.1f %% pendiente", slopePercent(relLong)));
+                      percentTransText.setText(String.format(Locale.US, "%+.1f %% pendiente", slopePercent(relTrans)));
+                      errorText.setText(String.format(Locale.US, "desv. L %.2f° · T %.2f° · máx %.2f° · tol %.2f° · %d lecturas", errLong, errTrans, error, tolerance, eventCount));
+                      sensorText.setText("sensor: " + (accelerometer == null ? "NO" : accelerometer.getName()) + " · cero " + fmt(zeroLong) + " / " + fmt(zeroTrans));
+                      levelView.setValues(errLongSigned, errTransSigned, tolerance, relLong, relTrans, targetLong, targetTrans);
+          
+                      if ("OK".equals(status)) {
                           statusText.setText("OK · CLAVADO");
                           statusText.setTextColor(GREEN);
                           safeVibrate();
-                      } else if (error <= tolerance * 2.0) {
-                          statusText.setText("REVISAR");
+                      } else if ("REVISAR".equals(status)) {
+                          statusText.setText("REVISAR · CERCA");
                           statusText.setTextColor(AMBER);
                       } else {
-                          statusText.setText("FUERA");
+                          statusText.setText("FUERA · AJUSTAR");
                           statusText.setTextColor(RED);
                       }
                   } catch (Exception e) {
                       showSensorError(e);
                   }
               }
-
+          
               private void saveMeasurement() {
                   if (!hasValue) {
                       toast("Todavía no hay lectura de sensor");
                       return;
                   }
                   try {
-                      String name = nameInput.getText().toString().trim();
-                      if (name.isEmpty()) name = "sin_nombre";
-                      double relativePitch = pitch - zeroPitch;
-                      double relativeRoll = roll - zeroRoll;
-                      double targetLong = parseDouble(targetLongInput.getText().toString(), 0.0);
-                      double targetTrans = parseDouble(targetTransInput.getText().toString(), 0.0);
-                      double tolerance = Math.abs(parseDouble(toleranceInput.getText().toString(), 1.0));
-                      double errorLong = Math.abs(relativePitch - targetLong);
-                      double errorTrans = Math.abs(relativeRoll - targetTrans);
-                      String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
-
+                      Measurement m = currentMeasurement();
                       File dir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
                       if (dir == null) dir = getFilesDir();
-                      File file = new File(dir, "nivel_fv_mediciones.csv");
+                      if (!dir.exists()) dir.mkdirs();
+                      File file = new File(dir, "nivel_fv_pro_mediciones.csv");
                       boolean newFile = !file.exists();
                       FileWriter writer = new FileWriter(file, true);
                       if (newFile) {
-                          writer.append("fecha,nombre,longitudinal_deg,transversal_deg,objetivo_longitudinal_deg,objetivo_transversal_deg,tolerancia_deg,error_longitudinal_deg,error_transversal_deg,zero_longitudinal,zero_transversal\n");
+                          writer.append("fecha,proyecto,tecnico,referencia,longitudinal_deg,transversal_deg,pendiente_longitudinal_pct,pendiente_transversal_pct,objetivo_longitudinal_deg,objetivo_transversal_deg,tolerancia_deg,error_longitudinal_deg,error_transversal_deg,error_max_deg,estado,zero_longitudinal,zero_transversal\n");
                       }
-                      writer.append(csv(date)).append(',')
-                              .append(csv(name)).append(',')
-                              .append(String.format(Locale.US, "%.3f", relativePitch)).append(',')
-                              .append(String.format(Locale.US, "%.3f", relativeRoll)).append(',')
-                              .append(String.format(Locale.US, "%.3f", targetLong)).append(',')
-                              .append(String.format(Locale.US, "%.3f", targetTrans)).append(',')
-                              .append(String.format(Locale.US, "%.3f", tolerance)).append(',')
-                              .append(String.format(Locale.US, "%.3f", errorLong)).append(',')
-                              .append(String.format(Locale.US, "%.3f", errorTrans)).append(',')
-                              .append(String.format(Locale.US, "%.3f", zeroPitch)).append(',')
-                              .append(String.format(Locale.US, "%.3f", zeroRoll)).append('\n');
+                      writer.append(csv(m.date)).append(',')
+                              .append(csv(m.project)).append(',')
+                              .append(csv(m.tech)).append(',')
+                              .append(csv(m.ref)).append(',')
+                              .append(num(m.relLong)).append(',')
+                              .append(num(m.relTrans)).append(',')
+                              .append(num(m.slopeLong)).append(',')
+                              .append(num(m.slopeTrans)).append(',')
+                              .append(num(m.targetLong)).append(',')
+                              .append(num(m.targetTrans)).append(',')
+                              .append(num(m.tolerance)).append(',')
+                              .append(num(m.errLong)).append(',')
+                              .append(num(m.errTrans)).append(',')
+                              .append(num(m.errMax)).append(',')
+                              .append(csv(m.status)).append(',')
+                              .append(num(zeroLong)).append(',')
+                              .append(num(zeroTrans)).append('\n');
                       writer.close();
                       savedText.setText("CSV: " + file.getAbsolutePath());
                       toast("Medida guardada");
                   } catch (Exception e) {
-                      savedText.setText("Error guardando: " + e.getClass().getSimpleName());
+                      savedText.setText("Error guardando CSV: " + e.getClass().getSimpleName());
                       Toast.makeText(this, "Error guardando: " + e.getMessage(), Toast.LENGTH_LONG).show();
                   }
               }
-
+          
+              private void saveReportPng() {
+                  if (!hasValue) {
+                      toast("Todavía no hay lectura de sensor");
+                      return;
+                  }
+                  try {
+                      Measurement m = currentMeasurement();
+                      File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                      if (dir == null) dir = getFilesDir();
+                      if (!dir.exists()) dir.mkdirs();
+                      String safeRef = m.ref.replaceAll("[^A-Za-z0-9_-]", "_");
+                      if (safeRef.length() == 0) safeRef = "medida";
+                      File file = new File(dir, "NivelFV_PRO_" + safeRef + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date()) + ".png");
+          
+                      Bitmap bitmap = Bitmap.createBitmap(1440, 1920, Bitmap.Config.ARGB_8888);
+                      Canvas canvas = new Canvas(bitmap);
+                      drawReport(canvas, bitmap.getWidth(), bitmap.getHeight(), m);
+                      FileOutputStream out = new FileOutputStream(file);
+                      bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                      out.flush();
+                      out.close();
+                      bitmap.recycle();
+                      savedText.setText("PNG: " + file.getAbsolutePath());
+                      toast("Captura PNG guardada");
+                  } catch (Exception e) {
+                      savedText.setText("Error PNG: " + e.getClass().getSimpleName());
+                      Toast.makeText(this, "Error PNG: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                  }
+              }
+          
+              private Measurement currentMeasurement() {
+                  Measurement m = new Measurement();
+                  m.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
+                  m.project = textOr(projectInput, "sin_proyecto");
+                  m.tech = textOr(techInput, "DaKoNe");
+                  m.ref = textOr(refInput, "sin_referencia");
+                  m.relLong = longitudinal - zeroLong;
+                  m.relTrans = transversal - zeroTrans;
+                  m.targetLong = parseDouble(targetLongInput.getText().toString(), 0.0);
+                  m.targetTrans = parseDouble(targetTransInput.getText().toString(), 0.0);
+                  m.tolerance = Math.abs(parseDouble(toleranceInput.getText().toString(), 1.0));
+                  if (m.tolerance < 0.05) m.tolerance = 0.05;
+                  m.errLong = Math.abs(m.relLong - m.targetLong);
+                  m.errTrans = Math.abs(m.relTrans - m.targetTrans);
+                  m.errMax = Math.max(m.errLong, m.errTrans);
+                  m.slopeLong = slopePercent(m.relLong);
+                  m.slopeTrans = slopePercent(m.relTrans);
+                  m.status = statusFor(m.errMax, m.tolerance);
+                  return m;
+              }
+          
+              private void drawReport(Canvas c, int w, int h, Measurement m) {
+                  Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+                  p.setStyle(Paint.Style.FILL);
+                  p.setColor(BG);
+                  c.drawRect(0, 0, w, h, p);
+          
+                  GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
+                          new int[]{Color.rgb(8, 16, 34), Color.rgb(3, 7, 16)});
+                  bg.setBounds(0, 0, w, h);
+                  bg.draw(c);
+          
+                  p.setTypeface(Typeface.DEFAULT_BOLD);
+                  p.setTextAlign(Paint.Align.CENTER);
+                  p.setColor(TEXT);
+                  p.setTextSize(74f);
+                  c.drawText("NIVEL FV PRO", w / 2f, 130f, p);
+                  p.setTextSize(30f);
+                  p.setColor(CYAN);
+                  c.drawText("Realizado por DaKoNe · informe de medición", w / 2f, 180f, p);
+          
+                  int statusColor = "OK".equals(m.status) ? GREEN : ("REVISAR".equals(m.status) ? AMBER : RED);
+                  p.setColor(statusColor);
+                  p.setTextSize(78f);
+                  c.drawText(m.status, w / 2f, 300f, p);
+          
+                  drawReportCard(c, p, 90, 360, w - 90, 760, "LECTURA", new String[]{
+                          "Longitudinal: " + fmt(m.relLong) + "   (" + String.format(Locale.US, "%+.1f%%", m.slopeLong) + ")",
+                          "Transversal:  " + fmt(m.relTrans) + "   (" + String.format(Locale.US, "%+.1f%%", m.slopeTrans) + ")",
+                          "Objetivo L/T: " + fmt(m.targetLong) + " / " + fmt(m.targetTrans),
+                          "Tolerancia:   ±" + String.format(Locale.US, "%.2f°", m.tolerance),
+                          "Error máx.:   " + String.format(Locale.US, "%.2f°", m.errMax)
+                  }, statusColor);
+          
+                  drawReportCard(c, p, 90, 820, w - 90, 1170, "DATOS DE CAMPO", new String[]{
+                          "Proyecto:   " + m.project,
+                          "Técnico:    " + m.tech,
+                          "Referencia: " + m.ref,
+                          "Fecha:      " + m.date
+                  }, CYAN);
+          
+                  drawMiniTarget(c, p, w / 2f, 1410f, 210f, m);
+          
+                  p.setTextAlign(Paint.Align.CENTER);
+                  p.setTypeface(Typeface.DEFAULT);
+                  p.setColor(MUTED);
+                  p.setTextSize(28f);
+                  c.drawText("CSV + PNG generados localmente en el móvil. La app no sube datos.", w / 2f, h - 105f, p);
+                  p.setTypeface(Typeface.DEFAULT_BOLD);
+                  p.setColor(Color.rgb(185, 245, 255));
+                  c.drawText("DaKoNe Solar Tools", w / 2f, h - 55f, p);
+              }
+          
+              private void drawReportCard(Canvas c, Paint p, int left, int top, int right, int bottom, String title, String[] lines, int accent) {
+                  RectF r = new RectF(left, top, right, bottom);
+                  p.setStyle(Paint.Style.FILL);
+                  p.setColor(Color.argb(230, 17, 27, 52));
+                  c.drawRoundRect(r, 34f, 34f, p);
+                  p.setStyle(Paint.Style.STROKE);
+                  p.setStrokeWidth(4f);
+                  p.setColor(Color.argb(170, Color.red(accent), Color.green(accent), Color.blue(accent)));
+                  c.drawRoundRect(r, 34f, 34f, p);
+                  p.setStyle(Paint.Style.FILL);
+                  p.setTextAlign(Paint.Align.LEFT);
+                  p.setTypeface(Typeface.DEFAULT_BOLD);
+                  p.setTextSize(36f);
+                  p.setColor(accent);
+                  c.drawText(title, left + 42f, top + 68f, p);
+                  p.setTypeface(Typeface.MONOSPACE);
+                  p.setTextSize(34f);
+                  p.setColor(TEXT);
+                  float y = top + 138f;
+                  for (String line : lines) {
+                      c.drawText(line, left + 42f, y, p);
+                      y += 58f;
+                  }
+              }
+          
+              private void drawMiniTarget(Canvas c, Paint p, float cx, float cy, float radius, Measurement m) {
+                  p.setStyle(Paint.Style.STROKE);
+                  p.setStrokeWidth(4f);
+                  p.setColor(Color.argb(110, 57, 220, 255));
+                  c.drawCircle(cx, cy, radius, p);
+                  c.drawCircle(cx, cy, radius * 0.66f, p);
+                  c.drawCircle(cx, cy, radius * 0.33f, p);
+                  c.drawLine(cx - radius, cy, cx + radius, cy, p);
+                  c.drawLine(cx, cy - radius, cx, cy + radius, p);
+                  float scale = radius / 15f;
+                  float bx = clamp(cx + (float) (m.relLong - m.targetLong) * scale, cx - radius, cx + radius);
+                  float by = clamp(cy - (float) (m.relTrans - m.targetTrans) * scale, cy - radius, cy + radius);
+                  int color = "OK".equals(m.status) ? GREEN : ("REVISAR".equals(m.status) ? AMBER : RED);
+                  p.setStyle(Paint.Style.FILL);
+                  p.setColor(Color.argb(80, Color.red(color), Color.green(color), Color.blue(color)));
+                  c.drawCircle(bx, by, 58f, p);
+                  p.setColor(color);
+                  c.drawCircle(bx, by, 34f, p);
+                  p.setTextAlign(Paint.Align.CENTER);
+                  p.setTypeface(Typeface.DEFAULT_BOLD);
+                  p.setTextSize(32f);
+                  p.setColor(TEXT);
+                  c.drawText("objetivo X/Y", cx, cy + radius + 68f, p);
+              }
+          
+              private void toggleCamera() {
+                  if (cameraEnabled) {
+                      cameraEnabled = false;
+                      stopCamera();
+                      cameraView.setVisibility(View.GONE);
+                      cameraButton.setText("Cámara OFF");
+                      modeText.setText("modo: sin cámara · medición directa");
+                      return;
+                  }
+                  if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                      requestPermissions(new String[]{Manifest.permission.CAMERA}, REQ_CAMERA);
+                      return;
+                  }
+                  cameraEnabled = true;
+                  cameraView.setVisibility(View.VISIBLE);
+                  cameraButton.setText("Cámara ON");
+                  modeText.setText("modo: cámara activa · referencia visual");
+                  startCamera();
+              }
+          
+              @Override
+              public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+                  super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                  if (requestCode == REQ_CAMERA) {
+                      if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                          cameraEnabled = true;
+                          cameraView.setVisibility(View.VISIBLE);
+                          cameraButton.setText("Cámara ON");
+                          modeText.setText("modo: cámara activa · referencia visual");
+                          startCamera();
+                      } else {
+                          toast("Permiso de cámara denegado");
+                      }
+                  }
+              }
+          
+              private void startCamera() {
+                  try {
+                      if (!cameraEnabled) return;
+                      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) return;
+                      startCameraThread();
+                      if (cameraView.isAvailable()) {
+                          openCamera();
+                      } else {
+                          cameraView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+                              @Override public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) { openCamera(); }
+                              @Override public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {}
+                              @Override public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) { return true; }
+                              @Override public void onSurfaceTextureUpdated(SurfaceTexture surface) {}
+                          });
+                      }
+                  } catch (Exception e) {
+                      modeText.setText("cámara: " + e.getClass().getSimpleName());
+                  }
+              }
+          
+              private void startCameraThread() {
+                  if (cameraThread != null) return;
+                  cameraThread = new HandlerThread("NivelFVProCamera");
+                  cameraThread.start();
+                  cameraHandler = new Handler(cameraThread.getLooper());
+              }
+          
+              private void stopCameraThread() {
+                  try {
+                      if (cameraThread != null) {
+                          cameraThread.quitSafely();
+                          cameraThread.join(600);
+                      }
+                  } catch (Exception ignored) {}
+                  cameraThread = null;
+                  cameraHandler = null;
+              }
+          
+              private void openCamera() {
+                  try {
+                      if (cameraDevice != null) return;
+                      CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+                      if (manager == null) return;
+                      String cameraId = chooseCamera(manager);
+                      if (cameraId == null) {
+                          modeText.setText("cámara: no disponible");
+                          return;
+                      }
+                      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) return;
+                      manager.openCamera(cameraId, new CameraDevice.StateCallback() {
+                          @Override public void onOpened(CameraDevice camera) {
+                              cameraDevice = camera;
+                              createCameraPreview();
+                          }
+                          @Override public void onDisconnected(CameraDevice camera) {
+                              try { camera.close(); } catch (Exception ignored) {}
+                              cameraDevice = null;
+                          }
+                          @Override public void onError(CameraDevice camera, int error) {
+                              try { camera.close(); } catch (Exception ignored) {}
+                              cameraDevice = null;
+                              runOnUiThread(() -> modeText.setText("cámara: error " + error));
+                          }
+                      }, cameraHandler);
+                  } catch (Exception e) {
+                      modeText.setText("cámara: " + e.getClass().getSimpleName());
+                  }
+              }
+          
+              private String chooseCamera(CameraManager manager) throws CameraAccessException {
+                  String fallback = null;
+                  for (String id : manager.getCameraIdList()) {
+                      if (fallback == null) fallback = id;
+                      CameraCharacteristics c = manager.getCameraCharacteristics(id);
+                      Integer facing = c.get(CameraCharacteristics.LENS_FACING);
+                      if (facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) return id;
+                  }
+                  return fallback;
+              }
+          
+              private void createCameraPreview() {
+                  try {
+                      if (cameraDevice == null || !cameraView.isAvailable()) return;
+                      SurfaceTexture texture = cameraView.getSurfaceTexture();
+                      if (texture == null) return;
+                      texture.setDefaultBufferSize(1280, 720);
+                      Surface surface = new Surface(texture);
+                      previewBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+                      previewBuilder.addTarget(surface);
+                      cameraDevice.createCaptureSession(Collections.singletonList(surface), new CameraCaptureSession.StateCallback() {
+                          @Override public void onConfigured(CameraCaptureSession session) {
+                              cameraSession = session;
+                              try {
+                                  previewBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                                  previewBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON);
+                                  session.setRepeatingRequest(previewBuilder.build(), null, cameraHandler);
+                              } catch (Exception e) {
+                                  runOnUiThread(() -> modeText.setText("cámara preview: " + e.getClass().getSimpleName()));
+                              }
+                          }
+                          @Override public void onConfigureFailed(CameraCaptureSession session) {
+                              runOnUiThread(() -> modeText.setText("cámara: configuración fallida"));
+                          }
+                      }, cameraHandler);
+                  } catch (Exception e) {
+                      modeText.setText("cámara preview: " + e.getClass().getSimpleName());
+                  }
+              }
+          
+              private void stopCamera() {
+                  try {
+                      if (cameraSession != null) {
+                          cameraSession.stopRepeating();
+                          cameraSession.close();
+                      }
+                  } catch (Exception ignored) {}
+                  cameraSession = null;
+                  try {
+                      if (cameraDevice != null) cameraDevice.close();
+                  } catch (Exception ignored) {}
+                  cameraDevice = null;
+                  stopCameraThread();
+              }
+          
+              private void savePrefs() {
+                  try {
+                      SharedPreferences.Editor e = getSharedPreferences("pro", MODE_PRIVATE).edit();
+                      e.putString("project", projectInput.getText().toString());
+                      e.putString("tech", techInput.getText().toString());
+                      e.putString("ref", refInput.getText().toString());
+                      e.putString("targetLong", targetLongInput.getText().toString());
+                      e.putString("targetTrans", targetTransInput.getText().toString());
+                      e.putString("tolerance", toleranceInput.getText().toString());
+                      e.apply();
+                  } catch (Exception ignored) {}
+              }
+          
+              private void loadPrefs() {
+                  try {
+                      SharedPreferences p = getSharedPreferences("pro", MODE_PRIVATE);
+                      projectInput.setText(p.getString("project", ""));
+                      techInput.setText(p.getString("tech", "DaKoNe"));
+                      refInput.setText(p.getString("ref", ""));
+                      targetLongInput.setText(p.getString("targetLong", "0"));
+                      targetTransInput.setText(p.getString("targetTrans", "0"));
+                      toleranceInput.setText(p.getString("tolerance", "1"));
+                  } catch (Exception ignored) {}
+              }
+          
               private void safeVibrate() {
                   long now = System.currentTimeMillis();
                   if (now - lastVibration < 2500) return;
@@ -1851,11 +904,9 @@ jobs:
                               vibrator.vibrate(35);
                           }
                       }
-                  } catch (Throwable ignored) {
-                      // La medición no debe morir jamás por una vibración. Primero medir, luego adornos.
-                  }
+                  } catch (Throwable ignored) {}
               }
-
+          
               private double parseDouble(String value, double fallback) {
                   try {
                       return Double.parseDouble(value.replace(',', '.').trim());
@@ -1863,15 +914,39 @@ jobs:
                       return fallback;
                   }
               }
-
+          
+              private double slopePercent(double deg) {
+                  return Math.tan(Math.toRadians(deg)) * 100.0;
+              }
+          
+              private String statusFor(double error, double tolerance) {
+                  if (error <= tolerance) return "OK";
+                  if (error <= tolerance * 2.0) return "REVISAR";
+                  return "FUERA";
+              }
+          
               private String fmt(double v) {
                   return String.format(Locale.US, "%+.2f°", v);
               }
-
+          
+              private String num(double v) {
+                  return String.format(Locale.US, "%.3f", v);
+              }
+          
               private String csv(String value) {
+                  if (value == null) value = "";
                   return "\"" + value.replace("\"", "\"\"") + "\"";
               }
-
+          
+              private String textOr(EditText e, String fallback) {
+                  String s = e.getText().toString().trim();
+                  return s.isEmpty() ? fallback : s;
+              }
+          
+              private float clamp(float v, float min, float max) {
+                  return Math.max(min, Math.min(max, v));
+              }
+          
               private void showSensorError(Exception e) {
                   if (statusText != null) {
                       statusText.setText("ERROR SENSOR");
@@ -1879,25 +954,25 @@ jobs:
                   }
                   if (errorText != null) errorText.setText(e.getClass().getSimpleName() + ": " + e.getMessage());
               }
-
+          
               private void toast(String text) {
                   Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
               }
-
+          
               @Override
               public void onAccuracyChanged(Sensor sensor, int accuracy) {}
-
+          
               private LinearLayout card() {
                   LinearLayout l = new LinearLayout(this);
                   l.setOrientation(LinearLayout.VERTICAL);
-                  l.setPadding(dp(16), dp(16), dp(16), dp(16));
+                  l.setPadding(dp(14), dp(14), dp(14), dp(14));
                   GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, new int[]{CARD, CARD_2});
                   bg.setCornerRadius(dp(22));
-                  bg.setStroke(dp(1), Color.argb(95, 57, 220, 255));
+                  bg.setStroke(dp(1), Color.argb(100, 57, 220, 255));
                   l.setBackground(bg);
                   return l;
               }
-
+          
               private LinearLayout metricCard(String text) {
                   LinearLayout l = card();
                   l.setGravity(Gravity.CENTER);
@@ -1911,61 +986,67 @@ jobs:
                   l.addView(label, lp(-1, -2, 0, 0, 0, 4));
                   return l;
               }
-
+          
               private TextView valueText(String text) {
                   TextView tv = new TextView(this);
                   tv.setText(text);
                   tv.setTextColor(TEXT);
-                  tv.setTextSize(30);
+                  tv.setTextSize(28);
                   tv.setGravity(Gravity.CENTER);
                   tv.setTypeface(Typeface.DEFAULT_BOLD);
                   return tv;
               }
-
+          
               private TextView label(String text) {
                   TextView tv = new TextView(this);
                   tv.setText(text);
                   tv.setTextColor(MUTED);
                   tv.setTextSize(12);
-                  tv.setPadding(0, dp(8), 0, dp(4));
+                  tv.setPadding(0, dp(6), 0, dp(4));
                   return tv;
               }
-
+          
               private TextView small(String text) {
                   TextView tv = new TextView(this);
                   tv.setText(text);
                   tv.setTextColor(MUTED);
                   tv.setTextSize(12);
-                  tv.setPadding(0, dp(4), 0, dp(4));
+                  tv.setPadding(0, dp(3), 0, dp(3));
                   return tv;
               }
-
+          
+              private TextView smallCenter(String text) {
+                  TextView tv = small(text);
+                  tv.setGravity(Gravity.CENTER);
+                  return tv;
+              }
+          
               private EditText input(String hint, boolean number) {
                   EditText e = new EditText(this);
                   e.setHint(hint);
                   e.setHintTextColor(Color.rgb(95, 112, 140));
                   e.setTextColor(TEXT);
-                  e.setTextSize(16);
+                  e.setTextSize(14);
                   e.setSingleLine(true);
-                  e.setPadding(dp(12), dp(8), dp(12), dp(8));
+                  e.setPadding(dp(11), dp(7), dp(11), dp(7));
                   e.setBackground(inputBg());
                   if (number) e.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
                   return e;
               }
-
+          
               private GradientDrawable inputBg() {
                   GradientDrawable gd = new GradientDrawable();
-                  gd.setColor(Color.rgb(7, 13, 28));
+                  gd.setColor(Color.argb(224, 7, 13, 28));
                   gd.setCornerRadius(dp(14));
-                  gd.setStroke(dp(1), Color.argb(70, 57, 220, 255));
+                  gd.setStroke(dp(1), Color.argb(75, 57, 220, 255));
                   return gd;
               }
-
+          
               private Button button(String text, int stroke, int fill) {
                   Button b = new Button(this);
                   b.setText(text);
                   b.setTextColor(TEXT);
-                  b.setTextSize(15);
+                  b.setTextSize(14);
                   b.setAllCaps(false);
                   b.setTypeface(Typeface.DEFAULT_BOLD);
                   GradientDrawable bg = new GradientDrawable();
@@ -1976,104 +1057,131 @@ jobs:
                   b.setPadding(dp(8), dp(8), dp(8), dp(8));
                   return b;
               }
-
+          
               private LinearLayout.LayoutParams lp(int w, int h, int l, int t, int r, int b) {
                   LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(w, h);
                   p.setMargins(dp(l), dp(t), dp(r), dp(b));
                   return p;
               }
-
+          
               private LinearLayout.LayoutParams weightLp(float weight, int l, int t, int r, int b) {
                   LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, weight);
                   p.setMargins(dp(l), dp(t), dp(r), dp(b));
                   return p;
               }
-
+          
               private int dp(int v) {
                   return (int) (v * getResources().getDisplayMetrics().density + 0.5f);
               }
-
-              public static class BubbleView extends View {
+          
+              private static class Measurement {
+                  String date;
+                  String project;
+                  String tech;
+                  String ref;
+                  String status;
+                  double relLong;
+                  double relTrans;
+                  double targetLong;
+                  double targetTrans;
+                  double tolerance;
+                  double errLong;
+                  double errTrans;
+                  double errMax;
+                  double slopeLong;
+                  double slopeTrans;
+              }
+          
+              public static class ProLevelView extends View {
                   private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                  private double pitchError = 0;
-                  private double rollError = 0;
+                  private double errorLong = 0.0;
+                  private double errorTrans = 0.0;
                   private double tolerance = 1.0;
-                  private double displayPitchError = 0.0;
-                  private double displayRollError = 0.0;
-
-                  public BubbleView(Context context) {
+                  private double relLong = 0.0;
+                  private double relTrans = 0.0;
+                  private double targetLong = 0.0;
+                  private double targetTrans = 0.0;
+                  private double displayLong = 0.0;
+                  private double displayTrans = 0.0;
+          
+                  public ProLevelView(Context context) {
                       super(context);
                       setBackground(makeBg(context));
                   }
-
+          
                   private static GradientDrawable makeBg(Context context) {
                       GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TL_BR,
-                              new int[]{Color.rgb(12, 21, 43), Color.rgb(5, 10, 22)});
+                              new int[]{Color.argb(230, 12, 21, 43), Color.argb(235, 5, 10, 22)});
                       bg.setCornerRadius((int) (24 * context.getResources().getDisplayMetrics().density));
-                      bg.setStroke((int) (1 * context.getResources().getDisplayMetrics().density), Color.argb(100, 57, 220, 255));
+                      bg.setStroke((int) (1 * context.getResources().getDisplayMetrics().density), Color.argb(115, 57, 220, 255));
                       return bg;
                   }
-
-                  public void setValues(double pitchError, double rollError, double tolerance) {
-                      this.pitchError = pitchError;
-                      this.rollError = rollError;
+          
+                  public void setValues(double errorLong, double errorTrans, double tolerance, double relLong, double relTrans, double targetLong, double targetTrans) {
+                      this.errorLong = errorLong;
+                      this.errorTrans = errorTrans;
                       this.tolerance = Math.max(0.05, tolerance);
-                      // Respuesta rápida: poco suavizado para que no parezca que la bola llega tarde.
-                      displayPitchError = displayPitchError * 0.35 + pitchError * 0.65;
-                      displayRollError = displayRollError * 0.35 + rollError * 0.65;
+                      this.relLong = relLong;
+                      this.relTrans = relTrans;
+                      this.targetLong = targetLong;
+                      this.targetTrans = targetTrans;
+                      displayLong = displayLong * 0.32 + errorLong * 0.68;
+                      displayTrans = displayTrans * 0.32 + errorTrans * 0.68;
                       invalidate();
                   }
-
+          
                   @Override
                   protected void onDraw(Canvas canvas) {
                       super.onDraw(canvas);
                       int w = getWidth();
                       int h = getHeight();
                       float cx = w / 2f;
-                      float cy = h / 2f;
-                      float radius = Math.min(w, h) * 0.36f;
-
+                      float cy = h * 0.48f;
+                      float radius = Math.min(w, h) * 0.34f;
+          
                       paint.setStyle(Paint.Style.STROKE);
                       paint.setStrokeWidth(2f);
-                      paint.setColor(Color.argb(70, 57, 220, 255));
+                      paint.setColor(Color.argb(78, 57, 220, 255));
                       canvas.drawCircle(cx, cy, radius, paint);
-                      canvas.drawCircle(cx, cy, radius * (50f / 70f), paint);
-                      canvas.drawCircle(cx, cy, radius * (30f / 70f), paint);
-                      canvas.drawCircle(cx, cy, radius * (10f / 70f), paint);
+                      canvas.drawCircle(cx, cy, radius * 0.67f, paint);
+                      canvas.drawCircle(cx, cy, radius * 0.34f, paint);
                       canvas.drawLine(cx - radius, cy, cx + radius, cy, paint);
                       canvas.drawLine(cx, cy - radius, cx, cy + radius, paint);
-
+          
                       paint.setStyle(Paint.Style.FILL);
-                      paint.setColor(Color.argb(18, 57, 220, 255));
+                      paint.setColor(Color.argb(20, 57, 220, 255));
                       canvas.drawOval(new RectF(cx - radius, cy - radius, cx + radius, cy + radius), paint);
-
-                      // Rango visual solar: ±70°. Ejes corregidos para móvil en vertical:
-                      // - levantar la parte de la cámara frontal mueve la bola hacia arriba
-                      // - inclinar/girar el móvil a la izquierda mueve la bola a izquierda/derecha, no hacia abajo
-                      float fullRangeDeg = 70f;
-                      float scale = radius / fullRangeDeg;
-                      float bx = clamp(cx + (float) displayPitchError * scale, cx - radius, cx + radius);
-                      float by = clamp(cy - (float) displayRollError * scale, cy - radius, cy + radius);
-                      double error = Math.max(Math.abs(pitchError), Math.abs(rollError));
-                      int color = error <= tolerance ? Color.rgb(51, 255, 152) : (error <= tolerance * 2.0 ? Color.rgb(255, 193, 84) : Color.rgb(255, 82, 108));
-
+          
+                      // Rango visual de error: ±15° para ajuste fino. Si te pasas, la bola se queda en el borde.
+                      float scale = radius / 15f;
+                      float bx = clamp(cx + (float) displayLong * scale, cx - radius, cx + radius);
+                      float by = clamp(cy - (float) displayTrans * scale, cy - radius, cy + radius);
+                      double errMax = Math.max(Math.abs(errorLong), Math.abs(errorTrans));
+                      int color = errMax <= tolerance ? Color.rgb(51, 255, 152) : (errMax <= tolerance * 2.0 ? Color.rgb(255, 193, 84) : Color.rgb(255, 82, 108));
+          
+                      paint.setStyle(Paint.Style.STROKE);
+                      paint.setStrokeWidth(4f);
+                      paint.setColor(Color.argb(160, Color.red(color), Color.green(color), Color.blue(color)));
+                      float tolRadius = Math.min(radius, (float) tolerance * scale);
+                      canvas.drawCircle(cx, cy, Math.max(8f, tolRadius), paint);
+          
                       paint.setStyle(Paint.Style.FILL);
-                      paint.setColor(Color.argb(65, Color.red(color), Color.green(color), Color.blue(color)));
+                      paint.setColor(Color.argb(70, Color.red(color), Color.green(color), Color.blue(color)));
                       canvas.drawCircle(bx, by, radius * 0.18f, paint);
                       paint.setColor(color);
-                      canvas.drawCircle(bx, by, radius * 0.11f, paint);
-
+                      canvas.drawCircle(bx, by, radius * 0.105f, paint);
+          
                       paint.setTextAlign(Paint.Align.CENTER);
                       paint.setTypeface(Typeface.DEFAULT_BOLD);
-                      paint.setTextSize(34f);
+                      paint.setTextSize(30f);
                       paint.setColor(Color.rgb(235, 243, 255));
-                      canvas.drawText(String.format(Locale.US, "%+.2f°", error), cx, h - 42f, paint);
+                      canvas.drawText(String.format(Locale.US, "error máx. %.2f°", errMax), cx, h - 54f, paint);
                       paint.setTypeface(Typeface.DEFAULT);
-                      paint.setTextSize(22f);
+                      paint.setTextSize(20f);
                       paint.setColor(Color.rgb(144, 161, 188));
-                      canvas.drawText("rango visual ±70°", cx, h - 16f, paint);
+                      canvas.drawText(String.format(Locale.US, "L %.2f°→%.2f° · T %.2f°→%.2f°", relLong, targetLong, relTrans, targetTrans), cx, h - 24f, paint);
                   }
-
+          
                   private float clamp(float v, float min, float max) {
                       return Math.max(min, Math.min(max, v));
                   }
@@ -2081,23 +1189,26 @@ jobs:
           }
           JAVA
 
-      - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon
+      - name: Build debug APK and AAB
+        run: gradle :app:assembleDebug :app:bundleDebug --no-daemon
 
-      - name: Rename APK
+      - name: Rename outputs
         run: |
-          mkdir -p app/build/outputs/apk/final
-          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/final/NivelFV-DaKoNe-v10.apk
+          mkdir -p app/build/outputs/final
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/final/NivelFV-DaKoNe-PRO-v11.apk
+          cp app/build/outputs/bundle/debug/app-debug.aab app/build/outputs/final/NivelFV-DaKoNe-PRO-v11.aab
 
-      - name: Upload APK
+      - name: Upload APK and AAB
         uses: actions/upload-artifact@v4
         with:
-          name: NivelFV-v10-objetivo-xy-apk
-          path: app/build/outputs/apk/final/NivelFV-DaKoNe-v10.apk
+          name: NivelFV-PRO-v11-test
+          path: |
+            app/build/outputs/final/NivelFV-DaKoNe-PRO-v11.apk
+            app/build/outputs/final/NivelFV-DaKoNe-PRO-v11.aab
 
       - name: Publish Release compartible
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete nivelfv-latest -y --cleanup-tag || true
-          gh release create nivelfv-latest app/build/outputs/apk/final/NivelFV-DaKoNe-v10.apk --title "Nivel FV DaKoNe" --notes "APK instalable de Nivel FV. Versión estable compartible." --latest
+          gh release delete nivelfv-pro-latest -y --cleanup-tag || true
+          gh release create nivelfv-pro-latest app/build/outputs/final/NivelFV-DaKoNe-PRO-v11.apk app/build/outputs/final/NivelFV-DaKoNe-PRO-v11.aab --title "Nivel FV PRO DaKoNe" --notes "Versión PRO de prueba: longitudinal + transversal, cámara, CSV y captura PNG." --latest
