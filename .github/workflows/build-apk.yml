@@ -1,4 +1,4 @@
-name: Build NivelFV APK v9 Release Estable
+name: Build NivelFV APK v10 Objetivo XY
 
 on:
   workflow_dispatch:
@@ -78,8 +78,8 @@ jobs:
                   applicationId 'com.dakone.nivelfv'
                   minSdk 23
                   targetSdk 35
-                  versionCode 9
-                  versionName '0.6-ejes-icono'
+                  versionCode 10
+                  versionName '0.7-objetivo-xy'
               }
           }
           GRADLE
@@ -1554,7 +1554,7 @@ jobs:
               private SensorManager sensorManager;
               private Sensor accelerometer;
               private TextView pitchText, rollText, statusText, errorText, savedText, sensorText;
-              private EditText nameInput, targetInput, toleranceInput;
+              private EditText nameInput, targetLongInput, targetTransInput, toleranceInput;
               private BubbleView bubbleView;
 
               private final float[] gravity = new float[]{0f, 0f, 0f};
@@ -1597,7 +1597,7 @@ jobs:
                   root.addView(title, lp(-1, -2, 0, 0, 0, 2));
 
                   TextView subtitle = new TextView(this);
-                  subtitle.setText("inclinómetro solar · ejes corregidos · ±70°");
+                  subtitle.setText("inclinómetro solar · objetivo X/Y · ±70°");
                   subtitle.setTextColor(CYAN);
                   subtitle.setTextSize(14);
                   subtitle.setGravity(Gravity.CENTER);
@@ -1646,17 +1646,20 @@ jobs:
 
                   LinearLayout form = card();
                   nameInput = input("CT / INV / tracker / mesa", false);
-                  targetInput = input("Ángulo objetivo", true);
+                  targetLongInput = input("Objetivo longitudinal", true);
+                  targetTransInput = input("Objetivo transversal", true);
                   toleranceInput = input("Tolerancia", true);
-                  targetInput.setText("0");
+                  targetLongInput.setText("0");
+                  targetTransInput.setText("0");
                   toleranceInput.setText("1");
                   form.addView(label("Referencia de medida"));
                   form.addView(nameInput);
-                  form.addView(label("Objetivo y tolerancia en grados"));
+                  form.addView(label("Objetivos y tolerancia en grados"));
                   LinearLayout row = new LinearLayout(this);
                   row.setOrientation(LinearLayout.HORIZONTAL);
-                  row.addView(targetInput, weightLp(1f, 0, 0, 6, 0));
-                  row.addView(toleranceInput, weightLp(1f, 6, 0, 0, 0));
+                  row.addView(targetLongInput, weightLp(1f, 0, 0, 4, 0));
+                  row.addView(targetTransInput, weightLp(1f, 4, 0, 4, 0));
+                  row.addView(toleranceInput, weightLp(1f, 4, 0, 0, 0));
                   form.addView(row);
                   root.addView(form, lp(-1, -2, 0, 0, 0, 12));
 
@@ -1759,19 +1762,20 @@ jobs:
                   try {
                       double relativePitch = pitch - zeroPitch;
                       double relativeRoll = roll - zeroRoll;
-                      double target = parseDouble(targetInput.getText().toString(), 0.0);
+                      double targetLong = parseDouble(targetLongInput.getText().toString(), 0.0);
+                      double targetTrans = parseDouble(targetTransInput.getText().toString(), 0.0);
                       double tolerance = Math.abs(parseDouble(toleranceInput.getText().toString(), 1.0));
                       if (tolerance < 0.05) tolerance = 0.05;
 
-                      double errorLong = Math.abs(relativePitch - target);
-                      double errorTrans = Math.abs(relativeRoll);
+                      double errorLong = Math.abs(relativePitch - targetLong);
+                      double errorTrans = Math.abs(relativeRoll - targetTrans);
                       double error = Math.max(errorLong, errorTrans);
 
                       pitchText.setText(String.format(Locale.US, "%+.2f°", relativePitch));
                       rollText.setText(String.format(Locale.US, "%+.2f°", relativeRoll));
-                      errorText.setText(String.format(Locale.US, "desviación máxima: %.2f° · lecturas: %d", error, eventCount));
+                      errorText.setText(String.format(Locale.US, "desv. L %.2f° · T %.2f° · máx %.2f° · lecturas: %d", errorLong, errorTrans, error, eventCount));
                       sensorText.setText("sensor: " + (accelerometer == null ? "NO" : accelerometer.getName()) + " · cero " + fmt(zeroPitch) + " / " + fmt(zeroRoll));
-                      bubbleView.setValues(relativePitch - target, relativeRoll, tolerance);
+                      bubbleView.setValues(relativePitch - targetLong, relativeRoll - targetTrans, tolerance);
 
                       if (error <= tolerance) {
                           statusText.setText("OK · CLAVADO");
@@ -1799,8 +1803,11 @@ jobs:
                       if (name.isEmpty()) name = "sin_nombre";
                       double relativePitch = pitch - zeroPitch;
                       double relativeRoll = roll - zeroRoll;
-                      double target = parseDouble(targetInput.getText().toString(), 0.0);
+                      double targetLong = parseDouble(targetLongInput.getText().toString(), 0.0);
+                      double targetTrans = parseDouble(targetTransInput.getText().toString(), 0.0);
                       double tolerance = Math.abs(parseDouble(toleranceInput.getText().toString(), 1.0));
+                      double errorLong = Math.abs(relativePitch - targetLong);
+                      double errorTrans = Math.abs(relativeRoll - targetTrans);
                       String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(new Date());
 
                       File dir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
@@ -1809,14 +1816,17 @@ jobs:
                       boolean newFile = !file.exists();
                       FileWriter writer = new FileWriter(file, true);
                       if (newFile) {
-                          writer.append("fecha,nombre,longitudinal_deg,transversal_deg,objetivo_deg,tolerancia_deg,zero_longitudinal,zero_transversal\n");
+                          writer.append("fecha,nombre,longitudinal_deg,transversal_deg,objetivo_longitudinal_deg,objetivo_transversal_deg,tolerancia_deg,error_longitudinal_deg,error_transversal_deg,zero_longitudinal,zero_transversal\n");
                       }
                       writer.append(csv(date)).append(',')
                               .append(csv(name)).append(',')
                               .append(String.format(Locale.US, "%.3f", relativePitch)).append(',')
                               .append(String.format(Locale.US, "%.3f", relativeRoll)).append(',')
-                              .append(String.format(Locale.US, "%.3f", target)).append(',')
+                              .append(String.format(Locale.US, "%.3f", targetLong)).append(',')
+                              .append(String.format(Locale.US, "%.3f", targetTrans)).append(',')
                               .append(String.format(Locale.US, "%.3f", tolerance)).append(',')
+                              .append(String.format(Locale.US, "%.3f", errorLong)).append(',')
+                              .append(String.format(Locale.US, "%.3f", errorTrans)).append(',')
                               .append(String.format(Locale.US, "%.3f", zeroPitch)).append(',')
                               .append(String.format(Locale.US, "%.3f", zeroRoll)).append('\n');
                       writer.close();
@@ -2077,17 +2087,17 @@ jobs:
       - name: Rename APK
         run: |
           mkdir -p app/build/outputs/apk/final
-          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/final/NivelFV-DaKoNe-v9.apk
+          cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/final/NivelFV-DaKoNe-v10.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: NivelFV-v9-release-estable-apk
-          path: app/build/outputs/apk/final/NivelFV-DaKoNe-v9.apk
+          name: NivelFV-v10-objetivo-xy-apk
+          path: app/build/outputs/apk/final/NivelFV-DaKoNe-v10.apk
 
       - name: Publish Release compartible
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release delete nivelfv-latest -y --cleanup-tag || true
-          gh release create nivelfv-latest app/build/outputs/apk/final/NivelFV-DaKoNe-v9.apk --title "Nivel FV DaKoNe" --notes "APK instalable de Nivel FV. Versión estable compartible." --latest
+          gh release create nivelfv-latest app/build/outputs/apk/final/NivelFV-DaKoNe-v10.apk --title "Nivel FV DaKoNe" --notes "APK instalable de Nivel FV. Versión estable compartible." --latest
